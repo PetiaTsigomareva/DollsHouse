@@ -1,0 +1,13 @@
+bin/
+.metadata/
+.recommenders/
+.settings/
+*.7z
+*.zip
+.idea/
+target/
+out/
+*.zip
+*.iml
+.project
+.classpath
