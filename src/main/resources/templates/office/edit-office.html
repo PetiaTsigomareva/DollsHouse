@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<th:block th:insert="~{fragments/head}"></th:block>
+</head>
+<body>
+	<div class="container-fluid">
+		<header>
+			<th:block th:insert="~{fragments/navbar}"></th:block>
+		</header>
+		<main>
+		<div class="container mt-4">
+			<div
+				th:insert="~{fragments/virus-form :: virus-form-fragment(
+        url=@{${T(softuni.residentevil.cofigurations.Constants).EDIT_FORM_ACTION}}+${id},
+        title=#{virusform.edit.title},
+        methodLabel='put',
+        buttonText=#{virusform.edit.button}
+        )}">
+
+			</div>
+		</div>
+		<script>
+			$(document).ready(function() {
+				$('form input[type="date"]').prop("readonly", true);
+			});
+		</script> </main>
+	</div>
+</body>
+</html>

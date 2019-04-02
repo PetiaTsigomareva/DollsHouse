@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <th:block th:insert="~{fragments/head}"></th:block>
+</head>
+<body>
+<heder>
+    <th:block th:insert="~{fragments/navbar}"></th:block>
+</heder>
+<hr/>
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-xl-9 mx-auto">
+                <div class="card card-signin flex-row my-5">
+                    <div class="card-img-left d-none d-md-flex">
+                     <img src="/static/images/address.jpg" alt="loginimg">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Login</h5>
+                        <form class="form-signin"
+                              th:action="@{${T(com.petia.dollhouse.constants.Constants).LOGIN_FORM_ACTION}}"
+                              method="post">
+                            <div class="form-label-group">
+                                <input type="text" id="inputUserame" class="form-control" placeholder="Username"
+                                       name="username" required autofocus>
+                                <label for="inputUserame">Username</label>
+                            </div>
+                            <hr/>
+                            <div class="form-label-group">
+                                <input type="password" id="inputPassword" class="form-control" placeholder="Password"
+                                       name="password" required>
+                                <label for="inputPassword">Password</label>
+                            </div>
+
+
+                            <!--TODO-->
+                            <div class="custom-control custom-checkbox mb-3">
+                                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                <label class="custom-control-label" for="customCheck1">Remember password</label>
+                            </div>
+                            <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2"
+                                    type="submit">Login
+                            </button>
+                            <div class="text-center">
+                                <a class="small" href="#">Forgot password?</a></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+<footer>
+    <th:block th:insert="~{fragments/footer}"></th:block>
+</footer>
+</body>
+</html>

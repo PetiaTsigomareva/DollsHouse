@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <th:block th:insert="~{fragments/head}"></th:block>
+</head>
+<body>
+<heder>
+    <th:block th:insert="~{fragments/navbar}"></th:block>
+</heder>
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-xl-9 mx-auto">
+                <div class="card card-signin flex-row my-5">
+                    <div class="card-body">
+                        <h5 class="card-title text-center" th:text="#{profileform.edit.title}"></h5>
+                        <form class="form w-26 mx-auto" th:action="@{${T(com.petia.dollhouse.constants.Constants).EDIT_PROFILE_ACTION}}" th:method="patch">
+                            <div class="form-label-group">
+                                <input type="text" id="inputUsername" class="form-control" placeholder="Username" name="username" th:value="${model.username}" readonly>
+                                <label for="inputUsername">Username</label>
+                            </div>
+
+                            <div class="form-label-group">
+                                <input type="password" id="oldPassword" class="form-control"
+                                       placeholder="Old Password..."
+                                       name="oldPassword" required>
+                                <label for="oldPassword">Old Password</label>
+                            </div>
+
+                            <div class="form-label-group">
+                                <input type="password" id="password" class="form-control"
+                                       placeholder="New Password..." name="password" required>
+                                <label for="password">New Password</label>
+                            </div>
+                            <div class="form-label-group">
+                                <input type="password" id="confirmPassword" class="form-control"
+                                       placeholder="Confirm New Password..." name="confirmPassword" required>
+                                <label for="confirmPassword">Confirm New Password</label>
+                            </div>
+                            <div class="form-label-group">
+                                <input type="email" id="email" class="form-control"
+                                       placeholder="Email..." name="email"
+                                       th:value="${model.email}" readonly>
+                                <label for="email">Email</label>
+                            </div>
+
+                            <button class="btn btn-lg btn-primary btn-block text-uppercase"
+                                    th:text="#{form.edit.button}"
+                                    type="submit">
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer>
+    <th:block th:insert="~{fragments/footer}"></th:block>
+</footer>
+</body>
+</html>

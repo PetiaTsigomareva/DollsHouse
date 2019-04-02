@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <th:block th:insert="~{fragments/head}"></th:block>
+</head>
+<body>
+<heder>
+    <th:block th:insert="~{fragments/navbar}"></th:block>
+</heder>
+<main class="mt-3">
+    <div class="jumbotron bg-light">
+        <div class="text-center">
+            <img src="/static/images/doll_pink.jpg" alt="profileImg">
+        </div>
+        <div class="row">
+            <div class="col col-md-12 text-center">
+                <h1 th:text="${model.username}"></h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-md-12 text-center">
+                <h4 th:text="${model.email}"></h4>
+            </div>
+        </div>
+        <hr class="hr-2 ">
+        <div  class="button-holder d-flex justify-content-center text-uppercase">
+            <a class="btn btn-dark" th:href="@{${T(com.petia.dollhouse.constants.Constants).EDIT_PROFILE_PAGE}}"
+               th:text="#{profileform.edit.title}"></a>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <th:block th:insert="~{fragments/footer}"></th:block>
+</footer>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<th:block th:insert="~{fragments/head}"></th:block>
+</head>
+<body>
+	<div class="container-fluid">
+		<header>
+			<th:block th:insert="~{fragments/navbar}"></th:block>
+		</header>
+		<main>
+		<div class="container mt-4">
+			<div
+				th:insert="~{fragments/virus-form :: virus-form-fragment(
+        url=@{${T(softuni.residentevil.cofigurations.Constants).DELETE_FORM_ACTION}}+${id},
+        title=#{virusform.delete.title},
+        methodLabel='delete',
+        buttonText=#{virusform.delete.button}
+        )}"></div>
+		</div>
+		<script>
+			$(document).ready(function() {
+				$('form input[type="text"]').prop("disabled", true);
+				$('#inputVirusDescription').prop("disabled", true);
+				$('form input[type="number"]').prop("disabled", true);
+				$('form input[type="date"]').prop("disabled", true);
+				$('form input[type="checkbox"]').prop("disabled", true);
+				$('form input[type="radio"]').prop("disabled", true);
+				$('#inputVirusAffectedCapitals').prop("disabled", true);
+				$('#inputVirusMagnitude').prop("disabled", true);
+			});
+		</script> </main>
+	</div>
+</body>
+</html>
