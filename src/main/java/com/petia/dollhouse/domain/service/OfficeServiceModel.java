@@ -8,7 +8,7 @@ public class OfficeServiceModel extends BaseServiceModel {
     private String address;
     private String phoneNumber;
     private String email;
-    private Company company;
+    private String company;
 
     public OfficeServiceModel() {
     }
@@ -45,11 +45,11 @@ public class OfficeServiceModel extends BaseServiceModel {
         this.email = email;
     }
 
-    public Company getCompany() {
+    public String getCompany() {
         return company;
     }
 
-    public void setCompany(Company company) {
+    public void setCompany(String company) {
         this.company = company;
     }
 }

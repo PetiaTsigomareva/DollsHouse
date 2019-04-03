@@ -5,39 +5,41 @@
                 <div class="card card-signin flex-row my-5">
                     <div class="card-body">
                         <h5 class="card-title text-center" th:text="${title}"></h5>
-                        <form class="form-signin" th:action="${url}" th:method="${methodLabel}">
+                        <form class="form-signin" th:action="${url}" th:method="${methodLabel}"
+                              th:object="${bindingModel}">
                             <div class="form-label-group">
                                 <input type="text" id="inputname" class="form-control" placeholder="Name" name="name"
-                                       th:value="${bindingModel.name}" required>
+                                       th:field="*{name}" required>
                                 <label for="inputname">Name</label>
                             </div>
 
                             <div class="form-label-group">
                                 <input type="text" id="inputAddress" class="form-control" placeholder="Address"
-                                       name="address" th:value="${bindingModel.address}" required>
+                                       name="address" th:field="*{address}" required>
                                 <label for="inputAddress">Address</label>
                             </div>
 
                             <div class="form-label-group">
                                 <input type="text" id="inputPhoneNumber" class="form-control"
                                        placeholder="phoneNumber" name="phoneNumber"
-                                       th:value="${bindingModel.phoneNumber}"
+                                       th:field="*{phoneNumber}"
                                        required>
                                 <label for="inputPhoneNumber">Phone Number</label>
                             </div>
                             <div class="form-label-group">
                                 <input type="email" id="inputEmail" class="form-control"
                                        placeholder="Email" name="email"
-                                       th:value="${bindingModel.email}" required>
+                                       th:field="*{email}" required>
                                 <label for="inputEmail">Email</label>
                             </div>
 
                             <div class="form-label-group">
-                                <label for="inputCompany">Company</label>
-                                <select class="form-control" id="inputCompany">
-                                    <option th:each="companyName : ${companyNames}" th:value="${companyName.id}"
+
+                                <select class="form-control" id="inputCompany" th:field="*{company}">
+                                    <option th:each="companyName : ${companyNames}" name="company"
+                                            th:value="${companyName.id}"
                                             th:text="${companyName.name}"></option>
-                                </select>
+                                </select >
                             </div>
 
                             <button class="btn btn-lg btn-primary btn-block text-uppercase" th:text="${buttonText}"

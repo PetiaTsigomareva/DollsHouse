@@ -2,7 +2,7 @@ package com.petia.dollhouse.domain.view;
 
 import java.util.Set;
 
-public class UserAllViewModel extends BaseViewModel {
+public class AllUserViewModel extends BaseViewModel {
 
 
     private String firstName;
@@ -11,7 +11,7 @@ public class UserAllViewModel extends BaseViewModel {
 
     private Set<String> authorities;
 
-    public UserAllViewModel() {
+    public AllUserViewModel() {
     }
 
     public String getFirstName() {

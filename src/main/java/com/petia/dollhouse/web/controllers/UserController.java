@@ -4,7 +4,7 @@ import com.petia.dollhouse.constants.Constants;
 import com.petia.dollhouse.domain.binding.UserEditBindingModel;
 import com.petia.dollhouse.domain.binding.UserRegisterBindingModel;
 import com.petia.dollhouse.domain.service.UserServiceModel;
-import com.petia.dollhouse.domain.view.UserAllViewModel;
+import com.petia.dollhouse.domain.view.AllUserViewModel;
 import com.petia.dollhouse.domain.view.UserProfileViewModel;
 import com.petia.dollhouse.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -82,14 +82,14 @@ public class UserController extends BaseController {
 
         this.userService.editUserProfile(this.modelMapper.map(model, UserServiceModel.class), model.getOldPassword());
 
-        return redirect(Constants.PROFILE_PAGE);
+        return redirect(Constants.PROFILE_ACTION);
     }
 
     @GetMapping(Constants.AlL_USER_ACTION)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView allUsers(ModelAndView modelAndView) {
-        List<UserAllViewModel> users = this.userService.findAllUsers().stream().map(u -> {
-            UserAllViewModel user = this.modelMapper.map(u, UserAllViewModel.class);
+        List<AllUserViewModel> users = this.userService.findAllUsers().stream().map(u -> {
+            AllUserViewModel user = this.modelMapper.map(u, AllUserViewModel.class);
             user.setAuthorities(u.getAuthorities().stream().map(a -> a.getAuthority()).collect(Collectors.toSet()));
 
             return user;

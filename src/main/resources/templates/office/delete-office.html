@@ -13,7 +13,7 @@
 	<div th:insert="~{fragments/office-form :: office-form-fragment(
         url=@{${T(com.petia.dollhouse.constants.Constants).DELETE_OFFICE_ACTION}}+${id},
         title=#{officeform.delete.title},
-        methodLabel='post',
+        methodLabel=${T(com.petia.dollhouse.constants.Constants).FORM_METHOD},
         buttonText=#{form.delete.button}
         )}">
 
@@ -22,6 +22,8 @@
 		$(document).ready(function () {
 			$('form input[type="text"]').prop("disabled", true);
 			$('form input[type="date"]').prop("disabled", true);
+			$('form input[type="email"]').prop("disabled", true);
+			$('#inputCompany').prop("disabled", true);
 		});
 	</script>
 </main>

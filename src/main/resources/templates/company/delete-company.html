@@ -13,7 +13,7 @@
     <div th:insert="~{fragments/company-form:: company-form-fragment(
         url=@{${T(com.petia.dollhouse.constants.Constants).DELETE_COMPANY_ACTION}}+${id},
         title=#{companyform.delete.title},
-        methodLabel='post',
+       methodLabel=${T(com.petia.dollhouse.constants.Constants).FORM_METHOD},
         buttonText=#{form.delete.button}
         )}">
 

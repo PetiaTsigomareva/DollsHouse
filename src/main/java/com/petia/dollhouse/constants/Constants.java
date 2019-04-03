@@ -53,5 +53,7 @@ public class Constants {
     public static final String USERNAME_ERROR_MESSAGE = "Username not found!";
     public static final String PASSWORD_ERROR_MESSAGE = "Incorrect password!";
     public static final String ID_ERROR_MESSAGE = "Incorrect id!";
-    public static final String COMPANY_ERROR_MESSAGE = "Company Info not found!";
+    public static final String ERROR_MESSAGE = "The searched item not found!";
+
+
 }

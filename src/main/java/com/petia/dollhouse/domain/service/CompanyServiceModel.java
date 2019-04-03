@@ -11,7 +11,6 @@ public class CompanyServiceModel extends BaseServiceModel {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfCreation;
     private String owner;
-    private String status;
 
     public CompanyServiceModel() {
     }
@@ -56,11 +55,5 @@ public class CompanyServiceModel extends BaseServiceModel {
         this.owner = owner;
     }
 
-    public String getStatus() {
-        return status;
-    }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }

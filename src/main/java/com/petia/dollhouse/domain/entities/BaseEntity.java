@@ -1,10 +1,8 @@
 package com.petia.dollhouse.domain.entities;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
+import com.petia.dollhouse.domain.enums.StatusValues;
 import org.hibernate.annotations.GenericGenerator;
 
 @MappedSuperclass
@@ -15,7 +13,12 @@ public class BaseEntity {
     @Column(name = "id", unique = true, nullable = false, updatable = false)
     private String id;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private StatusValues status;
+
     public BaseEntity() {
+        setStatus(StatusValues.ACTIVE);
     }
 
     public String getId() {
@@ -26,5 +29,11 @@ public class BaseEntity {
         this.id = id;
     }
 
+    public StatusValues getStatus() {
+        return status;
+    }
 
+    public void setStatus(StatusValues status) {
+        this.status = status;
+    }
 }

@@ -1,12 +1,12 @@
 package com.petia.dollhouse.domain.view;
 
-public class CompanyAllViewModel extends BaseViewModel {
+public class AllCompanyViewModel extends BaseViewModel {
     private String name;
     private String address;
     private String owner;
 
 
-    public CompanyAllViewModel() {
+    public AllCompanyViewModel() {
     }
 
     public String getName() {

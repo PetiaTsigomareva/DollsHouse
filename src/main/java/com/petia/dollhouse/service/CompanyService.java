@@ -8,7 +8,7 @@ public interface CompanyService {
 
     String addCompany(CompanyServiceModel model);
 
-    CompanyServiceModel editCompanyInfo(CompanyServiceModel model);
+    CompanyServiceModel editCompany(CompanyServiceModel model);
 
     List<CompanyServiceModel> findAllCompanies();
 

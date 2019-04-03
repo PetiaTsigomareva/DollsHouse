@@ -3,6 +3,7 @@ package com.petia.dollhouse.web.controllers;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.petia.dollhouse.domain.view.AllCompanyViewModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,12 +17,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.petia.dollhouse.constants.Constants;
 import com.petia.dollhouse.domain.binding.CompanyBindingModel;
 import com.petia.dollhouse.domain.service.CompanyServiceModel;
-import com.petia.dollhouse.domain.view.CompanyAllViewModel;
 import com.petia.dollhouse.service.CompanyService;
 
 @Controller
 public class CompanyController extends BaseController {
-	public final static String OWNER_NAME = "Joanna Masheva";
+
 	private final CompanyService companyService;
 	private final ModelMapper modelMapper;
 
@@ -54,8 +54,8 @@ public class CompanyController extends BaseController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView allCompanies(ModelAndView modelAndView) {
 		List<CompanyServiceModel> companyServiceModels = this.companyService.findAllCompanies();
-		List<CompanyAllViewModel> companyAllViewModels = companyServiceModels.stream().map(csm -> this.modelMapper.map(csm, CompanyAllViewModel.class)).collect(Collectors.toList());
-		modelAndView.addObject("companies", companyAllViewModels);
+		List<AllCompanyViewModel> allCompanyViewModels = companyServiceModels.stream().map(csm -> this.modelMapper.map(csm, AllCompanyViewModel.class)).collect(Collectors.toList());
+		modelAndView.addObject("companies", allCompanyViewModels);
 
 		return view(Constants.ALL_COMPANY_PAGE, modelAndView);
 	}
@@ -76,7 +76,7 @@ public class CompanyController extends BaseController {
 
 		CompanyServiceModel companyServiceModel = this.modelMapper.map(companyBindingModel, CompanyServiceModel.class);
 		companyServiceModel.setId(id);
-		companyServiceModel = this.companyService.editCompanyInfo(companyServiceModel);
+		companyServiceModel = this.companyService.editCompany(companyServiceModel);
 		if (companyServiceModel == null) {
 
 			return view(Constants.EDIT_COMPANY_PAGE, modelAndView);

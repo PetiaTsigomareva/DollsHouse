@@ -13,7 +13,7 @@
     <div th:insert="~{fragments/office-form :: office-form-fragment(
         url=@{${T(com.petia.dollhouse.constants.Constants).ADD_OFFICE_ACTION}},
         title=#{officeform.add.title},
-        methodLabel='post',
+        methodLabel=${T(com.petia.dollhouse.constants.Constants).FORM_METHOD},
         buttonText=#{form.add.button}
         )}">
 
