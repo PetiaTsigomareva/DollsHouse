@@ -8,6 +8,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 
 @Component
 public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
@@ -16,7 +17,8 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
         boolean a = ((HandlerMethod) handler)
                 .getMethod()
                 .isAnnotationPresent(PostMapping.class);
-        System.out.println(a);
+
+
         return true;
     }
 }
