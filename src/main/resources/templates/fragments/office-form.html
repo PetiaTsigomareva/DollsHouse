@@ -35,10 +35,11 @@
 
                             <div class="form-label-group">
 
-                                <select class="form-control" id="inputCompany" th:field="*{company}">
-                                    <option th:each="companyName : ${companyNames}" name="company"
+                                <select class="form-control" id="inputCompany" th:field="*{companyId}">
+                                    <option th:each="companyName : ${companyNames}" name="companyId"
                                             th:value="${companyName.id}"
-                                            th:text="${companyName.name}"></option>
+                                            th:text="${companyName.name}"
+                                            th:selected="${companyName.name} == 'dsgfsdg'"></option>
                                 </select >
                             </div>
 

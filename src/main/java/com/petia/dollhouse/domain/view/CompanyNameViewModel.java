@@ -13,4 +13,16 @@ public class CompanyNameViewModel extends BaseViewModel {
     public void setName(String name) {
         this.name = name;
     }
+    
+    public String selected(String compayId) {
+    	String result;
+    	
+    	if (getId().equals(compayId)) {
+    		result = "selected";
+    	}else {
+    		result="";
+    	}
+    	
+    	return result;
+    }
 }

@@ -1,56 +1,52 @@
 package com.petia.dollhouse.domain.binding;
 
-import com.petia.dollhouse.domain.entities.Company;
-
-
 public class OfficeBindingModel {
-    private String name;
-    private String address;
-    private String phoneNumber;
-    private String email;
-    private String company;
+	private String name;
+	private String address;
+	private String phoneNumber;
+	private String email;
+	private String companyId;
 
+	public OfficeBindingModel() {
+	}
 
-    public OfficeBindingModel() {
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getAddress() {
+		return address;
+	}
 
-    public String getAddress() {
-        return address;
-    }
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public String getCompanyId() {
+		return companyId;
+	}
 
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
 }
