@@ -152,6 +152,7 @@ public class UserServiceImpl implements UserService {
 
         User employee = this.userRepository.findById(model.getId()).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
         model.setStatus(employee.getStatus().name());
+        model.setPassword(employee.getPassword());
 
         User employeeNew = this.modelMapper.map(model, User.class);
         employeeNew.setOffice(findOffice(model.getOfficeId()));

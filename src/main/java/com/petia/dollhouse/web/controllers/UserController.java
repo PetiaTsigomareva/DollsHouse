@@ -114,7 +114,7 @@ public class UserController extends BaseController {
 
     @GetMapping(Constants.EDIT_EMPLOYEE_ACTION + "{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView editOffice(ModelAndView modelAndView, @PathVariable String id) {
+    public ModelAndView editEmployee(ModelAndView modelAndView, @PathVariable String id) {
         EmployeeBindingModel employeeBindingModel = this.modelMapper.map(this.userService.findUserById(id), EmployeeBindingModel.class);
         modelAndView.addObject("officeId", employeeBindingModel.getOfficeId());
         modelAndView.addObject("officeNames", getOfficeNames());
@@ -123,10 +123,10 @@ public class UserController extends BaseController {
         return view(Constants.EDIT_EMPLOYEE_PAGE, modelAndView);
     }
 
-//TODO
+    //TODO
     @PostMapping(Constants.EDIT_EMPLOYEE_ACTION + "{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView editOfficeConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") EmployeeBindingModel employeeBindingModel, @PathVariable String id) {
+    public ModelAndView editEmployeeConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") EmployeeBindingModel employeeBindingModel, @PathVariable String id) {
 
         UserServiceModel userServiceModel = this.modelMapper.map(employeeBindingModel, UserServiceModel.class);
         userServiceModel.setId(id);
@@ -134,6 +134,33 @@ public class UserController extends BaseController {
         if (userServiceModel == null) {
 
             return view(Constants.EDIT_EMPLOYEE_PAGE, modelAndView);
+        }
+
+        return redirect(Constants.ALL_EMPLOYEES_PAGE);
+
+    }
+
+    @GetMapping(Constants.DELETE_EMPLOYEE_ACTION + "{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView deleteEmployee(ModelAndView modelAndView, @PathVariable String id) {
+
+        EmployeeBindingModel employeeBindingModel = this.modelMapper.map(this.userService.findUserById(id), EmployeeBindingModel.class);
+        modelAndView.addObject("bindingModel", employeeBindingModel);
+        modelAndView.addObject("officeId", employeeBindingModel.getOfficeId());
+        modelAndView.addObject("officeNames", getOfficeNames());
+        return view(Constants.DELETE_EMPLOYEE_PAGE, modelAndView);
+    }
+
+    @PostMapping(Constants.DELETE_EMPLOYEE_ACTION + "{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView deleteEmployeeConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") EmployeeBindingModel employeeBindingModel, @PathVariable String id) {
+
+        UserServiceModel userServiceModel = this.modelMapper.map(employeeBindingModel, UserServiceModel.class);
+        userServiceModel.setId(id);
+        userServiceModel = this.userService.deleteEmployee(userServiceModel);
+        if (userServiceModel == null) {
+
+            return view(Constants.DELETE_EMPLOYEE_PAGE, modelAndView);
         }
 
         return redirect(Constants.ALL_EMPLOYEES_PAGE);

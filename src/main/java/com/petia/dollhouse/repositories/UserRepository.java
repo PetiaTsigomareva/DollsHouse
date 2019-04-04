@@ -12,6 +12,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, String> {
     Optional<User> findByUsername(String username);
 
-    @Query("SELECT u FROM User u WHERE u.office is not null")
+    @Query("SELECT u FROM User u WHERE u.office is not null and u.status='ACTIVE'")
     List<User> findAllEmployees();
 }
