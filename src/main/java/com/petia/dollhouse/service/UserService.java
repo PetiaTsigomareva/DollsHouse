@@ -12,9 +12,17 @@ public interface UserService extends UserDetailsService {
 
     UserServiceModel findUserByUserName(String username);
 
+    UserServiceModel findUserById(String id);
+
     UserServiceModel editUserProfile(UserServiceModel userServiceModel, String oldPassword);
 
     List<UserServiceModel> findAllUsers();
 
     void setUserRole(String id, String role);
+
+    String addEmployee(UserServiceModel model);
+
+    UserServiceModel editEmployee(UserServiceModel model);
+
+    UserServiceModel deleteEmployee(UserServiceModel companyServiceModel);
 }

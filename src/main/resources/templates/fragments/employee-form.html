@@ -1,89 +1,69 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
-<head>
-    <th:block th:insert="~{fragments/head}"></th:block>
-</head>
-<body>
-<heder>
-    <th:block th:insert="~{fragments/navbar}"></th:block>
-</heder>
-<main>
+<th:block th:fragment="employee-form-fragment(url, title, methodLabel, buttonText)">
     <div class="container">
         <div class="row">
             <div class="col-lg-10 col-xl-9 mx-auto">
                 <div class="card card-signin flex-row my-5">
-                    <div class="card-img-left d-none d-md-flex">
-                        <!--image-->
-                    </div>
                     <div class="card-body">
-                        <h5 class="card-title text-center">Register</h5>
-                        <form class="form-signin"
-                              th:action="@{${T(com.petia.dollhouse.constants.Constants).REGISTER_FORM_ACTION}}"
-                              method="post">
+                        <h5 class="card-title text-center" th:text="${title}"></h5>
+                        <form class="form-signin" th:action="${url}" th:method="${methodLabel}" th:object="${bindingModel}">
                             <div class="form-label-group">
                                 <input type="text" id="inputUserame" class="form-control" placeholder="Username"
-                                       name="username" required autofocus>
+                                       name="username"  th:field="*{username}"  required>
                                 <label for="inputUserame">Username</label>
                             </div>
 
                             <div class="form-label-group">
                                 <input type="email" id="inputEmail" class="form-control" placeholder="Email address"
-                                       name="email" required>
+                                       name="email" th:field="*{email}" required>
                                 <label for="inputEmail">Email address</label>
                             </div>
                             <div class="form-label-group">
                                 <input type="password" id="inputPassword" class="form-control" placeholder="Password"
-                                       name="password" required>
+                                       name="password" th:field="*{password}" required>
                                 <label for="inputPassword">Password</label>
                             </div>
 
                             <div class="form-label-group">
                                 <input type="password" id="inputConfirmPassword" class="form-control"
-                                       placeholder="Password" name="confirmPassword" required>
+                                       placeholder="Password" name="confirmPassword"
+                                       th:field="*{confirmPassword}" required>
                                 <label for="inputConfirmPassword">Confirm password</label>
                             </div>
 
                             <div class="form-label-group">
                                 <input type="text" id="inputfirstName" class="form-control" placeholder="First Name"
-                                       name="firstName" required autofocus>
+                                       name="firstName" th:field="*{firstName}" required>
                                 <label for="inputfirstName">First Name</label>
                             </div>
 
                             <div class="form-label-group">
                                 <input type="text" id="inputlastName" class="form-control" placeholder="Last Name"
-                                       name="lastName" required autofocus>
+                                       name="lastName" th:field="*{lastName}" required>
                                 <label for="inputlastName">Last Name</label>
                             </div>
 
                             <div class="form-label-group">
                                 <input type="text" id="inputphoneNumber" class="form-control" placeholder="PhoneNumber"
-                                       name="phoneNumber" required autofocus>
+                                       name="phoneNumber" th:field="*{phoneNumber}" required>
                                 <label for="inputphoneNumber">Phone Number</label>
                             </div>
 
-                            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Register
-                            </button>
-                            <!--TODO-->
-                            <a class="d-block text-center mt-2 small"
-                               th:href="@{${T(com.petia.dollhouse.constants.Constants).LOGIN_FORM_ACTION}}">Login</a>
-                            <hr class="my-4">
-                            <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i
-                                    class="fab fa-google mr-2"></i> Sign up with Google
-                            </button>
-                            <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i
-                                    class="fab fa-facebook-f mr-2"></i> Sign up with Facebook
-                            </button>
+                            <div class="form-label-group">
+                                <select class="form-control" id="inputOffice" th:field="*{officeId}"
+                                        required>
+                                    <option th:each="officeName : ${officeNames}" name="officeId"
+                                            th:value="${officeName.id}"
+                                            th:text="${officeName.name}"
+                                            th:selected="${officeName.id} == ${officeId}"></option>
+                                </select>
+                            </div>
+                            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit"
+                                    th:text="${buttonText}"></button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</main>
-<footer>
-    <th:block th:insert="~{fragments/footer}"></th:block>
-</footer>
-</body>
-</html>
+
+</th:block>

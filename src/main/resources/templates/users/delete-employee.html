@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<th:block th:insert="~{fragments/head}"></th:block>
+</head>
+<body>
+<heder>
+	<th:block th:insert="~{fragments/navbar}"></th:block>
+</heder>
+<main>
+	<div th:insert="~{fragments/employee-form :: employee-form-fragment(
+        url=@{${T(com.petia.dollhouse.constants.Constants).DELETE_EMPLOYEE_ACTION}}+${id},
+        title=#{employeeform.delete.title},
+        methodLabel=${T(com.petia.dollhouse.constants.Constants).FORM_METHOD},
+        buttonText=#{form.delete.button}
+        )}">
+
+	</div>
+	<script>
+		$(document).ready(function () {
+			$('form input[type="text"]').prop("disabled", true);
+			$('form input[type="password"]').prop("disabled", true);
+			$('form input[type="email"]').prop("disabled", true);
+			$('#inputOffice').prop("disabled", true);
+		});
+	</script>
+</main>
+<footer>
+	<th:block th:insert="~{fragments/footer}"></th:block>
+</footer>
+</body>
+</html>

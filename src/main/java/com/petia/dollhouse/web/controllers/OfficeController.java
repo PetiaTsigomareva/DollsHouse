@@ -1,12 +1,10 @@
 package com.petia.dollhouse.web.controllers;
 
 import com.petia.dollhouse.constants.Constants;
-import com.petia.dollhouse.domain.binding.CompanyBindingModel;
 import com.petia.dollhouse.domain.binding.OfficeBindingModel;
-import com.petia.dollhouse.domain.service.CompanyServiceModel;
 import com.petia.dollhouse.domain.service.OfficeServiceModel;
 import com.petia.dollhouse.domain.view.AllOfficesViewModel;
-import com.petia.dollhouse.domain.view.CompanyNameViewModel;
+import com.petia.dollhouse.domain.view.NamesViewModel;
 import com.petia.dollhouse.service.CompanyService;
 import com.petia.dollhouse.service.OfficeService;
 import org.modelmapper.ModelMapper;
@@ -79,7 +77,7 @@ public class OfficeController extends BaseController {
         return view(Constants.EDIT_OFFICE_PAGE, modelAndView);
     }
 
-    
+
     @PostMapping(Constants.EDIT_OFFICE_ACTION + "{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView editOfficeConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") OfficeBindingModel officeBindingModel, @PathVariable String id) {
@@ -122,9 +120,9 @@ public class OfficeController extends BaseController {
 
     }
 
-    private List<CompanyNameViewModel> getCompanyNames() {
-        List<CompanyNameViewModel> result;
-        result = this.companyService.findAllCompanies().stream().map(c -> this.modelMapper.map(c, CompanyNameViewModel.class)).collect(Collectors.toList());
+    private List<NamesViewModel> getCompanyNames() {
+        List<NamesViewModel> result;
+        result = this.companyService.findAllCompanies().stream().map(c -> this.modelMapper.map(c, NamesViewModel.class)).collect(Collectors.toList());
 
         return result;
 

@@ -1,11 +1,14 @@
 package com.petia.dollhouse.web.controllers;
 
 import com.petia.dollhouse.constants.Constants;
+import com.petia.dollhouse.domain.binding.EmployeeBindingModel;
 import com.petia.dollhouse.domain.binding.UserEditBindingModel;
 import com.petia.dollhouse.domain.binding.UserRegisterBindingModel;
 import com.petia.dollhouse.domain.service.UserServiceModel;
 import com.petia.dollhouse.domain.view.AllUserViewModel;
+import com.petia.dollhouse.domain.view.NamesViewModel;
 import com.petia.dollhouse.domain.view.UserProfileViewModel;
+import com.petia.dollhouse.service.OfficeService;
 import com.petia.dollhouse.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +26,13 @@ import java.util.stream.Collectors;
 public class UserController extends BaseController {
 
     private final UserService userService;
+    private final OfficeService officeService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public UserController(UserService userService, ModelMapper modelMapper) {
+    public UserController(UserService userService, OfficeService officeService, ModelMapper modelMapper) {
         this.userService = userService;
+        this.officeService = officeService;
         this.modelMapper = modelMapper;
     }
 
@@ -85,7 +90,58 @@ public class UserController extends BaseController {
         return redirect(Constants.PROFILE_ACTION);
     }
 
-    @GetMapping(Constants.AlL_USER_ACTION)
+    @GetMapping(Constants.ADD_EMPLOYEE_ACTION)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView addEmployee(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") EmployeeBindingModel employeeBindingModel) {
+
+        modelAndView.addObject("officeNames", getOfficeNames());
+        return view(Constants.ADD_EMPLOYEE_PAGE, modelAndView);
+
+    }
+
+    @PostMapping(Constants.ADD_EMPLOYEE_ACTION)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView addEmployeesConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") EmployeeBindingModel employeeBindingModel) {
+        modelAndView.addObject("officeNames", getOfficeNames());
+
+        String id = this.userService.addEmployee(this.modelMapper.map(employeeBindingModel, UserServiceModel.class));
+        if (id == null) {
+            return view(Constants.ADD_EMPLOYEE_PAGE, modelAndView);
+        }
+
+        return redirect(Constants.ALL_EMPLOYEES_PAGE);
+    }
+
+    @GetMapping(Constants.EDIT_EMPLOYEE_ACTION + "{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView editOffice(ModelAndView modelAndView, @PathVariable String id) {
+        EmployeeBindingModel employeeBindingModel = this.modelMapper.map(this.userService.findUserById(id), EmployeeBindingModel.class);
+        modelAndView.addObject("officeId", employeeBindingModel.getOfficeId());
+        modelAndView.addObject("officeNames", getOfficeNames());
+        modelAndView.addObject("bindingModel", employeeBindingModel);
+
+        return view(Constants.EDIT_EMPLOYEE_PAGE, modelAndView);
+    }
+
+//TODO
+    @PostMapping(Constants.EDIT_EMPLOYEE_ACTION + "{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView editOfficeConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") EmployeeBindingModel employeeBindingModel, @PathVariable String id) {
+
+        UserServiceModel userServiceModel = this.modelMapper.map(employeeBindingModel, UserServiceModel.class);
+        userServiceModel.setId(id);
+        userServiceModel = this.userService.editEmployee(userServiceModel);
+        if (userServiceModel == null) {
+
+            return view(Constants.EDIT_EMPLOYEE_PAGE, modelAndView);
+        }
+
+        return redirect(Constants.ALL_EMPLOYEES_PAGE);
+
+    }
+
+
+    @GetMapping(Constants.AlL_EMLOYEES_ACTION)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView allUsers(ModelAndView modelAndView) {
         List<AllUserViewModel> users = this.userService.findAllUsers().stream().map(u -> {
@@ -97,7 +153,7 @@ public class UserController extends BaseController {
 
         modelAndView.addObject("users", users);
 
-        return view(Constants.ALL_USER_PAGE, modelAndView);
+        return view(Constants.ALL_EMPLOYEES_PAGE, modelAndView);
     }
 
     @PostMapping(Constants.SET_USER_ACTION + "{id}")
@@ -105,7 +161,7 @@ public class UserController extends BaseController {
     public ModelAndView setUser(@PathVariable String id) {
         this.userService.setUserRole(id, "user");
 
-        return redirect(Constants.AlL_USER_ACTION);
+        return redirect(Constants.AlL_EMLOYEES_ACTION);
     }
 
     @PostMapping(Constants.SET_MODERATOR_ACTION + "{id}")
@@ -113,7 +169,7 @@ public class UserController extends BaseController {
     public ModelAndView setModerator(@PathVariable String id) {
         this.userService.setUserRole(id, "moderator");
 
-        return redirect(Constants.AlL_USER_ACTION);
+        return redirect(Constants.AlL_EMLOYEES_ACTION);
     }
 
     @PostMapping(Constants.SET_ADMIN_ACTION + "{id}")
@@ -121,6 +177,16 @@ public class UserController extends BaseController {
     public ModelAndView setAdmin(@PathVariable String id) {
         this.userService.setUserRole(id, "admin");
 
-        return redirect(Constants.AlL_USER_ACTION);
+        return redirect(Constants.AlL_EMLOYEES_ACTION);
     }
+
+    private List<NamesViewModel> getOfficeNames() {
+        List<NamesViewModel> result;
+        result = this.officeService.findAllOffices().stream().map(o -> this.modelMapper.map(o, NamesViewModel.class)).collect(Collectors.toList());
+
+        return result;
+
+    }
+
+
 }

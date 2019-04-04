@@ -1,21 +1,16 @@
-package com.petia.dollhouse.domain.service;
+package com.petia.dollhouse.domain.binding;
 
-import java.util.Set;
-
-public class UserServiceModel extends BaseServiceModel {
-
+public class EmployeeBindingModel {
     private String username;
     private String password;
+    private String confirmPassword;
     private String email;
     private String firstName;
     private String lastName;
     private String phoneNumber;
     private String officeId;
 
-
-    private Set<RoleServiceModel> authorities;
-
-    public UserServiceModel() {
+    public EmployeeBindingModel() {
     }
 
     public String getUsername() {
@@ -32,6 +27,14 @@ public class UserServiceModel extends BaseServiceModel {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 
     public String getEmail() {
@@ -64,14 +67,6 @@ public class UserServiceModel extends BaseServiceModel {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public Set<RoleServiceModel> getAuthorities() {
-        return authorities;
-    }
-
-    public void setAuthorities(Set<RoleServiceModel> authorities) {
-        this.authorities = authorities;
     }
 
     public String getOfficeId() {

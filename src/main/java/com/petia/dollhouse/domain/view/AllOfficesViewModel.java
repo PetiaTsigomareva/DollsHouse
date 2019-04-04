@@ -6,6 +6,7 @@ public class AllOfficesViewModel extends BaseViewModel {
     private String email;
     private String phoneNumber;
 
+
     public AllOfficesViewModel() {
     }
 
@@ -40,4 +41,6 @@ public class AllOfficesViewModel extends BaseViewModel {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+
 }

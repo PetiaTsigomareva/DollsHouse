@@ -17,24 +17,24 @@
         <thead>
         <tr class="row mx-auto text-dark">
             <th class="col-md-1 text-center" th:text="#{allitems.table.number}"></th>
-            <th class="col-md-2 text-center" th:text="#{allitems.table.name}"></th>
-            <th class="col-md-2 text-center" th:text="#{allitems.table.address}"></th>
+            <th class="col-md-3 text-center" th:text="#{allitems.table.name}"></th>
+            <th class="col-md-3 text-center" th:text="#{allitems.table.address}"></th>
             <th class="col-md-2 text-center" th:text="#{allcompany.table.owner}"></th>
-            <th class="col-md-2 text-center" th:text="#{allitems.table.action}"></th>
+            <th class="col-md-3 text-center" th:text="#{allitems.table.action}"></th>
         </tr>
         </thead>
         <tbody>
         <th:block th:each="company, iter : ${companies}">
             <tr class="row mx-auto text-dark">
                 <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>
-                <td class="col-md-2 text-center" th:text="${company.name}"></td>
-                <td class="col-md-2 text-center" th:text="${company.address}"></td>
+                <td class="col-md-3 text-center" th:text="${company.name}"></td>
+                <td class="col-md-3 text-center" th:text="${company.address}"></td>
                 <td class="col-md-2 text-center" th:text="${company.owner}"></td>
-                <td class="col-md-2 text-center">
+                <td class="col-md-3 text-center">
                     <div class="row">
-                        <a class="btn btn-link" th:text="#{form.edit.button}"
+                        <a class="btn btn-outline-dark" th:text="#{form.edit.button}"
                            th:href="@{${T(com.petia.dollhouse.constants.Constants).EDIT_COMPANY_ACTION}+${company.id}}"></a>
-                        <a class="btn btn-link" th:text="#{form.delete.button}"
+                        <a class="btn btn-outline-dark" th:text="#{form.delete.button}"
                            th:href="@{${T(com.petia.dollhouse.constants.Constants).DELETE_COMPANY_ACTION}+${company.id}}">Delete</a>
                     </div>
                 </td>
