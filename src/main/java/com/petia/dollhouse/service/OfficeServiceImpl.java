@@ -32,7 +32,7 @@ public class OfficeServiceImpl implements OfficeService {
 	public String addOffice(OfficeServiceModel model) {
 		String result;
 		try {
-			Company company = findCompany(model.getCompany());
+			Company company = findCompany(model.getCompanyId());
 			Office office = this.modelMapper.map(model, Office.class);
 			office.setCompany(company);
 			office.setStatus(StatusValues.ACTIVE);
@@ -54,7 +54,7 @@ public class OfficeServiceImpl implements OfficeService {
 		model.setStatus(office.getStatus().name());
 
 		Office officeNew = this.modelMapper.map(model, Office.class);
-		officeNew.setCompany(this.findCompany(model.getCompany()));
+		officeNew.setCompany(this.findCompany(model.getCompanyId()));
 		Office mappedOffice = this.officeRepository.saveAndFlush(officeNew);
 
 		model = this.modelMapper.map(mappedOffice, OfficeServiceModel.class);

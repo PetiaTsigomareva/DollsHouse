@@ -46,7 +46,6 @@ public class CompanyController extends BaseController {
 		if (id == null) {
 			return view(Constants.ADD_COMPANY_PAGE, modelAndView);
 		}
-
 		return redirect(Constants.ALL_COMPANY_PAGE);
 	}
 

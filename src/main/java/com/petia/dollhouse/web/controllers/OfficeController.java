@@ -67,16 +67,19 @@ public class OfficeController extends BaseController {
         return view(Constants.ALL_OFFICE_PAGE, modelAndView);
     }
 
+
     @GetMapping(Constants.EDIT_OFFICE_ACTION + "{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView editOffice(ModelAndView modelAndView, @PathVariable String id) {
         OfficeBindingModel officeBindingModel = this.modelMapper.map(this.officeService.findOfficeByID(id), OfficeBindingModel.class);
+        modelAndView.addObject("companyId", officeBindingModel.getCompanyId());
         modelAndView.addObject("companyNames", getCompanyNames());
         modelAndView.addObject("bindingModel", officeBindingModel);
 
         return view(Constants.EDIT_OFFICE_PAGE, modelAndView);
     }
 
+    
     @PostMapping(Constants.EDIT_OFFICE_ACTION + "{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView editOfficeConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") OfficeBindingModel officeBindingModel, @PathVariable String id) {
@@ -126,5 +129,7 @@ public class OfficeController extends BaseController {
         return result;
 
     }
+
+
 
 }

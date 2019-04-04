@@ -39,10 +39,9 @@
                                     <option th:each="companyName : ${companyNames}" name="companyId"
                                             th:value="${companyName.id}"
                                             th:text="${companyName.name}"
-                                            th:selected="${companyName.name} == 'dsgfsdg'"></option>
-                                </select >
+                                            th:selected="${companyName.id} == ${companyId}"></option>
+                                </select>
                             </div>
-
                             <button class="btn btn-lg btn-primary btn-block text-uppercase" th:text="${buttonText}"
                                     type="submit">
                             </button>
