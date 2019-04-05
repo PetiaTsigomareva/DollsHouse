@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <th:block th:insert="~{fragments/head}"></th:block>
+</head>
+<body>
+<heder>
+    <th:block th:insert="~{fragments/navbar}"></th:block>
+</heder>
+<main class="mt-2">
+    <hr class="hr-2 bg-dark"/>
+    <h5 class="text-center text-dark" th:text="#{alloffice.table.title}"></h5>
+    <hr class="hr-2 bg-dark w-75"/>
+    <table class="table table-active w-75 mx-auto">
+        <thead>
+        <tr class="row mx-auto text-dark">
+            <th class="col-md-2 text-center" th:text="#{allitems.table.number}"></th>
+            <th class="col-md-2 text-center" th:text="#{allitems.table.name}"></th>
+            <th class="col-md-2 text-center" th:text="#{allitems.table.address}"></th>
+            <th class="col-md-2 text-center" th:text="#{allitems.table.email}"></th>
+            <th class="col-md-2 text-center" th:text="#{allitems.table.phonenumber}"></th>
+            <th class="col-md-2 text-center" th:text="#{allitems.table.action}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="office, iter : ${offices}">
+            <tr class="row mx-auto text-dark">
+                <th class="col-md-2 text-center" th:text="${iter.index + 1}"></th>
+                <td class="col-md-2 text-center" th:text="${office.name}"></td>
+                <td class="col-md-2 text-center" th:text="${office.address}"></td>
+                <td class="col-md-2 text-center" th:text="${office.email}"></td>
+                <td class="col-md-2 text-center" th:text="${office.phoneNumber}"></td>
+
+                <td class="col-md-2 text-center">
+                    <div class="row">
+                        <a class="btn btn-outline-dark" th:text="#{form.edit.button}"
+                           th:href="@{${T(com.petia.dollhouse.constants.Constants).EDIT_OFFICE_ACTION}+${office.id}}"></a>
+                        <a class="btn btn-outline-dark" th:text="#{form.delete.button}"
+                           th:href="@{${T(com.petia.dollhouse.constants.Constants).DELETE_OFFICE_ACTION}+${office.id}}">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+    <hr class="hr-2 bg-dark"/>
+
+
+</main>
+<footer>
+    <th:block th:insert="~{fragments/footer}"></th:block>
+</footer>
+</body>
+</html>
