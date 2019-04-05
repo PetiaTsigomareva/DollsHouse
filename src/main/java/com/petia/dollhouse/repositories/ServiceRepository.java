@@ -6,11 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.petia.dollhouse.domain.entities.Office;
+import com.petia.dollhouse.domain.entities.DHService;
 
 @Repository
-public interface OfficeRepository extends JpaRepository<Office, String> {
+public interface ServiceRepository extends JpaRepository<DHService, String> {
 
-	@Query("SELECT o FROM Office o WHERE o.status = 'ACTIVE'")
-	List<Office> findAllActiveOffices();
+	@Query("SELECT s FROM Service s WHERE s.status = 'ACTIVE'")
+	List<DHService> findAllActiveService();
+
 }

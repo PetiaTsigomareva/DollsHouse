@@ -1,18 +1,19 @@
 package com.petia.dollhouse.service;
 
-import com.petia.dollhouse.domain.service.CompanyServiceModel;
-
 import java.util.List;
+
+import com.petia.dollhouse.domain.service.CompanyServiceModel;
 
 public interface CompanyService {
 
-    String addCompany(CompanyServiceModel model);
+	String addCompany(CompanyServiceModel model);
 
-    CompanyServiceModel editCompany(CompanyServiceModel model);
+	CompanyServiceModel editCompany(CompanyServiceModel model);
 
-    List<CompanyServiceModel> findAllCompanies();
+	List<CompanyServiceModel> findAllCompanies();
 
-    CompanyServiceModel findCompanyByID(String id);
+	CompanyServiceModel findCompanyByID(String id);
 
-    CompanyServiceModel deleteCompany(CompanyServiceModel companyServiceModel);
+	CompanyServiceModel deleteCompany(CompanyServiceModel companyServiceModel);
+
 }

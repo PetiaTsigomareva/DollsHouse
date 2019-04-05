@@ -1,16 +1,16 @@
 package com.petia.dollhouse.service;
 
-
+import java.util.Set;
 
 import com.petia.dollhouse.domain.service.RoleServiceModel;
 
-import java.util.Set;
-
 public interface RoleService {
 
-    void seedRoles();
+	void seedRoles();
 
-    Set<RoleServiceModel> findAllRoles();
+	Set<RoleServiceModel> findAllRoles();
 
-    RoleServiceModel findByAuthority(String authority);
+	RoleServiceModel findByAuthority(String authority);
+
+	void deleteRole(RoleServiceModel roleServiceModel);
 }

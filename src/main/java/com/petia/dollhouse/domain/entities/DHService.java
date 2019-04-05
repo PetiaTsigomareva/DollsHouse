@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "services")
-public class Service extends BaseEntity {
+public class DHService extends BaseEntity {
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -33,7 +33,7 @@ public class Service extends BaseEntity {
     @JoinColumn(name = "office_id", referencedColumnName = "id")
     private Office office;
 
-    public Service() {
+    public DHService() {
         super();
         offers = new ArrayList<>();
         reservations = new ArrayList<>();

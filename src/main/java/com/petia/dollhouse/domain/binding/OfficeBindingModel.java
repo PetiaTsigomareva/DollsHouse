@@ -1,6 +1,7 @@
 package com.petia.dollhouse.domain.binding;
 
 public class OfficeBindingModel {
+
 	private String name;
 	private String address;
 	private String phoneNumber;

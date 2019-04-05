@@ -32,8 +32,8 @@ public class PromoOffer extends BaseEntity {
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
-    @ManyToMany(targetEntity = Service.class, mappedBy = "offers")
-    private List<Service> services;
+    @ManyToMany(targetEntity = DHService.class, mappedBy = "offers")
+    private List<DHService> services;
 
     @ManyToMany(targetEntity = Reservation.class, mappedBy = "offers")
     private List<Reservation> reservations;
@@ -84,11 +84,11 @@ public class PromoOffer extends BaseEntity {
         this.endDate = endDate;
     }
 
-    public List<Service> getServices() {
+    public List<DHService> getServices() {
         return services;
     }
 
-    public void setServices(List<Service> services) {
+    public void setServices(List<DHService> services) {
         this.services = services;
     }
 

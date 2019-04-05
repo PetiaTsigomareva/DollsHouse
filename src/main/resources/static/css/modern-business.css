@@ -20,7 +20,7 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    background: transparent url(/images/home_1900x1080.jpg.jpg) repeat top left;
+    background: transparent  repeat top left;
 }
 
 .portfolio-item {

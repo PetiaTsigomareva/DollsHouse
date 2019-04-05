@@ -103,55 +103,13 @@
                                        th:href="@{${T(com.petia.dollhouse.constants.Constants).AlL_RESERVATION_ACTION}}">All
                                         Reservation</a>
 
-                                    <a class="dropdown-item"
-                                       th:href="@{${T(com.petia.dollhouse.constants.Constants).HOME_ACTION}}">Add
-                                        Service</a>
-
-                                    <a class="dropdown-item"
-                                       th:href="@{${T(com.petia.dollhouse.constants.Constants).HOME_ACTION}}"> All
-                                        Services</a>
-
-                                    <a class="dropdown-item"
-                                       th:href="@{${T(com.petia.dollhouse.constants.Constants).HOME_ACTION}}">Add
-                                        Promo Offer</a>
-
-                                    <a class="dropdown-item"
-                                       th:href="@{${T(com.petia.dollhouse.constants.Constants).HOME_ACTION}}"> All
-                                        Promo Offers</a>
                                 </div>
                             </li>
                         </th:block>
                         <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark" href="#"
-                                   id="navbarDropdownAdminAuthenticated"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Admin
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right"
-                                     aria-labelledby="navbarDropdownAdminAuthenticated">
-                                    <a class="dropdown-item text-dark"
-                                       th:href="@{${T(com.petia.dollhouse.constants.Constants).ADD_COMPANY_ACTION}}">Add
-                                        Company </a>
-                                    <a class="dropdown-item text-dark"
-                                       th:href="@{${T(com.petia.dollhouse.constants.Constants).ALL_COMPANY_ACTION}}">All
-                                        Companies</a>
-                                    <a class="dropdown-item text-dark"
-                                       th:href="@{${T(com.petia.dollhouse.constants.Constants).ADD_OFFICE_ACTION}}">Add
-                                        Office</a>
-                                    <a class="dropdown-item text-dark"
-                                       th:href="@{${T(com.petia.dollhouse.constants.Constants).ALL_OFFICE_ACTION}}">All
-                                        Offices</a>
-                                    <a class="dropdown-item text-dark"
-                                       th:href="@{${T(com.petia.dollhouse.constants.Constants).ADD_EMPLOYEE_ACTION}}">Add
-                                        Employee</a>
-                                    <a class="dropdown-item text-dark"
-                                       th:href="@{${T(com.petia.dollhouse.constants.Constants).AlL_EMLOYEES_ACTION}}">All
-                                        Employees</a>
-
-
-                                </div>
-                            </li>
+                            <li class="nav-item active">
+                            <a class="nav-link text-dark" th:href="@{${T(com.petia.dollhouse.constants.Constants).ADMIN_SIDEBAR_ACTION}}">Admin</a>
+                        </li>
                         </th:block>
                         <li class="nav-item">
                             <a class="nav-link text-dark"

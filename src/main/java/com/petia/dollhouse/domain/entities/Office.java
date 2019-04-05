@@ -29,8 +29,8 @@ public class Office extends BaseEntity {
     @OneToMany(targetEntity = User.class, mappedBy = "office")
     private List<User> employees;
 
-    @OneToMany(targetEntity = Service.class, mappedBy = "office")
-    private Set<Service> services;
+    @OneToMany(targetEntity = DHService.class, mappedBy = "office")
+    private Set<DHService> services;
 
     @OneToMany(targetEntity = Reservation.class, mappedBy = "office")
     private List<Reservation> reservations;
@@ -89,11 +89,11 @@ public class Office extends BaseEntity {
         this.employees = employees;
     }
 
-    public Set<Service> getServices() {
+    public Set<DHService> getServices() {
         return services;
     }
 
-    public void setServices(Set<Service> services) {
+    public void setServices(Set<DHService> services) {
         this.services = services;
     }
 

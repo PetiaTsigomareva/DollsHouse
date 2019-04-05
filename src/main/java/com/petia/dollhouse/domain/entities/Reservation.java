@@ -24,9 +24,9 @@ public class Reservation extends BaseEntity {
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private User customer;
 
-    @ManyToMany(targetEntity = Service.class)
+    @ManyToMany(targetEntity = DHService.class)
     @JoinTable(name = "reservations_services", joinColumns = @JoinColumn(name = "reservation_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "service_id", referencedColumnName = "id"))
-    private List<Service> services;
+    private List<DHService> services;
 
     @ManyToMany(targetEntity = PromoOffer.class)
     @JoinTable(name = "reservations_offers", joinColumns = @JoinColumn(name = "reservation_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "offer_id", referencedColumnName = "id"))
@@ -60,11 +60,11 @@ public class Reservation extends BaseEntity {
         this.customer = customer;
     }
 
-    public List<Service> getServices() {
+    public List<DHService> getServices() {
         return services;
     }
 
-    public void setServices(List<Service> services) {
+    public void setServices(List<DHService> services) {
         this.services = services;
     }
 

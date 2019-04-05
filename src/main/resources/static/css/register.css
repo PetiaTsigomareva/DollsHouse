@@ -23,7 +23,7 @@ body {
 .card-signin .card-img-left {
     width: 45%;
     /* Link to your background image using in the property below! */
-    background: scroll center url('/static/images/address.jpg');
+    background: scroll center url('https://res.cloudinary.com/dollhouce-cloud/image/upload/v1554471284/dh_images/address.jpg');
     background-size: cover;
 }
 

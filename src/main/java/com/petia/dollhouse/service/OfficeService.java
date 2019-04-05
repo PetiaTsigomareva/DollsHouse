@@ -1,23 +1,19 @@
 package com.petia.dollhouse.service;
 
-import com.petia.dollhouse.domain.service.CompanyServiceModel;
-import com.petia.dollhouse.domain.service.OfficeServiceModel;
-
 import java.util.List;
+
+import com.petia.dollhouse.domain.service.OfficeServiceModel;
 
 public interface OfficeService {
 
-    String addOffice(OfficeServiceModel model);
+	String addOffice(OfficeServiceModel model);
 
-    OfficeServiceModel editOffice(OfficeServiceModel model);
+	OfficeServiceModel editOffice(OfficeServiceModel model);
 
-    List<OfficeServiceModel> findAllOffices();
+	List<OfficeServiceModel> findAllOffices();
 
-    OfficeServiceModel findOfficeByID(String id);
+	OfficeServiceModel findOfficeByID(String id);
 
-    OfficeServiceModel deleteOffice(OfficeServiceModel model);
-
-
-
+	OfficeServiceModel deleteOffice(OfficeServiceModel model);
 
 }
