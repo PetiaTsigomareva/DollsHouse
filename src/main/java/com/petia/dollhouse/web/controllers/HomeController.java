@@ -25,7 +25,7 @@ public class HomeController extends BaseController {
 		String username = principal.getName();
 		modelAndView.addObject("username", username);
 
-		return super.view(Constants.INDEX_PAGE, modelAndView);
+		return super.view(Constants.HOME_PAGE, modelAndView);
 	}
 
 	@GetMapping(Constants.ABOUT_ACTION)

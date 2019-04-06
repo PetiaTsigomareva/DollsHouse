@@ -27,7 +27,7 @@
         <tbody>
         <th:block th:each="office, iter : ${offices}">
             <tr class="row mx-auto text-dark">
-                <th class="col-md-2 text-center" th:text="${iter.index + 1}"></th>
+                <td class="col-md-2 text-center" th:text="${iter.index + 1}"></td>
                 <td class="col-md-2 text-center" th:text="${office.name}"></td>
                 <td class="col-md-2 text-center" th:text="${office.address}"></td>
                 <td class="col-md-2 text-center" th:text="${office.email}"></td>

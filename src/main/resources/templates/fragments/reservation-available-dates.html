@@ -1,0 +1,52 @@
+<th:block th:fragment="reservation-available-table-fragment">
+	<div class="container">
+		<hr class="hr-1 bg-dark" />
+		<h5 class="text-center text-dark" th:text="#{reservation.calendar.title}"></h5>
+		<hr class="hr-1 bg-dark w-75" />
+		<table class="table table-active w-75 mx-auto">
+			<thead>
+				<tr class="row mx-auto text-dark">
+					<th class="col-md-1.5 text-right">
+						<div th:text="#{reservation.calendar.monday}"></div>
+						<div th:text="${#calendars.format(#calendars.createNow(), 'dd MMM')}"></div>
+					</th>
+					<th class="col-md-1.5 text-right">
+						<div th:text="#{reservation.calendar.tuesday}"></div>
+						<div th:text="${#calendars.format(#calendars.createNow(), 'dd MMM')}"></div>
+					</th>
+					<th class="col-md-1.5 text-right">
+						<div th:text="#{reservation.calendar.wednesday}"></div>
+						<div th:text="${#calendars.format(#calendars.createNow(), 'dd MMM')}"></div>
+					</th>
+					<th class="col-md-1.5 text-right">
+						<div th:text="#{reservation.calendar.thursday}"></div>
+						<div th:text="${#calendars.format(#calendars.createNow(), 'dd MMM')}"></div>
+					</th>
+					<th class="col-md-1.5 text-right">
+						<div th:text="#{reservation.calendar.friday}"></div>
+						<div th:text="${#calendars.format(#calendars.createNow(), 'dd MMM')}"></div>
+					</th>
+					<th class="col-md-1.5 text-right">
+						<div th:text="#{reservation.calendar.saturday}"></div>
+						<div th:text="${#calendars.format(#calendars.createNow(), 'dd MMM')}"></div>
+					</th>
+					<th class="col-md-1.5 text-right">
+						<div th:text="#{reservation.calendar.sunday}"></div>
+						<div th:text="${#calendars.format(#calendars.createNow(), 'dd MMM')}"></div>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="i : ${#numbers.sequence( 9, 18)}">
+					<tr class="row mx-auto text-dark">
+						<th:block th:each="j : ${#numbers.sequence( 1, 7)}">
+							<td class="col-md-1.5 text-right" th:text="${ i } + ':00'"></td>
+						</th:block>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+		<hr class="hr-1 bg-dark" />
+	</div>
+
+</th:block>

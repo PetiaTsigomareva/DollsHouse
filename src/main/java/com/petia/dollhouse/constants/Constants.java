@@ -44,7 +44,6 @@ public class Constants {
 	public static final String DELETE_RESERVATION_ACTION = "/reservation/delete-reservation/";
 	public static final String ALL_RESERVATIONS_ACTION = "/reservation/all-reservations";
 
-
 	public static final String AlL_RESERVATION_ACTION = "/reservation/all";
 	public static final String LOGOUT_FORM_ACTION = "/logout?login";
 
@@ -52,6 +51,7 @@ public class Constants {
 	public static final String REGISTER_PAGE = "/register";
 	public static final String LOGIN_PAGE = "/login";
 	public static final String INDEX_PAGE = "index";
+	public static final String HOME_PAGE = "home";
 	public static final String ABOUT_PAGE = "about";
 	public static final String CONTACT_PAGE = "contact";
 	public static final String ADMIN_SIDEBAR_PAGE = "admin-sidebar";
