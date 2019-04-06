@@ -11,22 +11,22 @@
 							</div>
 
 							<div class="form-label-group">
-								<input type="text" id="inputAddress" class="form-control" placeholder="Address" name="address" th:field="*{address}" required> <label for="inputAddress">Address</label>
+
+								<textarea  class="form-control"  name="description" th:field="*{description}"  id="inputDescription" cols="41" rows="5" required></textarea>
 							</div>
 
 							<div class="form-label-group">
-								<input type="text" id="inputPhoneNumber" class="form-control" placeholder="phoneNumber" name="phoneNumber" th:field="*{phoneNumber}" required> <label
-									for="inputPhoneNumber">Phone Number</label>
+								<input type="number" id="inputPrice" class="form-control" placeholder="price" name="price" th:field="*{price}" required> <label
+									for="inputPrice">Price</label>
 							</div>
 							<div class="form-label-group">
-								<input type="email" id="inputEmail" class="form-control" placeholder="Email" name="email" th:field="*{email}" required> <label for="inputEmail">Email</label>
+								<input type="text" id="inputurlPicture" class="form-control" placeholder="urlPicture" name="urlPicture" th:field="*{urlPicture}" required> <label for="inputurlPicture">urlPicture</label>
 							</div>
 
 							<div class="form-label-group">
-
-								<select class="form-control" id="inputCompany" th:field="*{companyId}">
-									<option th:each="companyName : ${companyNames}" name="companyId" th:value="${companyName.id}" th:text="${companyName.name}"
-										th:selected="${companyName.id} == ${companyId}"></option>
+								<select class="form-control" id="inputOffice" th:field="*{officeId}">
+									<option th:each="officeName : ${officeNames}" name="officeId" th:value="${officeName.id}" th:text="${officeName.name}"
+										th:selected="${officeName.id} == ${officeId}"></option>
 								</select>
 							</div>
 							<div class="button-holder d-flex justify-content-center">
@@ -38,5 +38,4 @@
 			</div>
 		</div>
 	</div>
-
 </th:block>

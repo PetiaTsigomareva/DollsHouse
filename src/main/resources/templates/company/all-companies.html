@@ -35,7 +35,7 @@
                         <a class="btn btn-outline-dark" th:text="#{form.edit.button}"
                            th:href="@{${T(com.petia.dollhouse.constants.Constants).EDIT_COMPANY_ACTION}+${company.id}}"></a>
                         <a class="btn btn-outline-dark" th:text="#{form.delete.button}"
-                           th:href="@{${T(com.petia.dollhouse.constants.Constants).DELETE_COMPANY_ACTION}+${company.id}}">Delete</a>
+                           th:href="@{${T(com.petia.dollhouse.constants.Constants).DELETE_COMPANY_ACTION}+${company.id}}"></a>
                     </div>
                 </td>
             </tr>
@@ -43,8 +43,6 @@
         </tbody>
     </table>
     <hr class="hr-2 bg-dark"/>
-
-
 </main>
 <footer>
     <th:block th:insert="~{fragments/footer}"></th:block>

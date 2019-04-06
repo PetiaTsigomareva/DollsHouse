@@ -11,7 +11,7 @@
 </heder>
 <main>
 	 <div th:insert="~{fragments/service-form :: service-form-fragment(
-        url=@{${T(com.petia.dollhouse.constants.Constants).DELETE_SERVICE_ACTION}},
+        url=@{${T(com.petia.dollhouse.constants.Constants).DELETE_SERVICE_ACTION}}+${id},
         title=#{serviceform.delete.title},
         methodLabel=${T(com.petia.dollhouse.constants.Constants).FORM_METHOD},
         buttonText=#{form.delete.button}
@@ -21,9 +21,9 @@
 	<script>
 		$(document).ready(function () {
 			$('form input[type="text"]').prop("disabled", true);
-			$('form input[type="date"]').prop("disabled", true);
-			$('form input[type="email"]').prop("disabled", true);
-			$('#inputCompany').prop("disabled", true);
+			$('form input[type="number"]').prop("disabled", true);
+			$('#inputDescription').prop("disabled", true);
+			$('#inputOffice').prop("disabled", true);
 		});
 	</script>
 </main>

@@ -50,6 +50,7 @@ public class DollHouseServiceImpl implements DollHouseService {
 
 	@Override
 	public ServiceModel edit(ServiceModel model) {
+
 		DHService service = this.serviceRepository.findById(model.getId()).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
 
 		model.setStatus(service.getStatus().name());
@@ -70,6 +71,8 @@ public class DollHouseServiceImpl implements DollHouseService {
 		List<ServiceModel> servicesModel = services.stream().map(s -> this.modelMapper.map(s, ServiceModel.class)).collect(Collectors.toList());
 
 		return servicesModel;
+
+
 	}
 
 	@Override

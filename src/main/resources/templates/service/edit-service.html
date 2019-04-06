@@ -11,7 +11,7 @@
 </heder>
 <main>
     <div th:insert="~{fragments/service-form :: service-form-fragment(
-        url=@{${T(com.petia.dollhouse.constants.Constants).EDIT_SERVICE_ACTION}},
+        url=@{${T(com.petia.dollhouse.constants.Constants).EDIT_SERVICE_ACTION}}+${id},
         title=#{serviceform.edit.title},
         methodLabel=${T(com.petia.dollhouse.constants.Constants).FORM_METHOD},
         buttonText=#{form.edit.button}
