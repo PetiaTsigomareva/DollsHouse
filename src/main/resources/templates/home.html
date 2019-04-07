@@ -1,23 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
-    <th:block th:insert="~{fragments/head}"></th:block>
+<th:block th:insert="~{fragments/head}"></th:block>
 </head>
 
 <body>
-<th:block th:insert="~{fragments/navbar}"></th:block>
+	<th:block th:insert="~{fragments/navbar}"></th:block>
 
-<!-- Page Content -->
-<main class="custom-color">
-<th:block th:insert="~{fragments/reservation-available-dates}"></th:block>
-</main>
-<!-- Footer -->
-<footer>
-    <th:block th:insert="~{fragments/footer}"></th:block>
-    <!-- /.container -->
-</footer>
+	<!-- Page Content -->
+	<main class="custom-color"> <th:block th:insert="~{fragments/reservation-available-dates}"></th:block> </main>
+	<!-- Footer -->
+	<footer>
+		<th:block th:insert="~{fragments/footer}"></th:block>
+		<!-- /.container -->
+	</footer>
 </body>
 
 </html>

@@ -1,45 +1,44 @@
 <th:block th:fragment="reservation-form-fragment(url, title, methodLabel, buttonText)">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-10 col-xl-9 mx-auto">
-                <div class="card card-signin flex-row my-5">
-                    <div class="card-body">
-                        <h5 class="card-title text-center" th:text="${title}"></h5>
-                        <form class="form-signin" th:action="${url}" th:method="${methodLabel}" th:object="${bindingModel}">
-                            <div class="form-label-group">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-10 col-xl-9 mx-auto">
+				<div class="card card-signin flex-row my-5">
+					<div class="card-body">
+						<h5 class="card-title text-center" th:text="${title}"></h5>
+						<form class="form-signin" th:action="${url}" th:method="${methodLabel}" th:object="${bindingModel}">
+							<div class="form-label-group">
 
-                                <select class="form-control" id="inputOffice" th:field="*{officeId}">
-                                    <option th:each="officeName : ${officeNames}" name="officeId" th:value="${officeName.id}" th:text="${officeName.name}"
-                                            th:selected="${officeName.id} == ${officeId}"></option>
-                                </select>
-                            </div>
+								<select class="form-control" id="inputOffice" th:field="*{officeId}">
+									<option th:each="officeName : ${officeNames}" name="officeId" th:value="${officeName.id}" th:text="${officeName.name}"
+										th:selected="${officeName.id} == ${officeId}"></option>
+								</select>
+							</div>
 
-                            <div class="form-label-group">
+							<div class="form-label-group">
 
-                                <select class="form-control" id="inputService" th:field="*{serviceIds}">
-                                    <option th:each="serviceName : ${serviceNames}" name="serviceIds" th:value="${serviceName.id}" th:text="${serviceName.name}"
-                                            th:selected="${serviceName.id} == ${serviceId}"></option>
-                                </select>
-                            </div>
+								<select class="form-control" id="inputService" th:field="*{serviceIds}">
+									<option th:each="serviceName : ${serviceNames}" name="serviceIds" th:value="${serviceName.id}" th:text="${serviceName.name}"
+										th:selected="${serviceName.id} == ${serviceId}"></option>
+								</select>
+							</div>
 
-                            <div class="form-label-group">
-                                <input type="datetime-local" id="inputReservationDateTime" class="form-control" name="reservationDateTime" th:field="*{reservationDateTime}" required>
-                                <label for="inputReservationDateTime">ReservationDateTime</label>
-                            </div>
+							<div class="form-label-group">
+								<input type="datetime-local" id="inputReservationDateTime" class="form-control" name="reservationDateTime" th:field="*{reservationDateTime}" required> <label
+									for="inputReservationDateTime">ReservationDateTime</label>
+							</div>
 
-                            <div class="form-label-group">
-                                <textarea  class="form-control"  name="description" th:field="*{description}"  id="inputDescription" cols="41" rows="5" required></textarea>
-                            </div>
+							<div class="form-label-group">
+								<textarea class="form-control" name="description" th:field="*{description}" id="inputDescription" cols="41" rows="5" required></textarea>
+							</div>
 
 
-                            <div class="button-holder d-flex justify-content-center" >
-                                <button class="btn btn-lg btn-outline-dark text-uppercase" th:text="${buttonText}" type="submit"></button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+							<div class="button-holder d-flex justify-content-center">
+								<button class="btn btn-lg btn-outline-dark text-uppercase" th:text="${buttonText}" type="submit"></button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </th:block>

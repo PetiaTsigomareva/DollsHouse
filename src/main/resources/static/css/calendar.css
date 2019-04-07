@@ -1,0 +1,192 @@
+.section-padding-80 {
+	padding-top: 80px;
+	padding-bottom: 80px;
+}
+
+.section-padding-0-80 {
+	padding-top: 0;
+	padding-bottom: 80px;
+}
+
+.section-padding-80-0 {
+	padding-top: 80px;
+	padding-bottom: 0;
+}
+
+.single-booking-table {
+	position: relative;
+	z-index: 1;
+	border-left: 1px solid #e5e5e5;
+	margin: 0 70px;
+}
+
+@media only screen and (max-width: 767px) {
+	.single-booking-table {
+		margin: 0;
+	}
+}
+
+.single-booking-table .single-date-hours {
+	position: relative;
+	z-index: 1;
+	-webkit-box-flex: 0;
+	-ms-flex: 0 0 33.3333%;
+	flex: 0 0 33.3333%;
+	max-width: 33.3333%;
+	width: 33.3333%;
+}
+
+.single-booking-table .single-date-hours .booking-day {
+	border: 1px solid #e5e5e5;
+	text-align: center;
+	padding: 20px 15px;
+	width: 100%;
+	border-left: none;
+}
+
+.single-booking-table .single-date-hours .booking-day h5 {
+	font-weight: 600;
+	font-family: "Open Sans", sans-serif;
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+	.single-booking-table .single-date-hours .booking-day h5 {
+		font-size: 16px;
+	}
+}
+
+@media only screen and (max-width: 767px) {
+	.single-booking-table .single-date-hours .booking-day h5 {
+		font-size: 14px;
+	}
+}
+
+.single-booking-table .single-date-hours .booking-day h6 {
+	margin-bottom: 0;
+	font-family: "Open Sans", sans-serif;
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+	.single-booking-table .single-date-hours .booking-day h6 {
+		font-size: 12px;
+	}
+}
+
+@media only screen and (max-width: 767px) {
+	.single-booking-table .single-date-hours .booking-day h6 {
+		font-size: 12px;
+	}
+}
+
+.single-booking-table .single-date-hours .booking-hours {
+	position: relative;
+	z-index: 1;
+	text-align: center;
+}
+
+.single-booking-table .single-date-hours .booking-hours span {
+	-webkit-box-flex: 0;
+	-ms-flex: 0 0 50%;
+	flex: 0 0 50%;
+	max-width: 50%;
+	width: 50%;
+	border-right: 1px solid #e5e5e5;
+	border-bottom: 1px solid #e5e5e5;
+	padding: 20px 5px;
+	font-size: 24px;
+	color: #252525;
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+	.single-booking-table .single-date-hours .booking-hours span {
+		font-size: 20px;
+	}
+}
+
+@media only screen and (max-width: 767px) {
+	.single-booking-table .single-date-hours .booking-hours span {
+		font-size: 12px;
+	}
+}
+
+.single-booking-table .single-date-hours .booking-hours span.active {
+	background-color: #f6f9f9;
+	color: #acacac;
+}
+
+.single-booking-table .single-date-hours.active .booking-day {
+	background-color: #bca858;
+}
+
+.single-booking-table .single-date-hours.active .booking-day h5, .single-booking-table .single-date-hours.active .booking-day h6 {
+	color: #ffffff;
+}
+
+.booking-table-slider {
+	position: relative;
+	z-index: 1;
+}
+
+.booking-table-slider .owl-prev, .booking-table-slider .owl-next {
+	width: 40px;
+	height: 40px;
+	position: absolute;
+	border: 1px solid #252525;
+	color: #252525;
+	text-align: center;
+	line-height: 40px;
+	font-size: 24px;
+	border-radius: 50%;
+	-webkit-transition-duration: 500ms;
+	-o-transition-duration: 500ms;
+	transition-duration: 500ms;
+	top: 50%;
+	margin-top: -20px;
+	left: 20px;
+}
+
+@media only screen and (max-width: 767px) {
+	.booking-table-slider .owl-prev, .booking-table-slider .owl-next {
+		display: none;
+	}
+}
+
+.booking-table-slider .owl-prev:hover, .booking-table-slider .owl-prev:focus, .booking-table-slider .owl-next:hover, .booking-table-slider .owl-next:focus {
+	border-color: #bca858;
+	background-color: #bca858;
+	color: #ffffff;
+}
+
+.booking-table-slider .owl-next {
+	left: auto;
+	right: 20px;
+}
+
+.booking-table-slider .owl-dots {
+	margin-top: 30px;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	margin: 30px auto 0;
+	width: 200px;
+	border: 1px solid #e5e5e5;
+	border-radius: 6px;
+	height: 10px;
+}
+
+.booking-table-slider .owl-dots .owl-dot {
+	flex-grow: 1;
+	height: 10px;
+	border-radius: 5px;
+	-webkit-transition-duration: 500ms;
+	-o-transition-duration: 500ms;
+	transition-duration: 500ms;
+}
+
+.booking-table-slider .owl-dots .owl-dot.active {
+	height: 10px;
+	background-color: #bca858;
+}
