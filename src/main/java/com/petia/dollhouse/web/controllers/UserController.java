@@ -126,7 +126,6 @@ public class UserController extends BaseController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView editEmployee(ModelAndView modelAndView, @PathVariable String id) {
 		EmployeeBindingModel employeeBindingModel = this.modelMapper.map(this.userService.findUserById(id), EmployeeBindingModel.class);
-		modelAndView.addObject("officeId", employeeBindingModel.getOfficeId());
 		modelAndView.addObject("officeNames", getOfficeNames());
 		modelAndView.addObject("bindingModel", employeeBindingModel);
 
@@ -137,7 +136,6 @@ public class UserController extends BaseController {
 	@PostMapping(Constants.EDIT_EMPLOYEE_ACTION + "{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView editEmployeeConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") EmployeeBindingModel employeeBindingModel, @PathVariable String id) {
-
 		UserServiceModel userServiceModel = this.modelMapper.map(employeeBindingModel, UserServiceModel.class);
 		userServiceModel.setId(id);
 		userServiceModel = this.userService.editEmployee(userServiceModel);
@@ -156,7 +154,6 @@ public class UserController extends BaseController {
 
 		EmployeeBindingModel employeeBindingModel = this.modelMapper.map(this.userService.findUserById(id), EmployeeBindingModel.class);
 		modelAndView.addObject("bindingModel", employeeBindingModel);
-		modelAndView.addObject("officeId", employeeBindingModel.getOfficeId());
 		modelAndView.addObject("officeNames", getOfficeNames());
 		return view(Constants.DELETE_EMPLOYEE_PAGE, modelAndView);
 	}

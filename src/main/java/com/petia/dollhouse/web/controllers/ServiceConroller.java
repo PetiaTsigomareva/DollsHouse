@@ -3,7 +3,6 @@ package com.petia.dollhouse.web.controllers;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.petia.dollhouse.domain.view.AllServicesViewModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,25 +11,31 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.petia.dollhouse.constants.Constants;
 import com.petia.dollhouse.domain.binding.ServiceBindingModel;
 import com.petia.dollhouse.domain.service.ServiceModel;
+import com.petia.dollhouse.domain.view.AllServicesViewModel;
 import com.petia.dollhouse.domain.view.NamesViewModel;
+import com.petia.dollhouse.repositories.ServiceRepository;
 import com.petia.dollhouse.service.DollHouseService;
 import com.petia.dollhouse.service.OfficeService;
 
 @Controller
+//@RequestMapping(Constants.SERVICE_CONTEXT)
 public class ServiceConroller extends BaseController {
 	private final DollHouseService dollHouseService;
+	private final ServiceRepository serviceRepository;
 	private final OfficeService officeService;
 	private final ModelMapper modelMapper;
 
 	@Autowired
-	public ServiceConroller(OfficeService officeService, ModelMapper modelMapper, DollHouseService dollHouseService) {
+	public ServiceConroller(OfficeService officeService, ServiceRepository serviceRepository, ModelMapper modelMapper, DollHouseService dollHouseService) {
 		super();
 		this.officeService = officeService;
+		this.serviceRepository = serviceRepository;
 		this.modelMapper = modelMapper;
 		this.dollHouseService = dollHouseService;
 	}
@@ -68,13 +73,11 @@ public class ServiceConroller extends BaseController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView editService(ModelAndView modelAndView, @PathVariable String id) {
 		ServiceBindingModel serviceBindingModel = this.modelMapper.map(this.dollHouseService.findByID(id), ServiceBindingModel.class);
-		modelAndView.addObject("officeId", serviceBindingModel.getOfficeId());
 		modelAndView.addObject("officeNames", getOfficeNames());
 		modelAndView.addObject("bindingModel", serviceBindingModel);
 
 		return view(Constants.EDIT_SERVICE_PAGE, modelAndView);
 	}
-
 
 	@PostMapping(Constants.EDIT_SERVICE_ACTION + "{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -116,15 +119,23 @@ public class ServiceConroller extends BaseController {
 		}
 
 		return redirect(Constants.ALL_SERVICE_PAGE);
+	}
 
+	@GetMapping(Constants.FETCH_OFFICE_ALL_SERVICES_ACTION + "{officeId}")
+	@ResponseBody
+	public List<NamesViewModel> fetchServicesByOffice(@PathVariable String officeId) {
+		List<NamesViewModel> result;
+
+		result = this.serviceRepository.findOfficeAllActiveServices(officeId).stream().map(product -> this.modelMapper.map(product, NamesViewModel.class)).collect(Collectors.toList());
+
+		return result;
 	}
 
 	private List<NamesViewModel> getOfficeNames() {
 		List<NamesViewModel> result;
+
 		result = this.officeService.findAllOffices().stream().map(o -> this.modelMapper.map(o, NamesViewModel.class)).collect(Collectors.toList());
 
 		return result;
-
 	}
-
 }

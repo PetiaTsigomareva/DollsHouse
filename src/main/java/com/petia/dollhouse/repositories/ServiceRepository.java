@@ -12,6 +12,8 @@ import com.petia.dollhouse.domain.entities.DHService;
 public interface ServiceRepository extends JpaRepository<DHService, String> {
 
 	@Query("SELECT s FROM DHService s WHERE s.status = 'ACTIVE'")
-	List<DHService> findAllActiveService();
+	List<DHService> findAllActiveServices();
 
+	@Query("SELECT s FROM DHService s WHERE s.status = 'ACTIVE' and s.office.id =:officeId")
+	List<DHService> findOfficeAllActiveServices(String officeId);
 }

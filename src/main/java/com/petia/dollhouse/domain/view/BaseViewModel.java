@@ -1,16 +1,16 @@
 package com.petia.dollhouse.domain.view;
 
 public class BaseViewModel {
-    private String id;
+	private String id;
 
-    protected BaseViewModel() {
-    }
+	protected BaseViewModel() {
+	}
 
-    public String getId() {
-        return id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 }

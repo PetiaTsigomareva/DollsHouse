@@ -1,6 +1,6 @@
 package com.petia.dollhouse.constants;
 
-public class Constants {
+public interface Constants {
 
 	public static final String FORM_METHOD = "post";
 	public static final String FORM_METHOD_EDIT = "put";
@@ -34,10 +34,12 @@ public class Constants {
 	public static final String DELETE_OFFICE_ACTION = "/office/delete-office/";
 	public static final String ALL_OFFICE_ACTION = "/office/all-offices";
 
-	public static final String ADD_SERVICE_ACTION = "/service/add-service";
-	public static final String EDIT_SERVICE_ACTION = "/service/edit-service/";
-	public static final String DELETE_SERVICE_ACTION = "/service/delete-service/";
-	public static final String ALL_SERVICE_ACTION = "/service/all-service";
+	public static final String SERVICE_CONTEXT = "/service";
+	public static final String ADD_SERVICE_ACTION = SERVICE_CONTEXT + "/add-service";
+	public static final String EDIT_SERVICE_ACTION = SERVICE_CONTEXT + "/edit-service/";
+	public static final String DELETE_SERVICE_ACTION = SERVICE_CONTEXT + "/delete-service/";
+	public static final String ALL_SERVICE_ACTION = SERVICE_CONTEXT + "/all-service";
+	public static final String FETCH_OFFICE_ALL_SERVICES_ACTION = SERVICE_CONTEXT + "/fetch/";
 
 	public static final String ADD_RESERVATION_ACTION = "/reservation/add-reservation";
 	public static final String EDIT_RESERVATION_ACTION = "/reservation/edit-reservation/";

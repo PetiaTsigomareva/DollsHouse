@@ -1,18 +1,16 @@
 package com.petia.dollhouse.domain.view;
 
 public class NamesViewModel extends BaseViewModel {
-    private String name;
+	private String name;
 
-    public NamesViewModel() {
-    }
+	public NamesViewModel() {
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-
+	public void setName(String name) {
+		this.name = name;
+	}
 }

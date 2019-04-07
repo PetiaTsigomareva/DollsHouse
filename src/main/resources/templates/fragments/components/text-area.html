@@ -1,0 +1,5 @@
+<th:block th:fragment="text-area( componentId, rows, cols )">
+	<div class="form-label-group">
+		<textarea class="form-control" th:id="${componentId}" th:name="${bindingModel.description}" th:field="*{bindingModel.description}" th:rows="${rows}" th:cols="${cols}" required></textarea>
+	</div>
+</th:block>

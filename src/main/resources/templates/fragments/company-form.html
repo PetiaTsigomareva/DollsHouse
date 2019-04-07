@@ -1,52 +1,24 @@
 <th:block th:fragment="company-form-fragment(url, title, methodLabel, buttonText)">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-10 col-xl-9 mx-auto">
-                <div class="card card-signin flex-row my-5">
-                    <div class="card-body">
-                        <h5 class="card-title text-center" th:text="${title}"></h5>
-                        <form class="form-signin" th:action="${url}" th:method="${methodLabel}">
-                            <div class="form-label-group">
-                                <input type="text" id="inputname" class="form-control" placeholder="Name" name="name"
-                                       th:value="${bindingModel.name}" required>
-                                <label for="inputname">Name</label>
-                            </div>
-
-                            <div class="form-label-group">
-                                <input type="text" id="inputAddress" class="form-control" placeholder="Address"
-                                       name="address" th:value="${bindingModel.address}" required>
-                                <label for="inputAddress">Address</label>
-                            </div>
-
-                            <div class="form-label-group">
-                                <input type="text" id="inputIdentificationCode" class="form-control"
-                                       placeholder="Identification Code" name="identificationCode"
-                                       th:value="${bindingModel.identificationCode}" required>
-                                <label for="inputIdentificationCode">Identification Code</label>
-                            </div>
-
-                            <div class="form-label-group">
-                                <input type="date" id="inputDateOfCreation" class="form-control"
-                                       placeholder="DateOfCreation" name="dateOfCreation"
-                                       th:value="${bindingModel.dateOfCreation}" required>
-                                <label for="inputDateOfCreation">Date Of Creation</label>
-                            </div>
-
-                            <div class="form-label-group">
-                                <input type="text" id="inputOwner" class="form-control" placeholder="Owner" name="owner"
-                                       th:value="${bindingModel.owner}" required>
-                                <label for="inputOwner">Owner</label>
-                            </div>
-
-                            <div class="button-holder d-flex justify-content-center" >
-                             <button class="btn btn-lg btn-outline-dark text-uppercase" th:text="${buttonText}" type="submit"></button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-10 col-xl-9 mx-auto">
+				<div class="card card-signin flex-row my-5">
+					<div class="card-body">
+						<h5 class="card-title text-center" th:text="${title}"></h5>
+						<form class="form-signin" th:action="${url}" th:method="${methodLabel}">
+							<div th:replace="~{fragments/components/input :: input( text, inputName, name, ${bindingModel.name}, Name )}"></div>
+							<div th:replace="~{fragments/components/input :: input( text, inputAddress, address, ${bindingModel.address}, Address )}"></div>
+							<div
+								th:replace="~{fragments/components/input :: input( text, inputIdentificationCode, identificationCode, ${bindingModel.identificationCode}, 'Identification Code' )}"></div>
+							<div th:replace="~{fragments/components/input :: input( date, inputDateOfCreation, dateOfCreation, ${bindingModel.dateOfCreation}, 'Date Of Creation' )}"></div>
+							<div th:replace="~{fragments/components/input :: input( text, inputOwner, owner, ${bindingModel.owner}, Owner )}"></div>
+							<div th:replace="~{fragments/components/button :: button( ${buttonText} )}"></div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 </th:block>

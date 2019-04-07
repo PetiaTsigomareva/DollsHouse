@@ -66,7 +66,7 @@ public class DollHouseServiceImpl implements DollHouseService {
 
 	@Override
 	public List<ServiceModel> findAll() {
-		List<DHService> services = this.serviceRepository.findAllActiveService();
+		List<DHService> services = this.serviceRepository.findAllActiveServices();
 
 		List<ServiceModel> servicesModel = services.stream().map(s -> this.modelMapper.map(s, ServiceModel.class)).collect(Collectors.toList());
 
