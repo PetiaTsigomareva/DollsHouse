@@ -7,6 +7,7 @@ import com.petia.dollhouse.domain.view.AllOfficesViewModel;
 import com.petia.dollhouse.domain.view.NamesViewModel;
 import com.petia.dollhouse.service.CompanyService;
 import com.petia.dollhouse.service.OfficeService;
+import com.petia.dollhouse.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,6 +38,7 @@ public class OfficeController extends BaseController {
 
     @GetMapping(Constants.ADD_OFFICE_ACTION)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PageTitle(Constants.ADD_OFFICE_TITLE)
     public ModelAndView addOffice(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") OfficeBindingModel officeBindingModel) {
         modelAndView.addObject("companyNames", getCompanyNames());
         return view(Constants.ADD_OFFICE_PAGE, modelAndView);
@@ -57,6 +59,7 @@ public class OfficeController extends BaseController {
 
     @GetMapping(Constants.ALL_OFFICE_ACTION)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PageTitle(Constants.ALL_OFFICE_TITLE)
     public ModelAndView allOffices(ModelAndView modelAndView) {
         List<OfficeServiceModel> officeServiceModels = this.officeService.findAllOffices();
         List<AllOfficesViewModel> allOfficesViewModels = officeServiceModels.stream().map(csm -> this.modelMapper.map(csm, AllOfficesViewModel.class)).collect(Collectors.toList());
@@ -68,6 +71,7 @@ public class OfficeController extends BaseController {
 
     @GetMapping(Constants.EDIT_OFFICE_ACTION + "{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PageTitle(Constants.EDIT_OFFICE_TITLE)
     public ModelAndView editOffice(ModelAndView modelAndView, @PathVariable String id) {
         OfficeBindingModel officeBindingModel = this.modelMapper.map(this.officeService.findOfficeByID(id), OfficeBindingModel.class);
         modelAndView.addObject("companyId", officeBindingModel.getCompanyId());
@@ -96,6 +100,7 @@ public class OfficeController extends BaseController {
 
     @GetMapping(Constants.DELETE_OFFICE_ACTION + "{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PageTitle(Constants.DELETE_OFFICE_TITLE)
     public ModelAndView deleteOffice(ModelAndView modelAndView, @PathVariable String id) {
 
         OfficeBindingModel officeBindingModel = this.modelMapper.map(this.officeService.findOfficeByID(id), OfficeBindingModel.class);

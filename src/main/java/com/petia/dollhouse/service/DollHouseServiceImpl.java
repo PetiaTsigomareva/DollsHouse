@@ -11,20 +11,25 @@ import org.springframework.stereotype.Service;
 import com.petia.dollhouse.constants.Constants;
 import com.petia.dollhouse.domain.entities.DHService;
 import com.petia.dollhouse.domain.entities.Office;
+import com.petia.dollhouse.domain.entities.Reservation;
 import com.petia.dollhouse.domain.enums.StatusValues;
+import com.petia.dollhouse.domain.service.AvailabilityServiceModel;
 import com.petia.dollhouse.domain.service.ServiceModel;
+import com.petia.dollhouse.repositories.ReservationRepository;
 import com.petia.dollhouse.repositories.ServiceRepository;
 
 @Service
 public class DollHouseServiceImpl implements DollHouseService {
 	private final ServiceRepository serviceRepository;
+	private final ReservationRepository reservationRepository;
 	private final OfficeService officeService;
 	private final ModelMapper modelMapper;
 
 	@Autowired
-	public DollHouseServiceImpl(ServiceRepository serviceRepository, OfficeService officeService, ModelMapper modelMapper) {
+	public DollHouseServiceImpl(ServiceRepository serviceRepository, ReservationRepository reservationRepository, OfficeService officeService, ModelMapper modelMapper) {
 		super();
 		this.serviceRepository = serviceRepository;
+		this.reservationRepository = reservationRepository;
 		this.officeService = officeService;
 		this.modelMapper = modelMapper;
 	}
@@ -71,8 +76,6 @@ public class DollHouseServiceImpl implements DollHouseService {
 		List<ServiceModel> servicesModel = services.stream().map(s -> this.modelMapper.map(s, ServiceModel.class)).collect(Collectors.toList());
 
 		return servicesModel;
-
-
 	}
 
 	@Override
@@ -103,4 +106,21 @@ public class DollHouseServiceImpl implements DollHouseService {
 
 	}
 
+	@Override
+	public List<ServiceModel> findServicesByOffice(String officeId) {
+		List<DHService> services = this.serviceRepository.findOfficeAllActiveServices(officeId);
+
+		List<ServiceModel> servicesModel = services.stream().map(s -> this.modelMapper.map(s, ServiceModel.class)).collect(Collectors.toList());
+
+		return servicesModel;
+	}
+
+	@Override
+	public List<AvailabilityServiceModel> fetchAvailabilities(String officeId, String serviceId, String fromDate, String toDate) {
+		List<AvailabilityServiceModel> result;
+
+	//	List<Reservation> reservations = this.reservationRepository.getAllReservationsForTimePeriodForOfficeService(officeId, serviceId, fromDate, toDate);
+
+		return null;
+	}
 }

@@ -16,9 +16,12 @@
                 <div class="card card-signin flex-row my-5">
                     <div class="card-body">
                         <h5 class="card-title text-center" th:text="#{profileform.edit.title}"></h5>
-                        <form class="form w-26 mx-auto" th:action="@{${T(com.petia.dollhouse.constants.Constants).EDIT_PROFILE_ACTION}}" th:method="patch">
+                        <form class="form w-26 mx-auto"
+                              th:action="@{${T(com.petia.dollhouse.constants.Constants).EDIT_PROFILE_ACTION}}"
+                              th:method="patch">
                             <div class="form-label-group">
-                                <input type="text" id="inputUsername" class="form-control" placeholder="Username" name="username" th:value="${model.username}" readonly>
+                                <input type="text" id="inputUsername" class="form-control" placeholder="Username"
+                                       name="username" th:value="${model.username}" readonly>
                                 <label for="inputUsername">Username</label>
                             </div>
 
@@ -46,10 +49,8 @@
                                 <label for="email">Email</label>
                             </div>
 
-                            <button class="btn btn-lg btn-primary btn-block text-uppercase"
-                                    th:text="#{form.edit.button}"
-                                    type="submit">
-                            </button>
+                            <div th:replace="~{fragments/components/button :: button( #{form.edit.button} )}"></div>
+
                         </form>
                     </div>
                 </div>

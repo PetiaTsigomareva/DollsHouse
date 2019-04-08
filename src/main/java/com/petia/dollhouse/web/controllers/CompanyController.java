@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.petia.dollhouse.domain.view.AllCompanyViewModel;
+import com.petia.dollhouse.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,6 +34,7 @@ public class CompanyController extends BaseController {
 
 	@GetMapping(Constants.ADD_COMPANY_ACTION)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PageTitle(Constants.ADD_COMPANY_TITLE)
 	public ModelAndView addCompany(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") CompanyBindingModel companyBindingModel) {
 		return view(Constants.ADD_COMPANY_PAGE, modelAndView);
 	}
@@ -51,6 +53,7 @@ public class CompanyController extends BaseController {
 
 	@GetMapping(Constants.ALL_COMPANY_ACTION)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PageTitle(Constants.ALL_COMPANY_TITLE)
 	public ModelAndView allCompanies(ModelAndView modelAndView) {
 		List<CompanyServiceModel> companyServiceModels = this.companyService.findAllCompanies();
 		List<AllCompanyViewModel> allCompanyViewModels = companyServiceModels.stream().map(csm -> this.modelMapper.map(csm, AllCompanyViewModel.class)).collect(Collectors.toList());
@@ -61,6 +64,7 @@ public class CompanyController extends BaseController {
 
 	@GetMapping(Constants.EDIT_COMPANY_ACTION + "{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PageTitle(Constants.EDIT_COMPANY_TITLE)
 	public ModelAndView editCompany(ModelAndView modelAndView, @PathVariable String id) {
 
 		CompanyBindingModel companyBindingModel = this.modelMapper.map(this.companyService.findCompanyByID(id), CompanyBindingModel.class);
@@ -87,6 +91,7 @@ public class CompanyController extends BaseController {
 
 	@GetMapping(Constants.DELETE_COMPANY_ACTION + "{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PageTitle(Constants.DELETE_COMPANY_TITLE)
 	public ModelAndView deleteCompany(ModelAndView modelAndView, @PathVariable String id) {
 
 		CompanyBindingModel companyBindingModel = this.modelMapper.map(this.companyService.findCompanyByID(id), CompanyBindingModel.class);

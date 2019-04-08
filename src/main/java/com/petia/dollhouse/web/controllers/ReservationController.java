@@ -3,6 +3,7 @@ package com.petia.dollhouse.web.controllers;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.petia.dollhouse.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -42,6 +43,7 @@ public class ReservationController extends BaseController {
 
 	@GetMapping(Constants.ADD_RESERVATION_ACTION)
 	@PreAuthorize("hasRole('ROLE_USER')")
+	@PageTitle(Constants.ADD_RESERVATION_TITLE)
 	public ModelAndView addReservation(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ReservationBindingModel reservationBindingModel) {
 		modelAndView.addObject("officeNames", getOfficeNames());
 		modelAndView.addObject("serviceNames", getServiceNames());

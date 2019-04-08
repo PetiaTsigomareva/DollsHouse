@@ -2,6 +2,7 @@ package com.petia.dollhouse.service;
 
 import java.util.List;
 
+import com.petia.dollhouse.domain.service.AvailabilityServiceModel;
 import com.petia.dollhouse.domain.service.ServiceModel;
 
 public interface DollHouseService {
@@ -16,4 +17,7 @@ public interface DollHouseService {
 
 	ServiceModel delete(ServiceModel model);
 
+	List<ServiceModel> findServicesByOffice(String officeId);
+
+	List<AvailabilityServiceModel> fetchAvailabilities(String officeId, String serviceId, String fromDate, String toDate);
 }

@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.petia.dollhouse.domain.service.CloudinaryService;
+import com.petia.dollhouse.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,16 +35,19 @@ public class UserController extends BaseController {
 	private final UserService userService;
 	private final OfficeService officeService;
 	private final ModelMapper modelMapper;
+	private final CloudinaryService cloudinaryService;
 
 	@Autowired
-	public UserController(UserService userService, OfficeService officeService, ModelMapper modelMapper) {
+	public UserController(UserService userService, OfficeService officeService, ModelMapper modelMapper, CloudinaryService cloudinaryService) {
 		this.userService = userService;
 		this.officeService = officeService;
 		this.modelMapper = modelMapper;
+		this.cloudinaryService = cloudinaryService;
 	}
 
 	@GetMapping(Constants.REGISTER_FORM_ACTION)
 	@PreAuthorize("isAnonymous()")
+	@PageTitle(Constants.REGISTER_TITLE)
 	public ModelAndView register() {
 		return super.view(Constants.REGISTER_PAGE);
 	}
@@ -61,12 +66,14 @@ public class UserController extends BaseController {
 
 	@GetMapping(Constants.LOGIN_FORM_ACTION)
 	@PreAuthorize("isAnonymous()")
+	@PageTitle(Constants.LOGIN_TITLE)
 	public ModelAndView login() {
 		return view(Constants.LOGIN_PAGE);
 	}
 
 	@GetMapping(Constants.PROFILE_ACTION)
 	@PreAuthorize("isAuthenticated()")
+	@PageTitle(Constants.PROFILE_TITLE)
 	public ModelAndView profile(Principal principal, ModelAndView modelAndView) {
 		modelAndView.addObject("model", this.modelMapper.map(this.userService.findUserByUserName(principal.getName()), UserProfileViewModel.class));
 
@@ -75,6 +82,7 @@ public class UserController extends BaseController {
 
 	@GetMapping(Constants.EDIT_PROFILE_ACTION)
 	@PreAuthorize("isAuthenticated()")
+	@PageTitle(Constants.EDIT_PROFILE_TITLE)
 	public ModelAndView editProfile(Principal principal, ModelAndView modelAndView) {
 		modelAndView.addObject("model", this.modelMapper.map(this.userService.findUserByUserName(principal.getName()), UserProfileViewModel.class));
 
@@ -95,6 +103,7 @@ public class UserController extends BaseController {
 
 	@GetMapping(Constants.ADMIN_SIDEBAR_ACTION)
 	@PreAuthorize("isAuthenticated()")
+	@PageTitle(Constants.ADMIN_SIDEBAR_TITLE)
 	public ModelAndView adminSideBar(ModelAndView modelAndView) {
 
 		return super.view(Constants.ADMIN_SIDEBAR_PAGE, modelAndView);
@@ -102,6 +111,7 @@ public class UserController extends BaseController {
 
 	@GetMapping(Constants.ADD_EMPLOYEE_ACTION)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PageTitle(Constants.ADD_EMPLOYEE_TITLE)
 	public ModelAndView addEmployee(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") EmployeeBindingModel employeeBindingModel) {
 
 		modelAndView.addObject("officeNames", getOfficeNames());
@@ -124,6 +134,7 @@ public class UserController extends BaseController {
 
 	@GetMapping(Constants.EDIT_EMPLOYEE_ACTION + "{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PageTitle(Constants.EDIT_EMPLOYEE_TITLE)
 	public ModelAndView editEmployee(ModelAndView modelAndView, @PathVariable String id) {
 		EmployeeBindingModel employeeBindingModel = this.modelMapper.map(this.userService.findUserById(id), EmployeeBindingModel.class);
 		modelAndView.addObject("officeNames", getOfficeNames());
@@ -150,6 +161,7 @@ public class UserController extends BaseController {
 
 	@GetMapping(Constants.DELETE_EMPLOYEE_ACTION + "{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PageTitle(Constants.DELETE_EMPLOYEE_TITLE)
 	public ModelAndView deleteEmployee(ModelAndView modelAndView, @PathVariable String id) {
 
 		EmployeeBindingModel employeeBindingModel = this.modelMapper.map(this.userService.findUserById(id), EmployeeBindingModel.class);
@@ -176,6 +188,7 @@ public class UserController extends BaseController {
 
 	@GetMapping(Constants.AlL_EMLOYEES_ACTION)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PageTitle(Constants.ALL_EMPLOYEES_TITLE)
 	public ModelAndView allUsers(ModelAndView modelAndView) {
 		List<AllUserViewModel> users = this.userService.findAllUsers().stream().map(u -> {
 			AllUserViewModel user = this.modelMapper.map(u, AllUserViewModel.class);
