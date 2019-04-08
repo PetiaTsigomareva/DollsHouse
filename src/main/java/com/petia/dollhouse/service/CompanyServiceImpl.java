@@ -16,82 +16,82 @@ import com.petia.dollhouse.repositories.CompanyRepository;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
-    public static final String COMPANY_NAME = "Dolls House";
-    private final CompanyRepository companyRepository;
-    private final ModelMapper modelMapper;
 
-    @Autowired
-    public CompanyServiceImpl(CompanyRepository companyRepository, ModelMapper modelMapper) {
-        this.companyRepository = companyRepository;
-        this.modelMapper = modelMapper;
-    }
+	private final CompanyRepository companyRepository;
+	private final ModelMapper modelMapper;
 
-    @Override
-    public String addCompany(CompanyServiceModel model) {
-        String result;
-        try {
-            Company company = this.modelMapper.map(model, Company.class);
-            company.setStatus(StatusValues.ACTIVE);
-            company = this.companyRepository.saveAndFlush(company);
-            result = company.getId();
+	@Autowired
+	public CompanyServiceImpl(CompanyRepository companyRepository, ModelMapper modelMapper) {
+		this.companyRepository = companyRepository;
+		this.modelMapper = modelMapper;
+	}
 
-        } catch (NullPointerException ex) {
-            ex.printStackTrace();
-            result = null;
-        }
+	@Override
+	public String addCompany(CompanyServiceModel model) {
+		String result;
+		try {
+			Company company = this.modelMapper.map(model, Company.class);
+			company = this.companyRepository.saveAndFlush(company);
+			result = company.getId();
 
-        return result;
-    }
+		} catch (NullPointerException ex) {
+			ex.printStackTrace();
+			result = null;
+		}
 
-    @Override
-    public CompanyServiceModel editCompany(CompanyServiceModel companyServiceModel) {
+		return result;
+	}
 
-        Company company = this.companyRepository.findById(companyServiceModel.getId()).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
+	@Override
+	public CompanyServiceModel editCompany(CompanyServiceModel companyServiceModel) {
 
-        companyServiceModel.setStatus(company.getStatus().name());
-        Company mappedCompany = this.companyRepository.saveAndFlush(this.modelMapper.map(companyServiceModel, Company.class));
+		Company company = this.companyRepository.findById(companyServiceModel.getId()).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
 
-        companyServiceModel = this.modelMapper.map(mappedCompany, CompanyServiceModel.class);
+		companyServiceModel.setStatus(company.getStatus().name());
+		Company mappedCompany = this.companyRepository.saveAndFlush(this.modelMapper.map(companyServiceModel, Company.class));
 
-        return companyServiceModel;
-    }
+		companyServiceModel = this.modelMapper.map(mappedCompany, CompanyServiceModel.class);
 
-    @Override
-    public List<CompanyServiceModel> findAllCompanies() {
-        List<Company> companies = this.companyRepository.findAllActiveCompanies();
+		return companyServiceModel;
+	}
 
-        List<CompanyServiceModel> companiesModel = companies.stream().map(c -> this.modelMapper.map(c, CompanyServiceModel.class)).collect(Collectors.toList());
+	@Override
+	public List<CompanyServiceModel> findAllCompanies() {
+		List<Company> companies = this.companyRepository.findAllActiveCompanies();
 
-        return companiesModel;
-    }
+		List<CompanyServiceModel> companiesModel = companies.stream().map(c -> this.modelMapper.map(c, CompanyServiceModel.class)).collect(Collectors.toList());
 
-    @Override
-    public CompanyServiceModel findCompanyByID(String id) {
+		return companiesModel;
+	}
 
-        Company company = this.companyRepository.findById(id).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
-        CompanyServiceModel companyServiceModel = this.modelMapper.map(company, CompanyServiceModel.class);
+	@Override
+	public CompanyServiceModel findCompanyByID(String id) {
 
-        return companyServiceModel;
-    }
+		Company company = this.companyRepository.findById(id).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
+		CompanyServiceModel companyServiceModel = this.modelMapper.map(company, CompanyServiceModel.class);
 
-    @Override
-    public CompanyServiceModel deleteCompany(CompanyServiceModel companyServiceModel) {
-        Company company = this.companyRepository.findById(companyServiceModel.getId()).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
+		return companyServiceModel;
+	}
 
-        company.setStatus(StatusValues.INACTIVE);
+	@Override
+	public CompanyServiceModel deleteCompany(CompanyServiceModel companyServiceModel) {
+		Company company = this.companyRepository.findById(companyServiceModel.getId()).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
 
-        company = this.companyRepository.saveAndFlush(company);
+		company.setStatus(StatusValues.INACTIVE);
 
-        companyServiceModel = this.modelMapper.map(company, CompanyServiceModel.class);
+		company = this.companyRepository.saveAndFlush(company);
 
-        return companyServiceModel;
-    }
+		companyServiceModel = this.modelMapper.map(company, CompanyServiceModel.class);
 
-    @Override
-    public String findCompanyDescriptionByName(String name) {
-        String result = this.companyRepository.findCompanyDescriptionByName(COMPANY_NAME);
+		return companyServiceModel;
+	}
 
-        return result;
-    }
+	@Override
+	public CompanyServiceModel findCompanyByName(String name) {
+		CompanyServiceModel result;
+		Company company = this.companyRepository.findCompanyByName(Constants.COMPANY_NAME).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
+		result = this.modelMapper.map(company, CompanyServiceModel.class);
+		return result;
+	}
 
 }

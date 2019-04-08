@@ -1,6 +1,7 @@
 package com.petia.dollhouse.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,6 +18,6 @@ public interface CompanyRepository extends JpaRepository<Company, String> {
 	List<Company> findAllActiveCompanies();
 
 //    @Query("SELECT c FROM Company c WHERE c.status = 'ACTIVE'")
-    String findCompanyDescriptionByName(String name);
+   Optional<Company> findCompanyByName(String name);
 
 }

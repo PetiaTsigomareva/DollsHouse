@@ -10,10 +10,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.petia.dollhouse.domain.entities.DHService;
-import com.petia.dollhouse.domain.entities.Office;
 import com.petia.dollhouse.domain.entities.Reservation;
 import com.petia.dollhouse.domain.entities.User;
-import com.petia.dollhouse.domain.enums.StatusValues;
 import com.petia.dollhouse.domain.service.ReservationServiceModel;
 import com.petia.dollhouse.repositories.ReservationRepository;
 
@@ -22,16 +20,13 @@ public class ReservationServiceImpl implements ReservationService {
 	private final ModelMapper modelMapper;
 	private final ReservationRepository reservationRepository;
 	private final DollHouseService dollHouseService;
-	private final OfficeService officeService;
 	private final UserService userService;
 
 	@Autowired
-	public ReservationServiceImpl(ModelMapper modelMapper, ReservationRepository reservationRepository, DollHouseService dollHouseService, OfficeService officeService,
-	    UserService userService) {
+	public ReservationServiceImpl(ModelMapper modelMapper, ReservationRepository reservationRepository, DollHouseService dollHouseService, UserService userService) {
 		this.modelMapper = modelMapper;
 		this.reservationRepository = reservationRepository;
 		this.dollHouseService = dollHouseService;
-		this.officeService = officeService;
 		this.userService = userService;
 	}
 
@@ -42,8 +37,7 @@ public class ReservationServiceImpl implements ReservationService {
 		String currentPrincipalName = authentication.getName();
 
 		Reservation reservation = this.modelMapper.map(model, Reservation.class);
-		reservation.setOffice(this.findOffice(model.getOfficeId()));
-		reservation.setStatus(StatusValues.ACTIVE);
+		reservation.setEmployee(this.findEmployee(model.getEmployeeId()));
 		reservation.setServices(this.findServices(model.getServiceIds()));
 		reservation.setCustomer(this.modelMapper.map(userService.findUserByUserName(currentPrincipalName), User.class));
 		reservation = this.reservationRepository.saveAndFlush(reservation);
@@ -72,11 +66,10 @@ public class ReservationServiceImpl implements ReservationService {
 		return null;
 	}
 
-	private Office findOffice(String id) {
-		Office office = this.modelMapper.map(this.officeService.findOfficeByID(id), Office.class);
+	private User findEmployee(String id) {
+		User employee = this.modelMapper.map(this.userService.findUserById(id), User.class);
 
-		return office;
-
+		return employee;
 	}
 
 	private List<DHService> findServices(List<String> ids) {
@@ -89,6 +82,5 @@ public class ReservationServiceImpl implements ReservationService {
 		}
 
 		return result;
-
 	}
 }

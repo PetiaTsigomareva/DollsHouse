@@ -6,16 +6,12 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.petia.dollhouse.domain.enums.StatusValues;
-
 @Entity
 @Table(name = "company")
-public class Company extends BaseEntity {
+public class Company extends EntityWithStatus {
 
 	@Column(name = "name", nullable = false)
 	private String name;
@@ -37,8 +33,6 @@ public class Company extends BaseEntity {
 
 	@Column(name = "description")
 	private String description;
-
-
 
 	public Company() {
 		offices = new HashSet<>();

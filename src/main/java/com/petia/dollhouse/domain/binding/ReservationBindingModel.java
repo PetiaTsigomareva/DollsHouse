@@ -4,22 +4,24 @@ import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.petia.dollhouse.constants.Constants;
+
 public class ReservationBindingModel {
-	private String officeId;
+	private String employeeId;
 	private String serviceId;
-	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+	@DateTimeFormat(pattern = Constants.DATE_TIME_FORMAT)
 	private LocalDateTime reservationDateTime;
 	private String description;
 
 	public ReservationBindingModel() {
 	}
 
-	public String getOfficeId() {
-		return officeId;
+	public String getEmployeeId() {
+		return employeeId;
 	}
 
-	public void setOfficeId(String officeId) {
-		this.officeId = officeId;
+	public void setEmployeeId(String employeeId) {
+		this.employeeId = employeeId;
 	}
 
 	public String getServiceId() {

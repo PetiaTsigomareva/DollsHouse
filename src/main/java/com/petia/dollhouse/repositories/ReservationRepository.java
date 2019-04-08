@@ -11,6 +11,6 @@ import com.petia.dollhouse.domain.entities.Reservation;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, String> {
 
-//	@Query("SELECT r FROM Reservation r WHERE r.office.id =:officeId and r.services.id =:serviceId and reservationDateTime > trunc(:fromDate) and reservationDateTime > trunc(:toDate)+1")
-//	List<Reservation> getAllReservationsForTimePeriodForOfficeService(String officeId, String serviceId, String fromDate, String toDate);
+	@Query("SELECT r FROM Reservation r join r.services s WHERE s.id =:serviceId and r.employee.id = :employeeId and r.reservationDateTime > trunc(:fromDate) and r.reservationDateTime < trunc(:toDate)+1")
+	List<Reservation> getAllReservationsForTimePeriodOfficeServiceEmployee(String serviceId, String employeeId, String fromDate, String toDate);
 }

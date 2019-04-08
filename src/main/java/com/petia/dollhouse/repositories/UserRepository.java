@@ -11,8 +11,11 @@ import com.petia.dollhouse.domain.entities.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
-    Optional<User> findByUsername(String username);
+	Optional<User> findByUsername(String username);
 
-    @Query("SELECT u FROM User u WHERE u.office is not null and u.status='ACTIVE'")
-    List<User> findAllEmployees();
+	@Query("SELECT u FROM User u WHERE u.office is not null and u.status='ACTIVE'")
+	List<User> findAllEmployees();
+
+	@Query("SELECT u FROM User u WHERE u.office.id=:id")
+	List<User> findAllEmployeesByOffice(String id);
 }

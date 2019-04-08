@@ -6,10 +6,12 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.petia.dollhouse.constants.Constants;
+
 public class ReservationServiceModel extends BaseServiceModel {
-	private String officeId;
+	private String employeeId;
 	private List<String> serviceIds;
-	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+	@DateTimeFormat(pattern = Constants.DATE_TIME_FORMAT)
 	private LocalDateTime reservationDateTime;
 	private String description;
 
@@ -17,12 +19,12 @@ public class ReservationServiceModel extends BaseServiceModel {
 		serviceIds = new ArrayList<>();
 	}
 
-	public String getOfficeId() {
-		return officeId;
+	public String getEmployeeId() {
+		return employeeId;
 	}
 
-	public void setOfficeId(String officeId) {
-		this.officeId = officeId;
+	public void setEmployeeId(String employeeId) {
+		this.employeeId = employeeId;
 	}
 
 	public List<String> getServiceIds() {

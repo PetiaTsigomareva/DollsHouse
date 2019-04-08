@@ -1,9 +1,10 @@
 package com.petia.dollhouse.web.controllers;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.petia.dollhouse.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,10 +21,11 @@ import com.petia.dollhouse.constants.Constants;
 import com.petia.dollhouse.domain.binding.ServiceBindingModel;
 import com.petia.dollhouse.domain.service.ServiceModel;
 import com.petia.dollhouse.domain.view.AllServicesViewModel;
-import com.petia.dollhouse.domain.view.AvailabilityViewModel;
+import com.petia.dollhouse.domain.view.DayAvailabilityViewModel;
 import com.petia.dollhouse.domain.view.NamesViewModel;
 import com.petia.dollhouse.service.DollHouseService;
 import com.petia.dollhouse.service.OfficeService;
+import com.petia.dollhouse.web.annotations.PageTitle;
 
 @Controller
 //@RequestMapping(Constants.SERVICE_CONTEXT)
@@ -139,12 +141,22 @@ public class ServiceConroller extends BaseController {
 	@GetMapping(Constants.FETCH_AVAILABILITIES)
 	@PreAuthorize("isAuthenticated()")
 	@ResponseBody
-	public List<AvailabilityViewModel> fetchAvailabilities(@RequestParam String officeId, @RequestParam String serviceId, @RequestParam String fromDate,
+	public List<DayAvailabilityViewModel> fetchAvailabilities(@RequestParam String serviceId, @RequestParam String emloyeeId, @RequestParam String fromDate,
 	    @RequestParam String toDate) {
-		List<AvailabilityViewModel> result;
+		List<DayAvailabilityViewModel> result;
 
-		result = this.dollHouseService.fetchAvailabilities(officeId, serviceId, fromDate, toDate).stream().map(product -> this.modelMapper.map(product, AvailabilityViewModel.class))
-		    .collect(Collectors.toList());
+		try {
+			LocalDate fDate = LocalDate.parse(fromDate, Constants.DATE_FORMATTER);
+			LocalDate tDate = LocalDate.parse(toDate, Constants.DATE_FORMATTER);
+
+			result = this.dollHouseService.fetchAvailabilities(serviceId, emloyeeId, fDate, tDate).stream().map(product -> this.modelMapper.map(product, DayAvailabilityViewModel.class))
+			    .collect(Collectors.toList());
+
+		} catch (DateTimeParseException e) {
+			System.out.println(e);
+			// TODO: handle exception
+			throw new RuntimeException(e);
+		}
 
 		return result;
 	}

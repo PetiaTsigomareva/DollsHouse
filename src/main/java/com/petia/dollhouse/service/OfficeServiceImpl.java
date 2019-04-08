@@ -35,7 +35,6 @@ public class OfficeServiceImpl implements OfficeService {
 			Company company = findCompany(model.getCompanyId());
 			Office office = this.modelMapper.map(model, Office.class);
 			office.setCompany(company);
-			office.setStatus(StatusValues.ACTIVE);
 			office = this.officeRepository.saveAndFlush(office);
 			result = office.getId();
 

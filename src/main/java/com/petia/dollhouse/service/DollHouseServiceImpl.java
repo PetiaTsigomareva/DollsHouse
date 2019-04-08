@@ -1,5 +1,7 @@
 package com.petia.dollhouse.service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -12,11 +14,15 @@ import com.petia.dollhouse.constants.Constants;
 import com.petia.dollhouse.domain.entities.DHService;
 import com.petia.dollhouse.domain.entities.Office;
 import com.petia.dollhouse.domain.entities.Reservation;
+import com.petia.dollhouse.domain.enums.AvailabilityStatus;
+import com.petia.dollhouse.domain.enums.ReservationStatus;
 import com.petia.dollhouse.domain.enums.StatusValues;
-import com.petia.dollhouse.domain.service.AvailabilityServiceModel;
+import com.petia.dollhouse.domain.service.DayAvailabilityServiceModel;
+import com.petia.dollhouse.domain.service.HourAvailabilityServiceModel;
 import com.petia.dollhouse.domain.service.ServiceModel;
 import com.petia.dollhouse.repositories.ReservationRepository;
 import com.petia.dollhouse.repositories.ServiceRepository;
+import com.petia.dollhouse.utils.Utils;
 
 @Service
 public class DollHouseServiceImpl implements DollHouseService {
@@ -41,7 +47,6 @@ public class DollHouseServiceImpl implements DollHouseService {
 
 			DHService service = this.modelMapper.map(model, DHService.class);
 			service.setOffice(this.findOffice(model.getOfficeId()));
-			service.setStatus(StatusValues.ACTIVE);
 			service = this.serviceRepository.saveAndFlush(service);
 			result = service.getId();
 
@@ -116,11 +121,45 @@ public class DollHouseServiceImpl implements DollHouseService {
 	}
 
 	@Override
-	public List<AvailabilityServiceModel> fetchAvailabilities(String officeId, String serviceId, String fromDate, String toDate) {
-		List<AvailabilityServiceModel> result;
+	public List<DayAvailabilityServiceModel> fetchAvailabilities(String serviceId, String emloyeeId, LocalDate fromDate, LocalDate toDate) {
+		List<DayAvailabilityServiceModel> result = DayAvailabilityServiceModel.constructAvailability(fromDate, toDate);
 
-	//	List<Reservation> reservations = this.reservationRepository.getAllReservationsForTimePeriodForOfficeService(officeId, serviceId, fromDate, toDate);
+		List<Reservation> reservations = this.reservationRepository.getAllReservationsForTimePeriodOfficeServiceEmployee(serviceId, emloyeeId,
+		    fromDate.format(Constants.DATE_FORMATTER), fromDate.format(Constants.DATE_FORMATTER));
 
-		return null;
+		for (Reservation reservation : reservations) {
+			LocalDate reservationDate = reservation.getReservationDateTime().toLocalDate();
+			DayAvailabilityServiceModel dateToMark = DayAvailabilityServiceModel.getAvailabilityByDate(reservationDate, result);
+
+			if (dateToMark != null) {
+				LocalTime reservationTime = reservation.getReservationDateTime().toLocalTime();
+				String reservationHour = Utils.format24Hour(reservationTime.getHour());
+
+				HourAvailabilityServiceModel hour = dateToMark.getHour(reservationHour);
+				if (hour != null) {
+					ReservationStatus reservationStatus = reservation.getStatus();
+
+					switch (reservationStatus) {
+					case CONFIRMED:
+						hour.setAvailability(AvailabilityStatus.UNAVAILABLE);
+						break;
+					case PENDING_CONFIRMATION:
+						if (!AvailabilityStatus.UNAVAILABLE.equals(hour.getAvailability())) {
+							hour.setAvailability(AvailabilityStatus.PENDING_CONFIRMATION);
+						}
+						break;
+					case REJECTED:
+						if (!AvailabilityStatus.UNAVAILABLE.equals(hour.getAvailability()) && !AvailabilityStatus.PENDING_CONFIRMATION.equals(hour.getAvailability())) {
+							hour.setAvailability(AvailabilityStatus.AVAILABLE);
+						}
+						break;
+					default:
+						throw new RuntimeException("Invalid Reservation Status" + reservationStatus);
+					}
+				}
+			}
+		}
+
+		return result;
 	}
 }

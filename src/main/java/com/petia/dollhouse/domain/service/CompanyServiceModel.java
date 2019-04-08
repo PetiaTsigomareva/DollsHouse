@@ -3,6 +3,8 @@ package com.petia.dollhouse.domain.service;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CompanyServiceModel extends BaseServiceModel {
     private String name;
@@ -12,8 +14,10 @@ public class CompanyServiceModel extends BaseServiceModel {
     private LocalDate dateOfCreation;
     private String owner;
     private String description;
+    private Set<String> offices;
 
     public CompanyServiceModel() {
+        offices=new HashSet<>();
     }
 
     public String getName() {
@@ -62,5 +66,13 @@ public class CompanyServiceModel extends BaseServiceModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<String> getOffices() {
+        return offices;
+    }
+
+    public void setOffices(Set<String> offices) {
+        this.offices = offices;
     }
 }
