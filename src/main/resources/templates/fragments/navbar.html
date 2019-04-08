@@ -3,7 +3,7 @@
 	<th:block sec:authorize="isAnonymous()">
 		<nav class="navbar fixed-top navbar-expand-lg navbar-dark custom-color">
 			<div class="container">
-				<a class="navbar-brand text-dark leftTop" th:href="@{${T(com.petia.dollhouse.constants.Constants).INDEX_ACTION}}">Dolls House</a>
+				<a class="navbar-brand text-dark leftTop" th:href="@{${T(com.petia.dollhouse.constants.Constants).INDEX_ACTION}}" th:text="#{app.title}"></a>
 				<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsiveAnonymous"
 					aria-controls="navbarResponsiveAnonymous" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
@@ -30,8 +30,7 @@
 	<th:block sec:authorize="isAuthenticated()">
 		<nav class="navbar fixed-top navbar-expand-lg navbar-dark custom-color">
 			<div class="container">
-				<a class="navbar-brand leftTop text-dark text-left" th:href="@{${T(com.petia.dollhouse.constants.Constants).HOME_ACTION}}">Welcome <span th:text="${username}"></span> in
-					Dolls House
+				<a class="navbar-brand leftTop text-dark text-left" th:href="@{${T(com.petia.dollhouse.constants.Constants).HOME_ACTION}}">Welcome <span th:text="${username}"></span> in <span th:text="#{app.title}"></span>
 				</a>
 				<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
 					aria-expanded="false" aria-label="Toggle navigation">

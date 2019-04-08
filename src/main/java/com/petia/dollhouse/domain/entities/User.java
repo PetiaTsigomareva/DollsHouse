@@ -1,5 +1,6 @@
 package com.petia.dollhouse.domain.entities;
 
+import com.petia.dollhouse.domain.enums.Positions;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Table(name = "users")
 public class User extends BaseEntity implements UserDetails {
 
-    @Column(name = "first_name",nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
     @Column(name = "last_name", nullable = false)
@@ -40,6 +41,16 @@ public class User extends BaseEntity implements UserDetails {
     @ManyToOne(targetEntity = Office.class)
     @JoinColumn(name = "office_id", referencedColumnName = "id")
     private Office office;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "position")
+    private Positions position;
+
+    @Column(name = "work_description")
+    private String description;
+
+    @Column(name = "image_url")
+    private String imageUrl;
 
     public User() {
         authorities = new HashSet<>();
@@ -144,5 +155,29 @@ public class User extends BaseEntity implements UserDetails {
 
     public void setOffice(Office office) {
         this.office = office;
+    }
+
+    public Positions getPosition() {
+        return position;
+    }
+
+    public void setPosition(Positions position) {
+        this.position = position;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

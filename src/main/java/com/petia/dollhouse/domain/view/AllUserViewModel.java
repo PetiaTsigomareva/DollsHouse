@@ -3,8 +3,6 @@ package com.petia.dollhouse.domain.view;
 import java.util.Set;
 
 public class AllUserViewModel extends BaseViewModel {
-
-
     private String firstName;
     private String lastName;
     private String email;

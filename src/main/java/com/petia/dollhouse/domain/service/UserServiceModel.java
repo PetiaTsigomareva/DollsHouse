@@ -1,5 +1,7 @@
 package com.petia.dollhouse.domain.service;
 
+import com.petia.dollhouse.domain.enums.Positions;
+
 import java.util.Set;
 
 public class UserServiceModel extends BaseServiceModel {
@@ -11,6 +13,9 @@ public class UserServiceModel extends BaseServiceModel {
     private String lastName;
     private String phoneNumber;
     private String officeId;
+    private String position;
+    private String description;
+    private String imageUrl;
 
 
     private Set<RoleServiceModel> authorities;
@@ -80,5 +85,29 @@ public class UserServiceModel extends BaseServiceModel {
 
     public void setOfficeId(String officeId) {
         this.officeId = officeId;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

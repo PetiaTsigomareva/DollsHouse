@@ -3,6 +3,7 @@ package com.petia.dollhouse.service;
 import com.petia.dollhouse.constants.Constants;
 import com.petia.dollhouse.domain.entities.Office;
 import com.petia.dollhouse.domain.entities.User;
+import com.petia.dollhouse.domain.enums.Positions;
 import com.petia.dollhouse.domain.enums.RoleNames;
 import com.petia.dollhouse.domain.enums.StatusValues;
 import com.petia.dollhouse.domain.service.UserServiceModel;
@@ -43,6 +44,7 @@ public class UserServiceImpl implements UserService {
         this.roleService.seedRoles();
         if (this.userRepository.count() == 0) {
             userServiceModel.setAuthorities(this.roleService.findAllRoles());
+            userServiceModel.setPosition(Positions.root_admin.toString());
         } else {
             userServiceModel.setAuthorities(new HashSet<>());
             userServiceModel.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()));
@@ -52,6 +54,7 @@ public class UserServiceImpl implements UserService {
         User user = this.modelMapper.map(userServiceModel, User.class);
         user.setPassword(this.bCryptPasswordEncoder.encode(userServiceModel.getPassword()));
         user.setStatus(StatusValues.ACTIVE);
+
 
         savedUser = this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
         return savedUser;

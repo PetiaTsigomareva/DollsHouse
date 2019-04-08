@@ -16,4 +16,6 @@ public interface CompanyService {
 
 	CompanyServiceModel deleteCompany(CompanyServiceModel companyServiceModel);
 
+	String findCompanyDescriptionByName(String name);
+
 }

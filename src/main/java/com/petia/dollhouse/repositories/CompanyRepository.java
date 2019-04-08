@@ -17,6 +17,6 @@ public interface CompanyRepository extends JpaRepository<Company, String> {
 	List<Company> findAllActiveCompanies();
 
 //    @Query("SELECT c FROM Company c WHERE c.status = 'ACTIVE'")
-//    List<String> findAllCompanyNames();
+    String findCompanyDescriptionByName(String name);
 
 }

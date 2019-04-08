@@ -1,4 +1,4 @@
-package com.petia.dollhouse.domain.service;
+package com.petia.dollhouse.service;
 
 import org.springframework.web.multipart.MultipartFile;
 

@@ -1,5 +1,7 @@
 package com.petia.dollhouse.domain.binding;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class EmployeeBindingModel {
     private String username;
     private String password;
@@ -8,6 +10,9 @@ public class EmployeeBindingModel {
     private String firstName;
     private String lastName;
     private String phoneNumber;
+    private String position;
+    private String description;
+    private MultipartFile image;
     private String officeId;
 
     public EmployeeBindingModel() {
@@ -69,11 +74,37 @@ public class EmployeeBindingModel {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
     public String getOfficeId() {
         return officeId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public MultipartFile getImage() {
+        return image;
+    }
+
+    public void setImage(MultipartFile image) {
+        this.image = image;
     }
 
     public void setOfficeId(String officeId) {
         this.officeId = officeId;
     }
+
+
 }

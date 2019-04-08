@@ -5,7 +5,7 @@
 				<div class="card card-signin flex-row my-5">
 					<div class="card-body">
 						<h5 class="card-title text-center" th:text="${title}"></h5>
-						<form class="form-signin" th:action="${url}" th:method="${methodLabel}">
+						<form class="form-signin" th:action="${url}" th:method="${methodLabel}" enctype="multipart/form-data">
 							<div th:replace="~{fragments/components/input :: input( text, inputUsername, username, ${bindingModel.username}, Username )}"></div>
 							<div th:replace="~{fragments/components/input :: input( text, inputEmail, email, ${bindingModel.email}, Email )}"></div>
 							<div th:replace="~{fragments/components/input :: input( password, inputPassword, password, ${bindingModel.password}, Password )}"></div>
@@ -13,7 +13,10 @@
 							<div th:replace="~{fragments/components/input :: input( text, inputFirstName, firstName, ${bindingModel.firstName}, 'First Name' )}"></div>
 							<div th:replace="~{fragments/components/input :: input( text, inputLastName, lastName, ${bindingModel.lastName}, 'Last Name' )}"></div>
 							<div th:replace="~{fragments/components/input :: input( text, inputPhoneNumber, phoneNumber, ${bindingModel.phoneNumber}, 'Phone Number' )}"></div>
+							<div th:replace="~{fragments/components/input :: input( text, inputPosition, position, ${bindingModel.position}, 'Position' )}"></div>
+							<div th:replace="~{fragments/components/text-area :: text-area( inputDescription, 6, 40 )}"></div>
 							<div th:replace="~{fragments/components/select-office :: select(inputOffice,${officeNames})}"></div>
+							<div th:replace="~{fragments/components/image :: image( file, inputImage, image, ${bindingModel.username},Image )}"></div>
 							<div th:replace="~{fragments/components/button :: button( ${buttonText} )}"></div>
 						</form>
 					</div>

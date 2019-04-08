@@ -35,13 +35,14 @@ public class Company extends BaseEntity {
 	@OneToMany(targetEntity = Office.class, mappedBy = "company")
 	private Set<Office> offices;
 
-//	@Enumerated(EnumType.STRING)
-//	@Column(name = "status")
-//	private StatusValues status;
+	@Column(name = "description")
+	private String description;
+
+
 
 	public Company() {
 		offices = new HashSet<>();
-		//setStatus(StatusValues.ACTIVE);
+
 	}
 
 	public String getName() {
@@ -92,11 +93,11 @@ public class Company extends BaseEntity {
 		this.offices = offices;
 	}
 
-//	public StatusValues getStatus() {
-//		return status;
-//	}
-//
-//	public void setStatus(StatusValues status) {
-//		this.status = status;
-//	}
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 }

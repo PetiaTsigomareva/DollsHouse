@@ -1,5 +1,7 @@
 package com.petia.dollhouse.domain.view;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class UserProfileViewModel {
 
     private String username;
@@ -23,4 +25,6 @@ public class UserProfileViewModel {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
 }
