@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
 <head>
 <th:block th:insert="~{fragments/head}"></th:block>
 <script th:src="@{/js/reservation.js}"></script>
@@ -22,9 +21,7 @@
 			</div>
 		</div>
 	</div>
-
-
-	<div th:insert="~{fragments/reservation-available-dates}"></div>
+		<div th:insert="~{fragments/reservation-available-dates}"></div>
 	</main>
 	<footer>
 		<th:block th:insert="~{fragments/footer}"></th:block>

@@ -9,8 +9,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.petia.dollhouse.constants.Constants;
 
 public class ReservationServiceModel extends BaseServiceModel {
-	private String employeeId;
+	private String officeId;
 	private List<String> serviceIds;
+	private String employeeId;
+	private String username;
 	@DateTimeFormat(pattern = Constants.DATE_TIME_FORMAT)
 	private LocalDateTime reservationDateTime;
 	private String description;
@@ -39,6 +41,22 @@ public class ReservationServiceModel extends BaseServiceModel {
 		return reservationDateTime;
 	}
 
+	public String getOfficeId() {
+		return officeId;
+	}
+
+	public void setOfficeId(String officeId) {
+		this.officeId = officeId;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
 	public void setReservationDateTime(LocalDateTime reservationDateTime) {
 		this.reservationDateTime = reservationDateTime;
 	}
@@ -50,4 +68,6 @@ public class ReservationServiceModel extends BaseServiceModel {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+
 }

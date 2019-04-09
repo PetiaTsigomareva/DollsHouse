@@ -49,6 +49,7 @@ public interface Constants {
 	public static final String FETCH_AVAILABILITIES = SERVICE_CONTEXT + "/availabilities/";
 
 	public static final String ADD_RESERVATION_ACTION = "/reservation/add-reservation";
+	public static final String ADD_MODERATOR_RESERVATION_ACTION = "/reservation/add-reservation-form";
 	public static final String EDIT_RESERVATION_ACTION = "/reservation/edit-reservation/";
 	public static final String DELETE_RESERVATION_ACTION = "/reservation/delete-reservation/";
 	public static final String ALL_RESERVATIONS_ACTION = "/reservation/all-reservations";
@@ -89,6 +90,7 @@ public interface Constants {
 	public static final String ALL_SERVICE_PAGE = "/service/all-service";
 
 	public static final String ADD_RESERVATION_PAGE = "/reservation/add-reservation";
+	public static final String ADD_MODERATOR_RESERVATION_PAGE = "/reservation/add-reservation-form";
 	public static final String EDIT_RESERVATION_PAGE = "/reservation/edit-reservation";
 	public static final String DELETE_RESERVATION_PAGE = "/reservation/delete-reservation";
 	public static final String ALL_RESERVATIONS_PAGE = "/reservation/all-reservations";

@@ -7,6 +7,7 @@ import java.util.List;
 public interface ReservationService {
 
     String add(ReservationServiceModel model);
+    String addModeratorReservation(ReservationServiceModel model);
 
     ReservationServiceModel edit(ReservationServiceModel model);
 

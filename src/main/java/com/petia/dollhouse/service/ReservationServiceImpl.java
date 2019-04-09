@@ -47,6 +47,19 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
+	public String addModeratorReservation(ReservationServiceModel model) {
+		String result;
+		Reservation reservation = this.modelMapper.map(model, Reservation.class);
+		reservation.setEmployee(this.findEmployee(model.getEmployeeId()));
+		reservation.setServices(this.findServices(model.getServiceIds()));
+		reservation.setCustomer(this.findCustomer(model.getUsername()));
+		reservation = this.reservationRepository.saveAndFlush(reservation);
+		result = reservation.getId();
+
+		return result;
+	}
+
+	@Override
 	public ReservationServiceModel edit(ReservationServiceModel model) {
 		return null;
 	}
@@ -82,5 +95,11 @@ public class ReservationServiceImpl implements ReservationService {
 		}
 
 		return result;
+	}
+
+	private User findCustomer(String username) {
+		User customer = this.modelMapper.map(this.userService.findUserByUserName(username), User.class);
+
+		return customer;
 	}
 }

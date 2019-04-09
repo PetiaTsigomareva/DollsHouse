@@ -4,7 +4,7 @@
             <!-- Sidebar Column -->
             <div class="col-lg-3 mb-4">
                 <div class="list-group">
-                    <div th:replace="~{fragments/components/side-bar-item :: side-bar-item(link=@{${T(com.petia.dollhouse.constants.Constants).ADD_RESERVATION_ACTION}},title=#{reservation.add.title})}"></div>
+                    <div th:replace="~{fragments/components/side-bar-item :: side-bar-item(link=@{${T(com.petia.dollhouse.constants.Constants).ADD_MODERATOR_RESERVATION_PAGE}},title=#{reservation.add.title})}"></div>
                     <div th:replace="~{fragments/components/side-bar-item :: side-bar-item(link=@{${T(com.petia.dollhouse.constants.Constants).ALL_RESERVATIONS_ACTION}},title=#{reservation.all.title})}"></div>
                     <div th:replace="~{fragments/components/side-bar-item :: side-bar-item(link=@{${T(com.petia.dollhouse.constants.Constants).MY_RESERVATIONS_ACTION}},title=#{reservation.my.title})}"></div>
                 </div>
