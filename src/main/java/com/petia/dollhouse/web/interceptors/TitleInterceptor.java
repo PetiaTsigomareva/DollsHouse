@@ -15,7 +15,7 @@ public class TitleInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        String title = "Doll House";
+        String title = "Online Reservation System";
 
         if (modelAndView == null) {
             modelAndView = new ModelAndView();

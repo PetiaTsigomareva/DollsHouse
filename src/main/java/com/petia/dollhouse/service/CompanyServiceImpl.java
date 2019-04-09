@@ -31,6 +31,7 @@ public class CompanyServiceImpl implements CompanyService {
 		String result;
 		try {
 			Company company = this.modelMapper.map(model, Company.class);
+			company.setStatus(StatusValues.ACTIVE);
 			company = this.companyRepository.saveAndFlush(company);
 			result = company.getId();
 

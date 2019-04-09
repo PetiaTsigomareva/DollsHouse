@@ -1,0 +1,45 @@
+<th:block th:fragment>
+    <!-- Content Row -->
+    <div class="row">
+        <!-- Sidebar Column -->
+        <div class="col-lg-3 mb-4">
+            <div class="list-group">
+                <div th:replace="~{fragments/components/side-bar-item :: side-bar-item(link=@{${T(com.petia.dollhouse.constants.Constants).ADD_COMPANY_ACTION}},title=#{companyform.add.title})}"></div>
+                <div th:replace="~{fragments/components/side-bar-item :: side-bar-item(link=@{${T(com.petia.dollhouse.constants.Constants).ALL_COMPANY_ACTION}},title=#{allcompany.table.title})}"></div>
+                <div th:replace="~{fragments/components/side-bar-item :: side-bar-item(link=@{${T(com.petia.dollhouse.constants.Constants).ADD_OFFICE_ACTION}},title=#{officeform.add.title})}"></div>
+                <div th:replace="~{fragments/components/side-bar-item :: side-bar-item(link=@{${T(com.petia.dollhouse.constants.Constants).ALL_OFFICE_ACTION}},title=#{alloffice.table.title})}"></div>
+                <div th:replace="~{fragments/components/side-bar-item :: side-bar-item(link=@{${T(com.petia.dollhouse.constants.Constants).ADD_EMPLOYEE_ACTION}},title=#{employeeform.add.title})}"></div>
+                <div th:replace="~{fragments/components/side-bar-item :: side-bar-item(link=@{${T(com.petia.dollhouse.constants.Constants).AlL_EMLOYEES_ACTION}},title=#{allemployee.table.title})}"></div>
+                <div th:replace="~{fragments/components/side-bar-item :: side-bar-item(link=@{${T(com.petia.dollhouse.constants.Constants).ADD_SERVICE_ACTION}},title=#{serviceform.add.title})}"></div>
+                <div th:replace="~{fragments/components/side-bar-item :: side-bar-item(link=@{${T(com.petia.dollhouse.constants.Constants).ALL_SERVICE_ACTION}},title=#{allservice.title})}"></div>
+                <div th:replace="~{fragments/components/side-bar-item :: side-bar-item(link=@{${T(com.petia.dollhouse.constants.Constants).HOME_ACTION}},title=#{promooffer.add.title})}"></div>
+                <div th:replace="~{fragments/components/side-bar-item :: side-bar-item(link=@{${T(com.petia.dollhouse.constants.Constants).HOME_ACTION}},title=#{promooffer.all.title})}"></div>
+
+                <!--a class="list-group-item text-dark"
+                   th:href="@{${T(com.petia.dollhouse.constants.Constants).ADD_COMPANY_ACTION}}">Add Company </a>
+                <a class="list-group-item text-dark"
+                   th:href="@{${T(com.petia.dollhouse.constants.Constants).ALL_COMPANY_ACTION}}">All Companies</a>
+                <a class="list-group-item text-dark"
+                   th:href="@{${T(com.petia.dollhouse.constants.Constants).ADD_OFFICE_ACTION}}">Add Office</a>
+                <a class="list-group-item text-dark"
+                   th:href="@{${T(com.petia.dollhouse.constants.Constants).ALL_OFFICE_ACTION}}">AllOffices</a>
+                <a class="list-group-item text-dark"
+                   th:href="@{${T(com.petia.dollhouse.constants.Constants).ADD_EMPLOYEE_ACTION}}">Add Employee</a>
+                <a class="list-group-item text-dark"
+                   th:href="@{${T(com.petia.dollhouse.constants.Constants).AlL_EMLOYEES_ACTION}}">All Employees</a>
+                <a class="list-group-item text-dark"
+                   th:href="@{${T(com.petia.dollhouse.constants.Constants).ADD_SERVICE_ACTION}}">Add Service</a>
+                <a class="list-group-item text-dark"
+                   th:href="@{${T(com.petia.dollhouse.constants.Constants).ALL_SERVICE_ACTION}}"> All Services</a>
+                <a class="list-group-item text-dark"
+                   th:href="@{${T(com.petia.dollhouse.constants.Constants).HOME_ACTION}}">Add Promotion Offer</a>
+                <a class="list-group-item text-dark"
+                   th:href="@{${T(com.petia.dollhouse.constants.Constants).HOME_ACTION}}"> All Promotion Offers</a-->
+            </div>
+        </div>
+        <!-- Content Column -->
+        <div class="col-lg-9 mb-4">
+            <!-- TODO -->
+        </div>
+    </div>
+</th:block>

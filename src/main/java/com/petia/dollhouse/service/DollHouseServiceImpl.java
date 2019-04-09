@@ -47,6 +47,7 @@ public class DollHouseServiceImpl implements DollHouseService {
 
 			DHService service = this.modelMapper.map(model, DHService.class);
 			service.setOffice(this.findOffice(model.getOfficeId()));
+			service.setStatus(StatusValues.ACTIVE);
 			service = this.serviceRepository.saveAndFlush(service);
 			result = service.getId();
 

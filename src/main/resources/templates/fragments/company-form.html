@@ -8,8 +8,7 @@
                         <form class="form-signin" th:action="${url}" th:method="${methodLabel}">
                             <div th:replace="~{fragments/components/input :: input( text, inputName, name, ${bindingModel.name}, Name )}"></div>
                             <div th:replace="~{fragments/components/input :: input( text, inputAddress, address, ${bindingModel.address}, Address )}"></div>
-                            <div
-                                    th:replace="~{fragments/components/input :: input( text, inputIdentificationCode, identificationCode, ${bindingModel.identificationCode}, 'Identification Code' )}"></div>
+                            <div th:replace="~{fragments/components/input :: input( text, inputIdentificationCode, identificationCode, ${bindingModel.identificationCode}, 'Identification Code' )}"></div>
                             <div th:replace="~{fragments/components/input :: input( date, inputDateOfCreation, dateOfCreation, ${bindingModel.dateOfCreation}, 'Date Of Creation' )}"></div>
                             <div th:replace="~{fragments/components/text-area :: text-area( inputDescription, 6, 40 )}"></div>
                             <div th:replace="~{fragments/components/input :: input( text, inputOwner, owner, ${bindingModel.owner}, Owner )}"></div>

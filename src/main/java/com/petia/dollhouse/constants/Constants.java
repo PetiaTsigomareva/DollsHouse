@@ -15,7 +15,8 @@ public interface Constants {
 	public static final String HOME_ACTION = "/home";
 	public static final String ABOUT_ACTION = "/about";
 	public static final String CONTACT_ACTION = "/contact";
-	public static final String ADMIN_SIDEBAR_ACTION = "/admin-sidebar";
+	public static final String ADMIN_SIDEBAR_ACTION = "/admin";
+	public static final String MODERATOR_SIDEBAR_ACTION = "/moderator";
 
 	public static final String PROFILE_ACTION = "/users/profile";
 	public static final String EDIT_PROFILE_ACTION = "/users/edit-profile/";
@@ -51,6 +52,7 @@ public interface Constants {
 	public static final String EDIT_RESERVATION_ACTION = "/reservation/edit-reservation/";
 	public static final String DELETE_RESERVATION_ACTION = "/reservation/delete-reservation/";
 	public static final String ALL_RESERVATIONS_ACTION = "/reservation/all-reservations";
+	public static final String MY_RESERVATIONS_ACTION = "/reservation/my-reservations";
 
 	public static final String AlL_RESERVATION_ACTION = "/reservation/all";
 	public static final String LOGOUT_FORM_ACTION = "/logout?login";
@@ -62,7 +64,9 @@ public interface Constants {
 	public static final String HOME_PAGE = "home";
 	public static final String ABOUT_PAGE = "about";
 	public static final String CONTACT_PAGE = "contact";
-	public static final String ADMIN_SIDEBAR_PAGE = "admin-sidebar";
+	public static final String ADMIN_SIDEBAR_PAGE = "admin";
+	public static final String MODERATOR_SIDEBAR_PAGE = "moderator";
+
 
 	public static final String ADD_EMPLOYEE_PAGE = "/users/add-employee";
 	public static final String EDIT_EMPLOYEE_PAGE = "/users/edit-employee";
@@ -134,6 +138,7 @@ public interface Constants {
 	public static final String ABOUT_TITLE = "About";
 	public static final String CONTACT_TITLE = "Contact";
 	public static final String ADMIN_SIDEBAR_TITLE = "Admin Sidebar";
+	public static final String MODERATOR_SIDEBAR_TITLE = "Moderator Sidebar";
 	public static final String REGISTER_TITLE = "Register";
 	public static final String LOGIN_TITLE = "Login";
 }

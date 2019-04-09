@@ -110,6 +110,14 @@ public class UserController extends BaseController {
         return super.view(Constants.ADMIN_SIDEBAR_PAGE, modelAndView);
     }
 
+    @GetMapping(Constants.MODERATOR_SIDEBAR_ACTION)
+    @PreAuthorize("isAuthenticated()")
+    @PageTitle(Constants.MODERATOR_SIDEBAR_TITLE)
+    public ModelAndView moderatorSideBar(ModelAndView modelAndView) {
+
+        return super.view(Constants.MODERATOR_SIDEBAR_PAGE, modelAndView);
+    }
+
     @GetMapping(Constants.ADD_EMPLOYEE_ACTION)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PageTitle(Constants.ADD_EMPLOYEE_TITLE)

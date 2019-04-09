@@ -14,7 +14,7 @@ public class EntityWithStatus extends BaseEntity {
 	private StatusValues status;
 
 	public EntityWithStatus() {
-		setStatus(StatusValues.ACTIVE);
+
 	}
 
 	public StatusValues getStatus() {
