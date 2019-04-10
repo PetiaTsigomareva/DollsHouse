@@ -75,6 +75,7 @@ public class ReservationController extends BaseController {
         modelAndView.addObject("officeNames", getOfficeNames());
         modelAndView.addObject("serviceNames", getServiceNames());
         modelAndView.addObject("employeeNames", getAllEmployeesNames());
+        modelAndView.addObject("customerNames", getAllEmployeesNames());
         return view(Constants.ADD_MODERATOR_RESERVATION_PAGE, modelAndView);
     }
 
@@ -116,20 +117,28 @@ public class ReservationController extends BaseController {
 
         return result;
     }
+//TODO criteria method
+    private List<NamesViewModel> getUserNamesByCriteria(String criteria) {
 
-    private List<NamesViewModel> getAllEmployeesNames() {
+        switch (criteria){
+            case Constants.EMPLOYEE:
+                break;
+                case Constants.CUSTOMER
+        }
         List<NamesViewModel> result = new ArrayList<>();
         List<UserServiceModel> userServiceModels = this.userService.findAllUsers();
         for (UserServiceModel u : userServiceModels) {
             NamesViewModel namesViewModel = new NamesViewModel();
             namesViewModel.setId(u.getId());
-            namesViewModel.setName(u.getFirstName() + " " + u.getLastName());
+            namesViewModel.setName(u.getFirstName() + " " + u.getLastName() + "(" + u.getUsername() + ")");
             result.add(namesViewModel);
 
         }
 
         return result;
     }
+
+
 
     //TODO
     private List<NamesViewModel> getEmployeesNames(String officeId) {

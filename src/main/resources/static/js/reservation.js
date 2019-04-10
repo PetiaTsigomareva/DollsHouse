@@ -11,6 +11,29 @@ $(document).ready(function () {
 
     	loadOfficeServices(selectedOffice);
     });
+
+    $('#inputService').on('change', function () {
+      let selectedOffice = document.getElementById("inputService").value;
+
+      let availableHours = $('#available-hours');
+      console.log("OOO"+availableHours);
+      if (selectedOffice === 'Please select...') {
+        availableHours.hide();
+      } else {
+        availableHours.show();
+      }
+    });
+
+    $('#inputEmployee').on('change', function () {
+      let selectedOffice = document.getElementById("inputService").value;
+
+      let availableHours = $('#available-hours');
+      if (selectedOffice === 'Please select...') {
+        availableHours.hide();
+      } else {
+        availableHours.show();
+      }
+    });
 });
 
 function loadOfficeServices(officeId) {	
@@ -26,19 +49,5 @@ function loadOfficeServices(officeId) {
 	    	servicesSelect += `</select>`;
 	    	
 	    	$('#divinputService').append(servicesSelect);
-	    	
-	      $('#inputService').on('change', function () {
-	        let selectedOffice = document.getElementById("inputService").value;
-	        console.log(selectedOffice);
-	        
-	        let availableHours = $('#available-hours');
-	        if (selectedOffice === 'Please select...') {
-	          console.log('yes');
-	          availableHours.hide();
-	      } else {
-	        console.log('no');
-	        availableHours.show();
-	      }
-	    });
 });
 }

@@ -46,7 +46,7 @@ public interface Constants {
 	public static final String DELETE_SERVICE_ACTION = SERVICE_CONTEXT + "/delete-service/";
 	public static final String ALL_SERVICE_ACTION = SERVICE_CONTEXT + "/all-service";
 	public static final String FETCH_OFFICE_ALL_SERVICES_ACTION = SERVICE_CONTEXT + "/fetch/";
-	public static final String FETCH_AVAILABILITIES = SERVICE_CONTEXT + "/availabilities/";
+	public static final String FETCH_AVAILABILITIES = SERVICE_CONTEXT + "/availabilities";
 
 	public static final String ADD_RESERVATION_ACTION = "/reservation/add-reservation";
 	public static final String ADD_MODERATOR_RESERVATION_ACTION = "/reservation/add-reservation-form";
@@ -67,7 +67,6 @@ public interface Constants {
 	public static final String CONTACT_PAGE = "contact";
 	public static final String ADMIN_SIDEBAR_PAGE = "admin";
 	public static final String MODERATOR_SIDEBAR_PAGE = "moderator";
-
 
 	public static final String ADD_EMPLOYEE_PAGE = "/users/add-employee";
 	public static final String EDIT_EMPLOYEE_PAGE = "/users/edit-employee";

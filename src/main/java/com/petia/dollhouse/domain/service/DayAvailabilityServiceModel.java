@@ -14,7 +14,7 @@ public class DayAvailabilityServiceModel extends BaseServiceModel {
 	private DayAvailabilityServiceModel(LocalDate date) {
 		this.date = date;
 		hours = new ArrayList<HourAvailabilityServiceModel>();
-		for (int i = 9; i < 18; i++) {
+		for (int i = 9; i <= 18; i++) {
 			hours.add(new HourAvailabilityServiceModel(Utils.format24Hour(i), AvailabilityStatus.AVAILABLE));
 		}
 	}
@@ -42,7 +42,7 @@ public class DayAvailabilityServiceModel extends BaseServiceModel {
 		do {
 			result.add(new DayAvailabilityServiceModel(currentDate));
 			currentDate = currentDate.plusDays(1);
-		} while (currentDate.isAfter(toDate));
+		} while (currentDate.isEqual(toDate) || currentDate.isBefore(toDate));
 
 		return result;
 	}

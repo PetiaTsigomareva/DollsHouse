@@ -174,7 +174,6 @@ public class UserServiceImpl implements UserService {
         if (model.getImageUrl()==null && employee.getImageUrl()!=null) {
             model.setImageUrl(employee.getImageUrl());
         }
-
         User employeeNew = this.modelMapper.map(model, User.class);
         employeeNew.setOffice(findOffice(model.getOfficeId()));
 

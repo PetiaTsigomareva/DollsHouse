@@ -63,16 +63,16 @@ public class DollHouseServiceImpl implements DollHouseService {
 	public ServiceModel edit(ServiceModel model) {
 
 		DHService service = this.serviceRepository.findById(model.getId()).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
-		if (model.getUrlPicture()==null && service.getUrlPicture()!=null) {
+		if (model.getUrlPicture() == null && service.getUrlPicture() != null) {
 			model.setUrlPicture(service.getUrlPicture());
 		}
 		model.setStatus(service.getStatus().name());
 
 		DHService serviceNew = this.modelMapper.map(model, DHService.class);
 		serviceNew.setOffice(this.findOffice(model.getOfficeId()));
-		DHService mappedService = this.serviceRepository.saveAndFlush(serviceNew);
+		serviceNew = this.serviceRepository.saveAndFlush(serviceNew);
 
-		model = this.modelMapper.map(mappedService, ServiceModel.class);
+		model = this.modelMapper.map(serviceNew, ServiceModel.class);
 
 		return model;
 	}
@@ -128,7 +128,7 @@ public class DollHouseServiceImpl implements DollHouseService {
 		List<DayAvailabilityServiceModel> result = DayAvailabilityServiceModel.constructAvailability(fromDate, toDate);
 
 		List<Reservation> reservations = this.reservationRepository.getAllReservationsForTimePeriodOfficeServiceEmployee(serviceId, emloyeeId,
-		    fromDate.format(Constants.DATE_FORMATTER), fromDate.format(Constants.DATE_FORMATTER));
+		    fromDate.format(Constants.DATE_FORMATTER), toDate.plusDays(1).format(Constants.DATE_FORMATTER));
 
 		for (Reservation reservation : reservations) {
 			LocalDate reservationDate = reservation.getReservationDateTime().toLocalDate();
