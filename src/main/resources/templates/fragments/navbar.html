@@ -13,10 +13,12 @@
                 <div class="collapse navbar-collapse" id="navbarResponsiveAnonymous">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item"><a class="nav-link text-dark"
-                                                th:href="@{${T(com.petia.dollhouse.constants.Constants).INDEX_ACTION}}">Home</a>
+                                                th:href="@{${T(com.petia.dollhouse.constants.Constants).INDEX_ACTION}}"
+                                                th:text="#{navbar.home.title}"></a>
                         </li>
                         <li class="nav-item"><a class="nav-link text-dark"
-                                                th:href="@{${T(com.petia.dollhouse.constants.Constants).ABOUT_ACTION}}">About</a>
+                                                th:href="@{${T(com.petia.dollhouse.constants.Constants).ABOUT_ACTION}}"
+                                                th:text="#{navbar.about.title}"></a>
                         </li>
                         <!--li class="nav-item dropdown"><a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownServiceAnonymous" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false"> Services </a>
@@ -26,13 +28,16 @@
                                     class="dropdown-item text-dark" href="portfolio-3-col.html">Makeup</a>
                             </div></li-->
                         <li class="nav-item"><a class="nav-link text-dark"
-                                                th:href="@{${T(com.petia.dollhouse.constants.Constants).CONTACT_ACTION}}">Contact</a>
+                                                th:href="@{${T(com.petia.dollhouse.constants.Constants).CONTACT_ACTION}}"
+                                                th:text="#{navbar.contact.title}"></a>
                         </li>
                         <li class="nav-item"><a class="nav-link text-dark"
-                                                th:href="@{${T(com.petia.dollhouse.constants.Constants).LOGIN_FORM_ACTION}}">Login</a>
+                                                th:href="@{${T(com.petia.dollhouse.constants.Constants).LOGIN_FORM_ACTION}}"
+                                                th:text="#{navbar.login.title}"></a>
                         </li>
                         <li class="nav-item"><a class="nav-link text-dark"
-                                                th:href="@{${T(com.petia.dollhouse.constants.Constants).REGISTER_FORM_ACTION}}">Register</a>
+                                                th:href="@{${T(com.petia.dollhouse.constants.Constants).REGISTER_FORM_ACTION}}"
+                                                th:text="#{navbar.register.title}"></a>
                         </li>
                     </ul>
                 </div>
@@ -54,10 +59,12 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item"><a class="nav-link text-dark"
-                                                th:href="@{${T(com.petia.dollhouse.constants.Constants).HOME_ACTION}}">Home</a>
+                                                th:href="@{${T(com.petia.dollhouse.constants.Constants).HOME_ACTION}}"
+                                                th:text="#{navbar.home.title}"></a>
                         </li>
                         <li class="nav-item"><a class="nav-link text-dark"
-                                                th:href="@{${T(com.petia.dollhouse.constants.Constants).ABOUT_ACTION}}">About</a>
+                                                th:href="@{${T(com.petia.dollhouse.constants.Constants).ABOUT_ACTION}}"
+                                                th:text="#{navbar.about.title}"></a>
                         </li>
                         <!--li class="nav-item dropdown"><a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownServiceAuthenticated" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false"> Services </a>
@@ -67,49 +74,38 @@
                                     class="dropdown-item text-dark" href="portfolio-3-col.html">Makeup</a>
                             </div></li-->
                         <th:block sec:authorize="hasRole('ROLE_MODERATOR')">
-                            <!--li class="nav-item dropdown"><a class="nav-link dropdown-toggle text-dark" href="#"
-                                                             id="navbarDropdownModeratorAuthenticated"
-                                                             data-toggle="dropdown"
-                                                             aria-haspopup="true" aria-expanded="false"> Moderator </a>
-                                <div class="dropdown-menu dropdown-menu-right"
-                                     aria-labelledby="navbarDropdownModeratorAuthenticated">
-                                    <a class="dropdown-item text-dark"
-                                       th:href="@{${T(com.petia.dollhouse.constants.Constants).AlL_RESERVATION_ACTION}}">All
-                                        Reservations</a>
-                                    <a class="dropdown-item text-dark"
-                                       th:href="@{${T(com.petia.dollhouse.constants.Constants).AlL_RESERVATION_ACTION}}">My
-                                        Reservations</a>
-                                    <a class="dropdown-item text-dark"
-                                       th:href="@{${T(com.petia.dollhouse.constants.Constants).AlL_RESERVATION_ACTION}}">Make
-                                        Reservations</a>
 
-                                </div>
+                            <!--li class="nav-item active"><a class="nav-link text-dark"
+                                                           th:href="@{${T(com.petia.dollhouse.constants.Constants).MODERATOR_SIDEBAR_ACTION}}">Moderator</a>
                             </li-->
                             <li class="nav-item active"><a class="nav-link text-dark"
-                                                           th:href="@{${T(com.petia.dollhouse.constants.Constants).MODERATOR_SIDEBAR_ACTION}}">Moderator</a>
-                            </li>
+                                                           th:href="@{${T(com.petia.dollhouse.constants.Constants).ALL_RESERVATIONS_ACTION}}"
+                                                           th:text="#{reservation.all.title}"></a></li>
                         </th:block>
                         <th:block sec:authorize="hasRole('ROLE_ADMIN')">
                             <li class="nav-item active"><a class="nav-link text-dark"
-                                                           th:href="@{${T(com.petia.dollhouse.constants.Constants).ADMIN_SIDEBAR_ACTION}}">Admin</a>
+                                                           th:href="@{${T(com.petia.dollhouse.constants.Constants).ADMIN_SIDEBAR_ACTION}}"
+                                                           th:text="#{admin.button.title}"></a>
                             </li>
                         </th:block>
                         <li class="nav-item"><a class="nav-link text-dark"
-                                                th:href="@{${T(com.petia.dollhouse.constants.Constants).ADD_RESERVATION_ACTION}}">Make
-                            Reservation</a></li>
+                                                th:href="@{${T(com.petia.dollhouse.constants.Constants).ADD_RESERVATION_ACTION}}"
+                                                th:text="#{reservation.add.title}"></a></li>
                         <li class="nav-item"><a class="nav-link text-dark"
-                                                th:href="@{${T(com.petia.dollhouse.constants.Constants).HOME_ACTION}}">My
-                            Reservations</a></li>
-                        <li class="nav-item active"><a class="nav-link text-dark"
-                                                       th:href="@{/users/profile}">Profile</a></li>
+                                                th:href="@{${T(com.petia.dollhouse.constants.Constants).HOME_ACTION}}"
+                                                th:text="#{reservation.my.title}">My Reservations</a></li>
+                        <li class="nav-item active"><a class="nav-link text-dark" th:href="@{/users/profile}"
+                                                       th:text="#{navbar.profile.title}">Profile</a></li>
                         <li class="nav-item"><a class="nav-link text-dark"
-                                                th:href="@{${T(com.petia.dollhouse.constants.Constants).CONTACT_ACTION}}">Contact</a>
+                                                th:href="@{${T(com.petia.dollhouse.constants.Constants).CONTACT_ACTION}}"
+                                                th:text="#{navbar.contact.title}"></a>
                         </li>
                         <li class="nav-item active">
                             <form th:action="@{${T(com.petia.dollhouse.constants.Constants).LOGOUT_FORM_ACTION}}"
                                   method="post">
                                 <input type="hidden" name="_csrf" value="80417983-fe8b-45c7-963e-31f6915a1560">
-                                <button class="logout-button nav-link text-dark">Logout</button>
+                                <button class="logout-button nav-link text-dark"
+                                        th:text="#{navbar.logout.title}"></button>
                             </form>
                         </li>
                     </ul>

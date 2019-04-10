@@ -3,8 +3,11 @@ package com.petia.dollhouse.service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.petia.dollhouse.domain.entities.Role;
+import com.petia.dollhouse.domain.service.RoleServiceModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -94,8 +97,11 @@ public class UserServiceImpl implements UserService {
 
         user.setPassword(!"".equals(userServiceModel.getPassword()) ? this.bCryptPasswordEncoder.encode(userServiceModel.getPassword()) : user.getPassword());
         user.setEmail(userServiceModel.getEmail());
-
-        return this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
+        if (userServiceModel.getImageUrl() != null) {
+            user.setImageUrl(userServiceModel.getImageUrl());
+        }
+        user = this.userRepository.saveAndFlush(user);
+        return this.modelMapper.map(user, UserServiceModel.class);
     }
 
     // TODO optimization
@@ -165,9 +171,14 @@ public class UserServiceImpl implements UserService {
         User employee = this.userRepository.findById(model.getId()).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
         model.setStatus(employee.getStatus().name());
         model.setPassword(employee.getPassword());
+        if (model.getImageUrl()==null && employee.getImageUrl()!=null) {
+            model.setImageUrl(employee.getImageUrl());
+        }
 
         User employeeNew = this.modelMapper.map(model, User.class);
         employeeNew.setOffice(findOffice(model.getOfficeId()));
+
+        employeeNew.setAuthorities(employee.getAuthorities());
         User mappedUser = this.userRepository.saveAndFlush(employeeNew);
 
         model = this.modelMapper.map(mappedUser, UserServiceModel.class);
@@ -192,6 +203,13 @@ public class UserServiceImpl implements UserService {
         office = this.modelMapper.map(this.officeService.findOfficeByID(id), Office.class);
 
         return office;
+
+    }
+
+    private Set<Role> getMapRoles(Set<RoleServiceModel> roles) {
+        Set<Role> result = roles.stream().map(r -> this.modelMapper.map(r, Role.class)).collect(Collectors.toSet());
+
+        return result;
 
     }
 

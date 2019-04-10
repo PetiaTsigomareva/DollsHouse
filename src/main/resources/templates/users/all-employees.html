@@ -36,10 +36,7 @@
                 <td class="col-md-2 text-center">
                     <div class="row">
                         <th:block th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
-                            !#lists.contains(user.authorities, 'ROLE_MODERATOR') && !#lists.contains(user.authorities,'ROLE_ADMIN')
-                        }">
-
-                            <!-- With fragment!!!!!!-->
+                            !#lists.contains(user.authorities, 'ROLE_MODERATOR') && !#lists.contains(user.authorities,'ROLE_ADMIN') }">
                             <div th:insert="~{fragments/employee-roles-actions-form :: employee-roles-actions-form(
                                url=@{${T(com.petia.dollhouse.constants.Constants).SET_MODERATOR_ACTION}+${user.id}},
                                methodLabel=${T(com.petia.dollhouse.constants.Constants).FORM_METHOD},
@@ -55,26 +52,11 @@
                                )}">
 
                             </div>
-
-
-                            <!-- Without fragment!!!!!!
-                               form th:action="@{/users/set-moderator/{id}(id=${user.id})}" method="post">
-                                <input type="hidden" name="_csrf"
-                                       value="80417983-fe8b-45c7-963e-31f6915a1560">
-                                <button class="btn btn-outline-dark">MODERATOR</button>
-                            </form>
-                            <form th:action="@{/users/set-admin/{id}(id=${user.id})}" method="post">
-                                <input type="hidden" name="_csrf"
-                                       value="80417983-fe8b-45c7-963e-31f6915a1560">
-                                <button class="btn btn-outline-dark">ADMIN</button>
-                            </form
-                            -->
                         </th:block>
                         <th:block th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
-                            #lists.contains(user.authorities, 'ROLE_MODERATOR') && !#lists.contains(user.authorities, 'ROLE_ADMIN')
-                        }">
+                            #lists.contains(user.authorities, 'ROLE_MODERATOR') && !#lists.contains(user.authorities, 'ROLE_ADMIN') }">
 
-                            <!-- With fragment!!!!!!-->
+
                             <div th:insert="~{fragments/employee-roles-actions-form :: employee-roles-actions-form(
                                url=@{${T(com.petia.dollhouse.constants.Constants).SET_USER_ACTION}+${user.id}},
                                methodLabel=${T(com.petia.dollhouse.constants.Constants).FORM_METHOD},
@@ -90,37 +72,10 @@
                                )}">
 
                             </div>
-
-                            <!-- Without fragment!!!!!!
-                           <form th:action="@{/users/set-user/{id}(id=${user.id})}" method="post">
-                               <input type="hidden" name="_csrf"
-                                      value="80417983-fe8b-45c7-963e-31f6915a1560">
-                               <button class="btn btn-outline-dark">USER</button>
-                           </form>
-                           <form th:action="@{/users/set-admin/{id}(id=${user.id})}" method="post">
-                               <input type="hidden" name="_csrf"
-                                      value="80417983-fe8b-45c7-963e-31f6915a1560">
-                               <button class="btn btn-outline-dark">ADMIN</button>
-                           </form-->
-
-
                         </th:block>
                         <th:block th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
-                           #lists.contains(user.authorities, 'ROLE_MODERATOR') && #lists.contains(user.authorities, 'ROLE_ADMIN') && !#lists.contains(user.authorities, 'ROLE_ROOT_ADMIN')
-                       }">
-                            <!-- Without fragment!!!!!!
-                           <form th:action="@{/users/set-user/{id}(id=${user.id})}" method="post">
-                               <input type="hidden" name="_csrf"
-                                      value="80417983-fe8b-45c7-963e-31f6915a1560">
-                               <button class="btn btn-outline-dark">USER</button>
-                           </form>
-                           <form th:action="@{/users/set-moderator/{id}(id=${user.id})}" method="post">
-                               <input type="hidden" name="_csrf"
-                                      value="80417983-fe8b-45c7-963e-31f6915a1560">
-                               <button class="btn btn-outline-dark">MODERATOR</button>
-                           </form-->
+                           #lists.contains(user.authorities, 'ROLE_MODERATOR') && #lists.contains(user.authorities, 'ROLE_ADMIN') && !#lists.contains(user.authorities, 'ROLE_ROOT_ADMIN') }">
 
-                            <!-- With fragment!!!!!!-->
                             <div th:insert="~{fragments/employee-roles-actions-form :: employee-roles-actions-form(
                                url=@{${T(com.petia.dollhouse.constants.Constants).SET_USER_ACTION}+${user.id}},
                                methodLabel=${T(com.petia.dollhouse.constants.Constants).FORM_METHOD},
@@ -149,6 +104,8 @@
         </th:block>
         </tbody>
     </table>
+    <hr class="hr-2 bg-dark"/>
+    <div th:replace="~{fragments/components/link :: link-item(link=@{${T(com.petia.dollhouse.constants.Constants).ADD_EMPLOYEE_ACTION}},title=#{employeeform.add.title})}"></div>
     <hr class="hr-2 bg-dark"/>
 </main>
 <footer>

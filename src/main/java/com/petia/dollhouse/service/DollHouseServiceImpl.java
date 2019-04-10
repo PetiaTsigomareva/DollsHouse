@@ -63,7 +63,9 @@ public class DollHouseServiceImpl implements DollHouseService {
 	public ServiceModel edit(ServiceModel model) {
 
 		DHService service = this.serviceRepository.findById(model.getId()).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
-
+		if (model.getUrlPicture()==null && service.getUrlPicture()!=null) {
+			model.setUrlPicture(service.getUrlPicture());
+		}
 		model.setStatus(service.getStatus().name());
 
 		DHService serviceNew = this.modelMapper.map(model, DHService.class);

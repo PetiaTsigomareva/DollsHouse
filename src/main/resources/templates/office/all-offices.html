@@ -46,6 +46,9 @@
         </tbody>
     </table>
     <hr class="hr-2 bg-dark"/>
+    <div th:replace="~{fragments/components/link :: link-item(link=@{${T(com.petia.dollhouse.constants.Constants).ADD_OFFICE_ACTION}},title=#{officeform.add.title})}"></div>
+    <hr class="hr-2 bg-dark"/>
+
 
 
 </main>

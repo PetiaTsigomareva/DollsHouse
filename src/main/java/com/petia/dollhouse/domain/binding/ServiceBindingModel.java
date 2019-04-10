@@ -1,5 +1,7 @@
 package com.petia.dollhouse.domain.binding;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.math.BigDecimal;
 
 public class ServiceBindingModel {
@@ -7,7 +9,7 @@ public class ServiceBindingModel {
 	private String name;
 	private String description;
 	private BigDecimal price;
-	private String urlPicture;
+	private MultipartFile image;
 	private String officeId;
 
 	public ServiceBindingModel() {
@@ -38,12 +40,12 @@ public class ServiceBindingModel {
 		this.price = price;
 	}
 
-	public String getUrlPicture() {
-		return urlPicture;
+	public MultipartFile getImage() {
+		return image;
 	}
 
-	public void setUrlPicture(String urlPicture) {
-		this.urlPicture = urlPicture;
+	public void setImage(MultipartFile image) {
+		this.image = image;
 	}
 
 	public String getOfficeId() {

@@ -92,12 +92,15 @@ public class UserController extends BaseController {
 
     @PatchMapping(Constants.EDIT_PROFILE_ACTION)
     @PreAuthorize("isAuthenticated()")
-    public ModelAndView editProfileConfirm(@ModelAttribute UserEditBindingModel model) {
+    public ModelAndView editProfileConfirm(@ModelAttribute UserEditBindingModel model) throws IOException {
         if (!model.getPassword().equals(model.getConfirmPassword())) {
             return super.view(Constants.EDIT_PROFILE_ACTION);
         }
-
-        this.userService.editUserProfile(this.modelMapper.map(model, UserServiceModel.class), model.getOldPassword());
+        UserServiceModel userServiceModel = this.modelMapper.map(model, UserServiceModel.class);
+        if (!model.getImage().isEmpty()) {
+            userServiceModel.setImageUrl(this.cloudinaryService.uploadImage(model.getImage()));
+        }
+        this.userService.editUserProfile(userServiceModel, model.getOldPassword());
 
         return redirect(Constants.PROFILE_ACTION);
     }
@@ -133,7 +136,9 @@ public class UserController extends BaseController {
     public ModelAndView addEmployeesConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") EmployeeBindingModel employeeBindingModel) throws IOException {
         modelAndView.addObject("officeNames", getOfficeNames());
         UserServiceModel userServiceModel = this.modelMapper.map(employeeBindingModel, UserServiceModel.class);
-        userServiceModel.setImageUrl(this.cloudinaryService.uploadImage(employeeBindingModel.getImage()));
+        if (!employeeBindingModel.getImage().isEmpty()) {
+            userServiceModel.setImageUrl(this.cloudinaryService.uploadImage(employeeBindingModel.getImage()));
+        }
 
         String id = this.userService.addEmployee(userServiceModel);
         if (id == null) {
@@ -157,10 +162,14 @@ public class UserController extends BaseController {
     // TODO
     @PostMapping(Constants.EDIT_EMPLOYEE_ACTION + "{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ModelAndView editEmployeeConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") EmployeeBindingModel employeeBindingModel, @PathVariable String id) {
+    public ModelAndView editEmployeeConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") EmployeeBindingModel employeeBindingModel, @PathVariable String id) throws IOException {
         UserServiceModel userServiceModel = this.modelMapper.map(employeeBindingModel, UserServiceModel.class);
         userServiceModel.setId(id);
+        if (!employeeBindingModel.getImage().isEmpty()) {
+            userServiceModel.setImageUrl(this.cloudinaryService.uploadImage(employeeBindingModel.getImage()));
+        }
         userServiceModel = this.userService.editEmployee(userServiceModel);
+
         if (userServiceModel == null) {
 
             return view(Constants.EDIT_EMPLOYEE_PAGE, modelAndView);

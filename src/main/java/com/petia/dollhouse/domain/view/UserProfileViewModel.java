@@ -6,6 +6,7 @@ public class UserProfileViewModel {
 
     private String username;
     private String email;
+    private String image;
 
     public UserProfileViewModel() {
     }
@@ -26,5 +27,11 @@ public class UserProfileViewModel {
         this.email = email;
     }
 
+    public String getImage() {
+        return image;
+    }
 
+    public void setImage(String image) {
+        this.image = image;
+    }
 }

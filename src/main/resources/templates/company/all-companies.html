@@ -13,10 +13,11 @@
     <hr class="hr-2 bg-dark"/>
     <h5 class="text-center text-dark" th:text="#{allcompany.table.title}"></h5>
     <hr class="hr-2 bg-dark w-75"/>
+
     <table class="table table-active w-75 mx-auto">
         <thead>
         <tr class="row mx-auto text-dark">
-            <th class="col-md-1 text-center" th:text="#{allitems.table.number}"></th>
+            <th class="col-md-1 text-center" th:utext="#{allitems.table.number}"></th>
             <th class="col-md-3 text-center" th:text="#{allitems.table.name}"></th>
             <th class="col-md-3 text-center" th:text="#{allitems.table.address}"></th>
             <th class="col-md-2 text-center" th:text="#{allcompany.table.owner}"></th>
@@ -26,7 +27,7 @@
         <tbody>
         <th:block th:each="company, iter : ${companies}">
             <tr class="row mx-auto text-dark">
-                <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>
+                <td class="col-md-1 text-center" th:text="${iter.index + 1}"></td>
                 <td class="col-md-3 text-center" th:text="${company.name}"></td>
                 <td class="col-md-3 text-center" th:text="${company.address}"></td>
                 <td class="col-md-2 text-center" th:text="${company.owner}"></td>
@@ -42,6 +43,8 @@
         </th:block>
         </tbody>
     </table>
+    <hr class="hr-2 bg-dark"/>
+    <div th:replace="~{fragments/components/link :: link-item(link=@{${T(com.petia.dollhouse.constants.Constants).ADD_COMPANY_ACTION}},title=#{companyform.add.title})}"></div>
     <hr class="hr-2 bg-dark"/>
 </main>
 <footer>

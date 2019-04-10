@@ -12,7 +12,7 @@
 <main class="mt-3">
     <div class="jumbotron bg-light">
         <div class="text-center">
-            <img src="https://res.cloudinary.com/dollhouce-cloud/image/upload/c_scale,h_500/v1554470907/dh_images/doll_pink.jpg" alt="profileImg">
+            <img th:src="${model.image}" alt="profileImg">
         </div>
         <div class="row">
             <div class="col col-md-12 text-center">
@@ -25,8 +25,9 @@
             </div>
         </div>
         <hr class="hr-2 ">
-        <div  class="button-holder d-flex justify-content-center text-uppercase">
-            <a class="btn btn-lg btn-outline-dark text-uppercase" th:href="@{${T(com.petia.dollhouse.constants.Constants).EDIT_PROFILE_ACTION}}"
+        <div class="button-holder d-flex justify-content-center text-uppercase">
+            <a class="btn btn-lg btn-outline-dark text-uppercase"
+               th:href="@{${T(com.petia.dollhouse.constants.Constants).EDIT_PROFILE_ACTION}}"
                th:text="#{profileform.edit.title}"></a>
         </div>
     </div>

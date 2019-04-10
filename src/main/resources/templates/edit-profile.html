@@ -18,7 +18,7 @@
                         <h5 class="card-title text-center" th:text="#{profileform.edit.title}"></h5>
                         <form class="form w-26 mx-auto"
                               th:action="@{${T(com.petia.dollhouse.constants.Constants).EDIT_PROFILE_ACTION}}"
-                              th:method="patch">
+                              th:method="patch" enctype="multipart/form-data">
                             <div class="form-label-group">
                                 <input type="text" id="inputUsername" class="form-control" placeholder="Username"
                                        name="username" th:value="${model.username}" readonly>
@@ -48,7 +48,7 @@
                                        th:value="${model.email}" readonly>
                                 <label for="email">Email</label>
                             </div>
-
+                            <div th:replace="~{fragments/components/image :: image( file, inputImage, image, ${model.username},Image )}"></div>
                             <div th:replace="~{fragments/components/button :: button( #{form.edit.button} )}"></div>
 
                         </form>
