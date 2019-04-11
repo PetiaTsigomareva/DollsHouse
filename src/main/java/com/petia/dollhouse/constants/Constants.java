@@ -5,7 +5,8 @@ import java.time.format.DateTimeFormatter;
 public interface Constants {
 	public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm";
-
+	public static final String CUSTOMER = "Customer";
+	public static final String EMPLOYEE = "Employee";
 	public static final String COMPANY_NAME = "Dolls House";
 	public static final String FORM_METHOD = "post";
 	public static final String FORM_METHOD_EDIT = "put";
@@ -49,13 +50,16 @@ public interface Constants {
 	public static final String FETCH_AVAILABILITIES = SERVICE_CONTEXT + "/availabilities";
 
 	public static final String ADD_RESERVATION_ACTION = "/reservation/add-reservation";
-	public static final String ADD_MODERATOR_RESERVATION_ACTION = "/reservation/add-reservation-form";
 	public static final String EDIT_RESERVATION_ACTION = "/reservation/edit-reservation/";
 	public static final String DELETE_RESERVATION_ACTION = "/reservation/delete-reservation/";
-	public static final String ALL_RESERVATIONS_ACTION = "/reservation/all-reservations";
 	public static final String MY_RESERVATIONS_ACTION = "/reservation/my-reservations";
 
-	public static final String AlL_RESERVATION_ACTION = "/reservation/all";
+	public static final String ADD_MODERATOR_RESERVATION_ACTION = "/reservation/add-reservation-form";
+	public static final String EDIT_MODERATOR_RESERVATION_ACTION = "/reservation/edit-reservation-form/";
+	public static final String DELETE_MODERATOR_RESERVATION_ACTION = "/reservation/delete-reservation-form/";
+	public static final String ALL_RESERVATIONS_ACTION = "/reservation/all-reservation-form";
+
+
 	public static final String LOGOUT_FORM_ACTION = "/logout?login";
 
 	// pages name
@@ -89,10 +93,15 @@ public interface Constants {
 	public static final String ALL_SERVICE_PAGE = "/service/all-service";
 
 	public static final String ADD_RESERVATION_PAGE = "/reservation/add-reservation";
-	public static final String ADD_MODERATOR_RESERVATION_PAGE = "/reservation/add-reservation-form";
 	public static final String EDIT_RESERVATION_PAGE = "/reservation/edit-reservation";
 	public static final String DELETE_RESERVATION_PAGE = "/reservation/delete-reservation";
-	public static final String ALL_RESERVATIONS_PAGE = "/reservation/all-reservations";
+
+
+
+	public static final String ADD_MODERATOR_RESERVATION_PAGE = "/reservation/add-reservation-form";
+	public static final String EDIT_MODERATOR_RESERVATION_PAGE = "/reservation/edit-reservation-form";
+	public static final String DELETE_MODERATOR_RESERVATION_PAGE = "/reservation/delete-reservation-form";
+	public static final String ALL_RESERVATIONS_PAGE = "/reservation/all-reservation-form";
 
 	// Error Massages
 	public static final String USERNAME_ERROR_MESSAGE = "Username not found!";

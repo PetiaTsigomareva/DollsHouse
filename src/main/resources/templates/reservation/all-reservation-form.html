@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <th:block th:insert="~{fragments/head}"></th:block>
+</head>
+<body>
+<heder>
+    <th:block th:insert="~{fragments/navbar}"></th:block>
+</heder>
+<main class="mt-2">
+    <hr class="hr-2 bg-dark"/>
+    <h5 class="text-center text-dark" th:text="#{reservation.all.title}"></h5>
+    <hr class="hr-2 bg-dark w-80"/>
+
+    <table class="table table-active w-80 mx-auto">
+        <thead>
+        <tr class="row mx-auto text-dark">
+            <th class="col-md-1 text-center" th:utext="#{allitems.table.number}"></th>
+            <th class="col-md-1 text-center" th:text="#{reservation.table.office}"></th>
+            <th class="col-md-2 text-center" th:text="#{reservation.table.service}"></th>
+            <th class="col-md-2 text-center" th:text="#{reservation.table.employee}"></th>
+            <th class="col-md-2 text-center" th:text="#{reservation.table.customer}"></th>
+            <th class="col-md-2 text-center" th:text="#{reservation.table.date}"></th>
+            <th class="col-md-2 text-center" th:text="#{allitems.table.action}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="reservation, iter : ${reservations}">
+            <tr class="row mx-auto text-dark">
+                <td class="col-md-1 text-center" th:text="${iter.index + 1}"></td>
+                <td class="col-md-1 text-center" th:text="${reservation.office}"></td>
+                <td class="col-md-2 text-center" th:text="${reservation.service}"></td>
+                <td class="col-md-2 text-center" th:text="${reservation.employee}"></td>
+                <td class="col-md-2 text-center" th:text="${reservation.customer}"></td>
+                <td class="col-md-2 text-center" th:text="${reservation.reservationDateTime}"></td>
+                <td class="col-md-2 text-center">
+                    <div class="row">
+                        <a class="btn btn-outline-dark" th:text="#{form.edit.button}"
+                           th:href="@{${T(com.petia.dollhouse.constants.Constants).EDIT_MODERATOR_RESERVATION_ACTION}+${reservation.id}}"></a>
+                        <a class="btn btn-outline-dark" th:text="#{form.delete.button}"
+                           th:href="@{${T(com.petia.dollhouse.constants.Constants).DELETE_MODERATOR_RESERVATION_ACTION}+${reservation.id}}"></a>
+                    </div>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+    <hr class="hr-2 bg-dark"/>
+    <div th:replace="~{fragments/components/link :: link-item(link=@{${T(com.petia.dollhouse.constants.Constants).ADD_MODERATOR_RESERVATION_ACTION}},title=#{reservation.add.title})}"></div>
+    <hr class="hr-2 bg-dark"/>
+</main>
+<footer>
+    <th:block th:insert="~{fragments/footer}"></th:block>
+</footer>
+</body>
+</html>

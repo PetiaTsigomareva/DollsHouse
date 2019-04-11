@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.petia.dollhouse.domain.service.DayAvailabilityServiceModel;
 import com.petia.dollhouse.domain.service.ServiceModel;
+import com.petia.dollhouse.domain.view.NamesViewModel;
 
 public interface DollHouseService {
 
@@ -21,4 +22,6 @@ public interface DollHouseService {
 	List<ServiceModel> findServicesByOffice(String officeId);
 
 	List<DayAvailabilityServiceModel> fetchAvailabilities(String serviceId, String emloyeeId, LocalDate fromDate, LocalDate toDate);
+
+	List<NamesViewModel> mapModelServiceNamesToViewNames();
 }

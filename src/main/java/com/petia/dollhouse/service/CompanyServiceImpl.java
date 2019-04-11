@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+import com.petia.dollhouse.domain.view.NamesViewModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -95,4 +96,11 @@ public class CompanyServiceImpl implements CompanyService {
 		return result;
 	}
 
+	public List<NamesViewModel> mapCompanyNames() {
+		List<NamesViewModel> result;
+		result = findAllCompanies().stream().map(c -> this.modelMapper.map(c, NamesViewModel.class)).collect(Collectors.toList());
+
+		return result;
+
+	}
 }

@@ -3,6 +3,7 @@ package com.petia.dollhouse.service;
 import java.util.List;
 
 import com.petia.dollhouse.domain.service.CompanyServiceModel;
+import com.petia.dollhouse.domain.view.NamesViewModel;
 
 public interface CompanyService {
 
@@ -17,5 +18,7 @@ public interface CompanyService {
 	CompanyServiceModel deleteCompany(CompanyServiceModel companyServiceModel);
 
 	CompanyServiceModel findCompanyByName(String name);
+
+	List<NamesViewModel> mapCompanyNames();
 
 }

@@ -20,92 +20,95 @@ import com.petia.dollhouse.domain.enums.ReservationStatus;
 @Table(name = "reservations")
 public class Reservation extends BaseEntity {
 
-	@ManyToOne(targetEntity = User.class)
-	@JoinColumn(name = "employee_id", referencedColumnName = "id")
-	private User employee;
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    private User employee;
 
-	@ManyToOne(targetEntity = User.class)
-	@JoinColumn(name = "customer_id", referencedColumnName = "id")
-	private User customer;
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    private User customer;
 
-	@ManyToMany(targetEntity = DHService.class)
-	@JoinTable(name = "reservations_services", joinColumns = @JoinColumn(name = "reservation_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "service_id", referencedColumnName = "id"))
-	private List<DHService> services;
+    @ManyToOne(targetEntity = DHService.class)
+    //@JoinTable(name = "reservations_services", joinColumns = @JoinColumn(name = "reservation_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "service_id", referencedColumnName = "id"))
+    @JoinColumn(name = "service_id", referencedColumnName = "id")
+    private DHService service;
 
-	@ManyToMany(targetEntity = PromoOffer.class)
-	@JoinTable(name = "reservations_offers", joinColumns = @JoinColumn(name = "reservation_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "offer_id", referencedColumnName = "id"))
-	private List<PromoOffer> offers;
+    @ManyToOne(targetEntity = PromoOffer.class)
+    //@JoinTable(name = "reservations_offers", joinColumns = @JoinColumn(name = "reservation_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "offer_id", referencedColumnName = "id"))
+    @JoinColumn(name = "offer_id", referencedColumnName = "id")
+    private PromoOffer offer;
 
-	@Column(name = "reservation_date_time", nullable = false)
-	private LocalDateTime reservationDateTime;
+    @Column(name = "reservation_date_time", nullable = false)
+    private LocalDateTime reservationDateTime;
 
-	@Column(name = "description", nullable = false)
-	private String description;
+    @Column(name = "description", nullable = false)
+    private String description;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "status", nullable = false)
-	private ReservationStatus status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private ReservationStatus status;
+    //TODO
+//    @ManyToOne()
+//    private Office offices;
 
-	public Reservation() {
-		super();
-		services = new ArrayList<>();
-		offers = new ArrayList<>();
-		status = ReservationStatus.PENDING_CONFIRMATION;
-	}
+    public Reservation() {
+        super();
+        status = ReservationStatus.PENDING_CONFIRMATION;
+    }
 
-	public User getEmployee() {
-		return employee;
-	}
+    public User getEmployee() {
+        return employee;
+    }
 
-	public void setEmployee(User employee) {
-		this.employee = employee;
-	}
+    public void setEmployee(User employee) {
+        this.employee = employee;
+    }
 
-	public User getCustomer() {
-		return customer;
-	}
+    public User getCustomer() {
+        return customer;
+    }
 
-	public void setCustomer(User customer) {
-		this.customer = customer;
-	}
+    public void setCustomer(User customer) {
+        this.customer = customer;
+    }
 
-	public List<DHService> getServices() {
-		return services;
-	}
+    public DHService getService() {
+        return service;
+    }
 
-	public void setServices(List<DHService> services) {
-		this.services = services;
-	}
+    public void setService(DHService service) {
+        this.service = service;
+    }
 
-	public List<PromoOffer> getOffers() {
-		return offers;
-	}
+    public PromoOffer getOffer() {
+        return offer;
+    }
 
-	public void setOffers(List<PromoOffer> offers) {
-		this.offers = offers;
-	}
+    public void setOffer(PromoOffer offer) {
+        this.offer = offer;
+    }
 
-	public LocalDateTime getReservationDateTime() {
-		return reservationDateTime;
-	}
+    public LocalDateTime getReservationDateTime() {
+        return reservationDateTime;
+    }
 
-	public void setReservationDateTime(LocalDateTime reservationDateTime) {
-		this.reservationDateTime = reservationDateTime;
-	}
+    public void setReservationDateTime(LocalDateTime reservationDateTime) {
+        this.reservationDateTime = reservationDateTime;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public ReservationStatus getStatus() {
-		return status;
-	}
+    public ReservationStatus getStatus() {
+        return status;
+    }
 
-	public void setStatus(ReservationStatus status) {
-		this.status = status;
-	}
+    public void setStatus(ReservationStatus status) {
+        this.status = status;
+    }
 }

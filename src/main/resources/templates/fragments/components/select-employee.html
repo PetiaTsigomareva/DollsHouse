@@ -1,6 +1,6 @@
 <th:block th:fragment="select( componentId, itemsList )">
     <div th:class="form-label-group"  th:id="'div'+${componentId}">
-        <select class="form-control" th:id="${componentId}" th:field="*{bindingModel.employeeId}">
+        <select class="form-control" th:id="${componentId}" th:field="*{bindingModel.employeeId}" required>
             <option value="Please select...">Please select Employee...</option>
             <option th:each="i : ${itemsList}" th:name="${bindingModel.employeeId}" th:value="${i.id}" th:text="${i.name}" th:selected="${i.id} == ${selectedValueId}"></option>
         </select>

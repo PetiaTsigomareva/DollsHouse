@@ -9,7 +9,7 @@
                             <div th:replace="~{fragments/components/select-office :: select( inputOffice, ${officeNames} )}"></div>
                             <div th:replace="~{fragments/components/select-service :: select( inputService, ${serviceNames},'display: block;')}"></div>
                             <div th:replace="~{fragments/components/select-employee :: select( inputEmployee, ${employeeNames} )}"></div>
-                            <div th:replace="~{fragments/components/input :: input( text, inputCustomer, username, ${bindingModel.username}, CustomerUserName )}"></div>
+                            <div th:replace="~{fragments/components/select-customer :: select( inputCustomer,${customerNames} )}"></div>
                             <div th:replace="~{fragments/components/input :: input( datetime-local, inputReservationDateTime, reservationDateTime, ${bindingModel.reservationDateTime}, 'Reservation Date Time' )}"></div>
                             <div th:replace="~{fragments/components/text-area :: text-area( inputDescription, 6, 40 )}"></div>
                             <div th:replace="~{fragments/components/button :: button( ${buttonText} )}"></div>

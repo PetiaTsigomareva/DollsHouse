@@ -50,14 +50,14 @@ public class ServiceConroller extends BaseController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PageTitle(Constants.ADD_SERVICE_TITLE)
     public ModelAndView addService(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ServiceBindingModel serviceBindingModel) {
-        modelAndView.addObject("officeNames", getOfficeNames());
+        modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
         return view(Constants.ADD_SERVICE_PAGE, modelAndView);
     }
 
     @PostMapping(Constants.ADD_SERVICE_ACTION)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView addServiceConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ServiceBindingModel serviceBindingModel) throws IOException {
-        modelAndView.addObject("officeNames", getOfficeNames());
+        modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
         ServiceModel serviceModel = this.modelMapper.map(serviceBindingModel, ServiceModel.class);
 
         if (!serviceBindingModel.getImage().isEmpty()) {
@@ -87,7 +87,7 @@ public class ServiceConroller extends BaseController {
     @PageTitle(Constants.EDIT_SERVICE_TITLE)
     public ModelAndView editService(ModelAndView modelAndView, @PathVariable String id) {
         ServiceBindingModel serviceBindingModel = this.modelMapper.map(this.dollHouseService.findByID(id), ServiceBindingModel.class);
-        modelAndView.addObject("officeNames", getOfficeNames());
+        modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
         modelAndView.addObject("bindingModel", serviceBindingModel);
 
         return view(Constants.EDIT_SERVICE_PAGE, modelAndView);
@@ -118,7 +118,7 @@ public class ServiceConroller extends BaseController {
     public ModelAndView deleteService(ModelAndView modelAndView, @PathVariable String id) {
 
         ServiceBindingModel serviceBindingModel = this.modelMapper.map(this.dollHouseService.findByID(id), ServiceBindingModel.class);
-        modelAndView.addObject("officeNames", getOfficeNames());
+        modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
         modelAndView.addObject("bindingModel", serviceBindingModel);
 
         return view(Constants.DELETE_SERVICE_PAGE, modelAndView);
@@ -171,11 +171,5 @@ public class ServiceConroller extends BaseController {
         return result;
     }
 
-    private List<NamesViewModel> getOfficeNames() {
-        List<NamesViewModel> result;
 
-        result = this.officeService.findAllOffices().stream().map(o -> this.modelMapper.map(o, NamesViewModel.class)).collect(Collectors.toList());
-
-        return result;
-    }
 }

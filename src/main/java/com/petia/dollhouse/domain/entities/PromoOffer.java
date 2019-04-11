@@ -4,10 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "promo_offers")
@@ -31,7 +28,8 @@ public class PromoOffer extends EntityWithStatus {
 	@ManyToMany(targetEntity = DHService.class, mappedBy = "offers")
 	private List<DHService> services;
 
-	@ManyToMany(targetEntity = Reservation.class, mappedBy = "offers")
+	//@ManyToMany(targetEntity = Reservation.class, mappedBy = "offers")
+	@OneToMany(targetEntity = Reservation.class, mappedBy = "offer")
 	private List<Reservation> reservations;
 
 	public PromoOffer() {

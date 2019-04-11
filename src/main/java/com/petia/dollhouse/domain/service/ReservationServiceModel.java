@@ -9,65 +9,66 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.petia.dollhouse.constants.Constants;
 
 public class ReservationServiceModel extends BaseServiceModel {
-	private String officeId;
-	private List<String> serviceIds;
-	private String employeeId;
-	private String username;
-	@DateTimeFormat(pattern = Constants.DATE_TIME_FORMAT)
-	private LocalDateTime reservationDateTime;
-	private String description;
 
-	public ReservationServiceModel() {
-		serviceIds = new ArrayList<>();
-	}
+    private String officeId;
+    private String serviceId;
+    private String employeeId;
+    private String customerId;
+    @DateTimeFormat(pattern = Constants.DATE_TIME_FORMAT)
+    private LocalDateTime reservationDateTime;
+    private String description;
 
-	public String getEmployeeId() {
-		return employeeId;
-	}
+    public ReservationServiceModel() {
 
-	public void setEmployeeId(String employeeId) {
-		this.employeeId = employeeId;
-	}
+    }
 
-	public List<String> getServiceIds() {
-		return serviceIds;
-	}
+    public String getEmployeeId() {
+        return employeeId;
+    }
 
-	public void setServiceIds(List<String> serviceIds) {
-		this.serviceIds = serviceIds;
-	}
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
+    }
 
-	public LocalDateTime getReservationDateTime() {
-		return reservationDateTime;
-	}
+    public String getServiceId() {
+        return serviceId;
+    }
 
-	public String getOfficeId() {
-		return officeId;
-	}
+    public void setServiceId(String serviceId) {
+        this.serviceId = serviceId;
+    }
 
-	public void setOfficeId(String officeId) {
-		this.officeId = officeId;
-	}
+    public LocalDateTime getReservationDateTime() {
+        return reservationDateTime;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public String getOfficeId() {
+        return officeId;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public void setOfficeId(String officeId) {
+        this.officeId = officeId;
+    }
 
-	public void setReservationDateTime(LocalDateTime reservationDateTime) {
-		this.reservationDateTime = reservationDateTime;
-	}
+    public String getCustomerId() {
+        return customerId;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setReservationDateTime(LocalDateTime reservationDateTime) {
+        this.reservationDateTime = reservationDateTime;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
 
 }

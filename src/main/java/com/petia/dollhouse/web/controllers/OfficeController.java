@@ -40,15 +40,15 @@ public class OfficeController extends BaseController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PageTitle(Constants.ADD_OFFICE_TITLE)
     public ModelAndView addOffice(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") OfficeBindingModel officeBindingModel) {
-        modelAndView.addObject("companyNames", getCompanyNames());
+        modelAndView.addObject("companyNames", this.companyService.mapCompanyNames());
         return view(Constants.ADD_OFFICE_PAGE, modelAndView);
     }
 
     @PostMapping(Constants.ADD_OFFICE_ACTION)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModelAndView addOfficeConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") OfficeBindingModel officeBindingModel) {
-        modelAndView.addObject("companyNames", getCompanyNames());
-        // modelAndView.addObject("bindingModel", officeBindingModel);
+        modelAndView.addObject("companyNames", this.companyService.mapCompanyNames());
+
         String id = this.officeService.addOffice(this.modelMapper.map(officeBindingModel, OfficeServiceModel.class));
         if (id == null) {
             return view(Constants.ADD_OFFICE_PAGE, modelAndView);
@@ -75,7 +75,7 @@ public class OfficeController extends BaseController {
     public ModelAndView editOffice(ModelAndView modelAndView, @PathVariable String id) {
         OfficeBindingModel officeBindingModel = this.modelMapper.map(this.officeService.findOfficeByID(id), OfficeBindingModel.class);
         modelAndView.addObject("companyId", officeBindingModel.getCompanyId());
-        modelAndView.addObject("companyNames", getCompanyNames());
+        modelAndView.addObject("companyNames", this.companyService.mapCompanyNames());
         modelAndView.addObject("bindingModel", officeBindingModel);
 
         return view(Constants.EDIT_OFFICE_PAGE, modelAndView);
@@ -105,7 +105,7 @@ public class OfficeController extends BaseController {
 
         OfficeBindingModel officeBindingModel = this.modelMapper.map(this.officeService.findOfficeByID(id), OfficeBindingModel.class);
         modelAndView.addObject("bindingModel", officeBindingModel);
-        modelAndView.addObject("companyNames", getCompanyNames());
+        modelAndView.addObject("companyNames", this.companyService.mapCompanyNames());
         return view(Constants.DELETE_OFFICE_PAGE, modelAndView);
     }
 
@@ -124,15 +124,6 @@ public class OfficeController extends BaseController {
         return redirect(Constants.ALL_OFFICE_PAGE);
 
     }
-
-    private List<NamesViewModel> getCompanyNames() {
-        List<NamesViewModel> result;
-        result = this.companyService.findAllCompanies().stream().map(c -> this.modelMapper.map(c, NamesViewModel.class)).collect(Collectors.toList());
-
-        return result;
-
-    }
-
 
 
 }

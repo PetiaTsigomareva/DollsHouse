@@ -16,6 +16,10 @@ public interface UserRepository extends JpaRepository<User, String> {
 	@Query("SELECT u FROM User u WHERE u.office is not null and u.status='ACTIVE'")
 	List<User> findAllEmployees();
 
+	// TODO
+	@Query("SELECT u FROM User u WHERE u.office is null and u.status='ACTIVE'")
+	List<User> findAllCustomers();
+
 	@Query("SELECT u FROM User u WHERE u.office.id=:id")
 	List<User> findAllEmployeesByOffice(String id);
 }

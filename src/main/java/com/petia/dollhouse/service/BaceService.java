@@ -14,4 +14,6 @@ public interface BaceService {
 
 	<T> T delete(T model);
 
+
+
 }

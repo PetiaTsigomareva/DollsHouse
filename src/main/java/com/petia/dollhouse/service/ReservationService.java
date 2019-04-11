@@ -1,12 +1,15 @@
 package com.petia.dollhouse.service;
 
+import com.petia.dollhouse.domain.binding.ReservationBindingModel;
 import com.petia.dollhouse.domain.service.ReservationServiceModel;
+import com.petia.dollhouse.domain.view.AllReservationViewModel;
 
 import java.util.List;
 
 public interface ReservationService {
 
     String add(ReservationServiceModel model);
+
     String addModeratorReservation(ReservationServiceModel model);
 
     ReservationServiceModel edit(ReservationServiceModel model);
@@ -16,4 +19,8 @@ public interface ReservationService {
     ReservationServiceModel findByID(String id);
 
     ReservationServiceModel delete(ReservationServiceModel model);
+
+    List<AllReservationViewModel> mapServiceToViewModels(List<ReservationServiceModel> models);
+
+    ReservationServiceModel mapBindingToServiceModel(ReservationBindingModel model);
 }

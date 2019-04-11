@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.petia.dollhouse.domain.service.UserServiceModel;
-import com.petia.dollhouse.service.UserService;
-import com.petia.dollhouse.web.annotations.PageTitle;
+import com.petia.dollhouse.domain.view.AllOfficesViewModel;
+import com.petia.dollhouse.domain.view.AllReservationViewModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,11 +18,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.petia.dollhouse.constants.Constants;
 import com.petia.dollhouse.domain.binding.ReservationBindingModel;
 import com.petia.dollhouse.domain.service.ReservationServiceModel;
+import com.petia.dollhouse.domain.service.UserServiceModel;
 import com.petia.dollhouse.domain.view.NamesViewModel;
 import com.petia.dollhouse.repositories.ServiceRepository;
 import com.petia.dollhouse.service.DollHouseService;
 import com.petia.dollhouse.service.OfficeService;
 import com.petia.dollhouse.service.ReservationService;
+import com.petia.dollhouse.service.UserService;
+import com.petia.dollhouse.web.annotations.PageTitle;
 
 @Controller
 public class ReservationController extends BaseController {
@@ -44,21 +46,20 @@ public class ReservationController extends BaseController {
         this.modelMapper = modelMapper;
     }
 
-
     @GetMapping(Constants.ADD_RESERVATION_ACTION)
     @PreAuthorize("isAuthenticated()")
     @PageTitle(Constants.ADD_RESERVATION_TITLE)
     public ModelAndView addReservation(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ReservationBindingModel reservationBindingModel) {
-        modelAndView.addObject("officeNames", getOfficeNames());
-        modelAndView.addObject("serviceNames", getServiceNames());
+        modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
+        modelAndView.addObject("serviceNames", this.dollHouseService.mapModelServiceNamesToViewNames());
         return view(Constants.ADD_RESERVATION_ACTION, modelAndView);
     }
 
     @PostMapping(Constants.ADD_RESERVATION_ACTION)
     @PreAuthorize("isAuthenticated()")
     public ModelAndView addReservationConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ReservationBindingModel reservationBindingModel) {
-        modelAndView.addObject("officeNames", getOfficeNames());
-        modelAndView.addObject("serviceNames", getServiceNames());
+        modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
+        modelAndView.addObject("serviceNames", this.dollHouseService.mapModelServiceNamesToViewNames());
         String id = this.reservationService.add(this.modelMapper.map(reservationBindingModel, ReservationServiceModel.class));
         if (id == null) {
             return view(Constants.ADD_RESERVATION_PAGE, modelAndView);
@@ -67,84 +68,48 @@ public class ReservationController extends BaseController {
         return redirect(Constants.ALL_RESERVATIONS_PAGE);
     }
 
-    //Moderator reservation form
+    // Moderator reservation form
     @GetMapping(Constants.ADD_MODERATOR_RESERVATION_ACTION)
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
     @PageTitle(Constants.ADD_RESERVATION_TITLE)
     public ModelAndView addModeratorReservation(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ReservationBindingModel reservationBindingModel) {
-        modelAndView.addObject("officeNames", getOfficeNames());
-        modelAndView.addObject("serviceNames", getServiceNames());
-        modelAndView.addObject("employeeNames", getAllEmployeesNames());
-        modelAndView.addObject("customerNames", getAllEmployeesNames());
+        modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
+        modelAndView.addObject("serviceNames", this.dollHouseService.mapModelServiceNamesToViewNames());
+        modelAndView.addObject("employeeNames", this.userService.mapUserNamesByCriteria(Constants.EMPLOYEE));
+        modelAndView.addObject("customerNames", this.userService.mapUserNamesByCriteria(Constants.CUSTOMER));
         return view(Constants.ADD_MODERATOR_RESERVATION_PAGE, modelAndView);
     }
 
-
     @PostMapping(Constants.ADD_MODERATOR_RESERVATION_ACTION)
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
     public ModelAndView addModeratorReservationConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ReservationBindingModel reservationBindingModel) {
-        modelAndView.addObject("officeNames", getOfficeNames());
-        modelAndView.addObject("serviceNames", getServiceNames());
-        modelAndView.addObject("employeeNames", getAllEmployeesNames());
-        String id = this.reservationService.addModeratorReservation(this.modelMapper.map(reservationBindingModel, ReservationServiceModel.class));
+        modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
+        modelAndView.addObject("serviceNames", this.dollHouseService.mapModelServiceNamesToViewNames());
+        modelAndView.addObject("employeeNames", this.userService.mapUserNamesByCriteria(Constants.EMPLOYEE));
+        modelAndView.addObject("customerNames", this.userService.mapUserNamesByCriteria(Constants.CUSTOMER));
+
+        ReservationServiceModel reservationServiceModel = this.reservationService.mapBindingToServiceModel(reservationBindingModel);
+
+        //String id = this.reservationService.addModeratorReservation(this.modelMapper.map(reservationBindingModel, ReservationServiceModel.class));
+        String id = this.reservationService.addModeratorReservation(reservationServiceModel);
         if (id == null) {
             return view(Constants.ADD_MODERATOR_RESERVATION_PAGE, modelAndView);
         }
 
-        return redirect(Constants.HOME_PAGE);
-    }
-
-    private List<NamesViewModel> getOfficeNames() {
-        List<NamesViewModel> result;
-        result = this.officeService.findAllOffices().stream().map(o -> this.modelMapper.map(o, NamesViewModel.class)).collect(Collectors.toList());
-
-        return result;
-    }
-
-    private List<NamesViewModel> getServiceNames() {
-        List<NamesViewModel> result;
-
-        result = this.dollHouseService.findAll().stream().map(s -> this.modelMapper.map(s, NamesViewModel.class)).collect(Collectors.toList());
-
-        return result;
-    }
-
-    //TODO
-    private List<NamesViewModel> getOfficeServices(String officeId) {
-        List<NamesViewModel> result;
-
-        result = this.serviceRepository.findOfficeAllActiveServices(officeId).stream().map(s -> this.modelMapper.map(s, NamesViewModel.class)).collect(Collectors.toList());
-
-        return result;
-    }
-//TODO criteria method
-    private List<NamesViewModel> getUserNamesByCriteria(String criteria) {
-
-        switch (criteria){
-            case Constants.EMPLOYEE:
-                break;
-                case Constants.CUSTOMER
-        }
-        List<NamesViewModel> result = new ArrayList<>();
-        List<UserServiceModel> userServiceModels = this.userService.findAllUsers();
-        for (UserServiceModel u : userServiceModels) {
-            NamesViewModel namesViewModel = new NamesViewModel();
-            namesViewModel.setId(u.getId());
-            namesViewModel.setName(u.getFirstName() + " " + u.getLastName() + "(" + u.getUsername() + ")");
-            result.add(namesViewModel);
-
-        }
-
-        return result;
+        return redirect(Constants.ALL_RESERVATIONS_PAGE);
     }
 
 
+    @GetMapping(Constants.ALL_RESERVATIONS_ACTION)
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PageTitle(Constants.ALL_RESERVATIONS_TITLE)
+    public ModelAndView allReservations(ModelAndView modelAndView) {
+        List<ReservationServiceModel> reservationServiceModels = this.reservationService.findAll();
 
-    //TODO
-    private List<NamesViewModel> getEmployeesNames(String officeId) {
-        List<NamesViewModel> result;
-        result = this.userService.findUsersByOfficeId(officeId).stream().map(s -> this.modelMapper.map(s, NamesViewModel.class)).collect(Collectors.toList());
+        modelAndView.addObject("reservations", this.reservationService.mapServiceToViewModels(reservationServiceModels));
 
-        return result;
+        return view(Constants.ALL_RESERVATIONS_PAGE, modelAndView);
     }
+
+
 }
