@@ -1,16 +1,12 @@
 package com.petia.dollhouse.domain.entities;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -20,95 +16,102 @@ import com.petia.dollhouse.domain.enums.ReservationStatus;
 @Table(name = "reservations")
 public class Reservation extends BaseEntity {
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "employee_id", referencedColumnName = "id")
-    private User employee;
+	@ManyToOne(targetEntity = User.class)
+	@JoinColumn(name = "employee_id", referencedColumnName = "id")
+	private User employee;
 
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    private User customer;
+	@ManyToOne(targetEntity = User.class)
+	@JoinColumn(name = "customer_id", referencedColumnName = "id")
+	private User customer;
 
-    @ManyToOne(targetEntity = DHService.class)
-    //@JoinTable(name = "reservations_services", joinColumns = @JoinColumn(name = "reservation_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "service_id", referencedColumnName = "id"))
-    @JoinColumn(name = "service_id", referencedColumnName = "id")
-    private DHService service;
+	@ManyToOne(targetEntity = DHService.class)
 
-    @ManyToOne(targetEntity = PromoOffer.class)
-    //@JoinTable(name = "reservations_offers", joinColumns = @JoinColumn(name = "reservation_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "offer_id", referencedColumnName = "id"))
-    @JoinColumn(name = "offer_id", referencedColumnName = "id")
-    private PromoOffer offer;
+	@JoinColumn(name = "service_id", referencedColumnName = "id")
+	private DHService service;
 
-    @Column(name = "reservation_date_time", nullable = false)
-    private LocalDateTime reservationDateTime;
+	@ManyToOne(targetEntity = PromoOffer.class)
+	@JoinColumn(name = "offer_id", referencedColumnName = "id")
+	private PromoOffer offer;
 
-    @Column(name = "description", nullable = false)
-    private String description;
+	@Column(name = "reservation_date_time", nullable = false)
+	private LocalDateTime reservationDateTime;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
-    private ReservationStatus status;
-    //TODO
-//    @ManyToOne()
-//    private Office offices;
+	@Column(name = "description", nullable = false)
+	private String description;
 
-    public Reservation() {
-        super();
-        status = ReservationStatus.PENDING_CONFIRMATION;
-    }
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status", nullable = false)
+	private ReservationStatus status;
 
-    public User getEmployee() {
-        return employee;
-    }
+	@ManyToOne(targetEntity = Office.class)
+	private Office office;
 
-    public void setEmployee(User employee) {
-        this.employee = employee;
-    }
+	public Reservation() {
+		super();
+		status = ReservationStatus.PENDING_CONFIRMATION;
+	}
 
-    public User getCustomer() {
-        return customer;
-    }
+	public User getEmployee() {
+		return employee;
+	}
 
-    public void setCustomer(User customer) {
-        this.customer = customer;
-    }
+	public void setEmployee(User employee) {
+		this.employee = employee;
+	}
 
-    public DHService getService() {
-        return service;
-    }
+	public User getCustomer() {
+		return customer;
+	}
 
-    public void setService(DHService service) {
-        this.service = service;
-    }
+	public void setCustomer(User customer) {
+		this.customer = customer;
+	}
 
-    public PromoOffer getOffer() {
-        return offer;
-    }
+	public DHService getService() {
+		return service;
+	}
 
-    public void setOffer(PromoOffer offer) {
-        this.offer = offer;
-    }
+	public void setService(DHService service) {
+		this.service = service;
+	}
 
-    public LocalDateTime getReservationDateTime() {
-        return reservationDateTime;
-    }
+	public PromoOffer getOffer() {
+		return offer;
+	}
 
-    public void setReservationDateTime(LocalDateTime reservationDateTime) {
-        this.reservationDateTime = reservationDateTime;
-    }
+	public void setOffer(PromoOffer offer) {
+		this.offer = offer;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public LocalDateTime getReservationDateTime() {
+		return reservationDateTime;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setReservationDateTime(LocalDateTime reservationDateTime) {
+		this.reservationDateTime = reservationDateTime;
+	}
 
-    public ReservationStatus getStatus() {
-        return status;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setStatus(ReservationStatus status) {
-        this.status = status;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public ReservationStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(ReservationStatus status) {
+		this.status = status;
+	}
+
+	public Office getOffice() {
+		return office;
+	}
+
+	public void setOffice(Office office) {
+		this.office = office;
+	}
 }

@@ -1,58 +1,60 @@
 package com.petia.dollhouse.domain.view;
 
-import com.petia.dollhouse.constants.Constants;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDateTime;
 
-public class AllReservationViewModel {
-    private String office;
-    private String service;
-    private String employee;
-    private String customer;
-    @DateTimeFormat(pattern = Constants.DATE_TIME_FORMAT)
-    private LocalDateTime reservationDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 
-    public AllReservationViewModel() {
-    }
+import com.petia.dollhouse.constants.Constants;
 
-    public String getOffice() {
-        return office;
-    }
+public class AllReservationViewModel extends BaseViewModel {
+	private String office;
+	private String service;
+	private String employee;
+	private String customer;
 
-    public void setOffice(String office) {
-        this.office = office;
-    }
+	@DateTimeFormat(pattern = Constants.DATE_TIME_FORMAT)
+	private LocalDateTime reservationDateTime;
 
-    public String getService() {
-        return service;
-    }
+	public AllReservationViewModel() {
+	}
 
-    public void setService(String service) {
-        this.service = service;
-    }
+	public String getOffice() {
+		return office;
+	}
 
-    public String getEmployee() {
-        return employee;
-    }
+	public void setOffice(String office) {
+		this.office = office;
+	}
 
-    public void setEmployee(String employee) {
-        this.employee = employee;
-    }
+	public String getService() {
+		return service;
+	}
 
-    public String getCustomer() {
-        return customer;
-    }
+	public void setService(String service) {
+		this.service = service;
+	}
 
-    public void setCustomer(String customer) {
-        this.customer = customer;
-    }
+	public String getEmployee() {
+		return employee;
+	}
 
-    public LocalDateTime getReservationDateTime() {
-        return reservationDateTime;
-    }
+	public void setEmployee(String employee) {
+		this.employee = employee;
+	}
 
-    public void setReservationDateTime(LocalDateTime reservationDateTime) {
-        this.reservationDateTime = reservationDateTime;
-    }
+	public String getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(String customer) {
+		this.customer = customer;
+	}
+
+	public LocalDateTime getReservationDateTime() {
+		return reservationDateTime;
+	}
+
+	public void setReservationDateTime(LocalDateTime reservationDateTime) {
+		this.reservationDateTime = reservationDateTime;
+	}
 }

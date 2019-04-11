@@ -11,8 +11,6 @@ import com.petia.dollhouse.domain.entities.Reservation;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, String> {
 
-    //@Query("SELECT r FROM Reservation r join r.services s WHERE s.id =:serviceId and r.employee.id = :employeeId and r.reservationDateTime > DATE_FORMAT(':fromDate', '%Y-%m-%d 00:00:00') and r.reservationDateTime < DATE_FORMAT(':toDate', '%Y-%m-%d 00:00:00')")
-    @Query("SELECT r FROM Reservation r join r.service s WHERE s.id =:serviceId and r.employee.id = :employeeId and r.reservationDateTime > :fromDate and r.reservationDateTime < :toDate")
-    List<Reservation> getAllReservationsForTimePeriodOfficeServiceEmployee(String serviceId, String employeeId, String fromDate, String toDate);
-
+	@Query("SELECT r FROM Reservation r WHERE r.service.id =:serviceId and r.employee.id = :employeeId and r.reservationDateTime > DATE_FORMAT(':fromDate', '%Y-%m-%d 00:00:00') and r.reservationDateTime < DATE_FORMAT(':toDate', '%Y-%m-%d 00:00:00')")
+	List<Reservation> getAllReservationsForTimePeriodOfficeServiceEmployee(String serviceId, String employeeId, String fromDate, String toDate);
 }

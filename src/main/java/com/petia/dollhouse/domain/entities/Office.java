@@ -5,7 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "offices")
@@ -32,14 +37,14 @@ public class Office extends EntityWithStatus {
 
 	@OneToMany(targetEntity = DHService.class, mappedBy = "office")
 	private Set<DHService> services;
-//TODO
 
-//	@ManyToMany(targetEntity = Reservation.class, mappedBy = "offices")
-//	private List<Reservation> reservations;
+	@OneToMany(targetEntity = Reservation.class, mappedBy = "office")
+	private List<Reservation> reservations;
 
 	public Office() {
 		employees = new ArrayList<>();
 		services = new HashSet<>();
+		reservations = new ArrayList<>();
 	}
 
 	public String getName() {
@@ -98,11 +103,11 @@ public class Office extends EntityWithStatus {
 		this.services = services;
 	}
 
-//	public List<Reservation> getReservations() {
-//		return reservations;
-//	}
-//
-//	public void setReservations(List<Reservation> reservations) {
-//		this.reservations = reservations;
-//	}
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
+	}
 }

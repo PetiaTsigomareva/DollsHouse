@@ -12,17 +12,7 @@ $(document).ready(function () {
     	loadOfficeServices(selectedOffice);
     });
 
-    $('#inputService').on('change', function () {
-      let selectedOffice = document.getElementById("inputService").value;
 
-      let availableHours = $('#available-hours');
-      console.log("OOO"+availableHours);
-      if (selectedOffice === 'Please select...') {
-        availableHours.hide();
-      } else {
-        availableHours.show();
-      }
-    });
 
     $('#inputEmployee').on('change', function () {
       let selectedOffice = document.getElementById("inputService").value;
@@ -38,7 +28,7 @@ $(document).ready(function () {
 
 function loadOfficeServices(officeId) {	
   fetch('http://localhost:8080/service/fetch/' + officeId).then((response) => response.json()).then((json) => {
-  	$('#divinputService').empty();
+  	 $('#divinputService').empty();
 	    let servicesSelect = `<select class="form-control" id="inputService" name="serviceId">`
 	      + `<option value="Please select...">Please select...</option>`
 	      
@@ -49,5 +39,16 @@ function loadOfficeServices(officeId) {
 	    	servicesSelect += `</select>`;
 	    	
 	    	$('#divinputService').append(servicesSelect);
+	    	
+	      $('#inputService').on('change', function () {
+	        let selectedOffice = document.getElementById("inputService").value;
+
+	        let availableHours = $('#available-hours');
+	        if (selectedOffice === 'Please select...') {
+	          availableHours.hide();
+	        } else {
+	          availableHours.show();
+	        }
+	      });
 });
 }
