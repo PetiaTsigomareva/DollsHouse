@@ -56,9 +56,9 @@ public class OfficeServiceImpl implements OfficeService {
 
         Office officeNew = this.modelMapper.map(model, Office.class);
         officeNew.setCompany(this.findCompany(model.getCompanyId()));
-        Office mappedOffice = this.officeRepository.saveAndFlush(officeNew);
+        officeNew = this.officeRepository.saveAndFlush(officeNew);
 
-        model = this.modelMapper.map(mappedOffice, OfficeServiceModel.class);
+        model = this.modelMapper.map(officeNew, OfficeServiceModel.class);
 
         return model;
     }

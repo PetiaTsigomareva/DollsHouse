@@ -48,7 +48,7 @@ public class Reservation extends BaseEntity {
 
 	public Reservation() {
 		super();
-		status = ReservationStatus.PENDING_CONFIRMATION;
+		status = ReservationStatus.PendingConfirmation;
 	}
 
 	public User getEmployee() {

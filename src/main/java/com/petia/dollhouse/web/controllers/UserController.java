@@ -30,7 +30,6 @@ import com.petia.dollhouse.service.UserService;
 import com.petia.dollhouse.web.annotations.PageTitle;
 
 @Controller
-
 public class UserController extends BaseController {
 
 	private final UserService userService;
@@ -226,7 +225,7 @@ public class UserController extends BaseController {
 	@PostMapping(Constants.SET_USER_ACTION + "{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView setUser(@PathVariable String id) {
-		this.userService.setUserRole(id, "user");
+		this.userService.setUserRole(id, Constants.USER);
 
 		return redirect(Constants.AlL_EMLOYEES_ACTION);
 	}
@@ -234,7 +233,7 @@ public class UserController extends BaseController {
 	@PostMapping(Constants.SET_MODERATOR_ACTION + "{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView setModerator(@PathVariable String id) {
-		this.userService.setUserRole(id, "moderator");
+		this.userService.setUserRole(id, Constants.MODERATOR);
 
 		return redirect(Constants.AlL_EMLOYEES_ACTION);
 	}
@@ -242,7 +241,7 @@ public class UserController extends BaseController {
 	@PostMapping(Constants.SET_ADMIN_ACTION + "{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView setAdmin(@PathVariable String id) {
-		this.userService.setUserRole(id, "admin");
+		this.userService.setUserRole(id, Constants.ADMIN);
 
 		return redirect(Constants.AlL_EMLOYEES_ACTION);
 	}

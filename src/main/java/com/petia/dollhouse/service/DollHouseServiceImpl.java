@@ -143,15 +143,15 @@ public class DollHouseServiceImpl implements DollHouseService {
                     ReservationStatus reservationStatus = reservation.getStatus();
 
                     switch (reservationStatus) {
-                        case CONFIRMED:
+                        case Confirmed:
                             hour.setAvailability(AvailabilityStatus.UNAVAILABLE);
                             break;
-                        case PENDING_CONFIRMATION:
+                        case PendingConfirmation:
                             if (!AvailabilityStatus.UNAVAILABLE.equals(hour.getAvailability())) {
                                 hour.setAvailability(AvailabilityStatus.PENDING_CONFIRMATION);
                             }
                             break;
-                        case REJECTED:
+                        case Rejected:
                             if (!AvailabilityStatus.UNAVAILABLE.equals(hour.getAvailability()) && !AvailabilityStatus.PENDING_CONFIRMATION.equals(hour.getAvailability())) {
                                 hour.setAvailability(AvailabilityStatus.AVAILABLE);
                             }

@@ -10,6 +10,7 @@
                             <div th:replace="~{fragments/components/select-service :: select( inputService, ${serviceNames},'display: block;')}"></div>
                             <div th:replace="~{fragments/components/select-employee :: select( inputEmployee, ${employeeNames} )}"></div>
                             <div th:replace="~{fragments/components/select-customer :: select( inputCustomer,${customerNames} )}"></div>
+                            <div th:replace="~{fragments/components/select-reservation-status :: select( inputReservationStatus, ${statusReservations} )}"></div>
                             <div th:replace="~{fragments/components/input :: input( datetime-local, inputReservationDateTime, reservationDateTime, ${bindingModel.reservationDateTime}, 'Reservation Date Time' )}"></div>
                             <div th:replace="~{fragments/components/text-area :: text-area( inputDescription, 6, 40 )}"></div>
                             <div th:replace="~{fragments/components/button :: button( ${buttonText} )}"></div>

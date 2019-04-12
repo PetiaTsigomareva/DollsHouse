@@ -18,9 +18,11 @@ public interface ReservationService {
 
     ReservationServiceModel findByID(String id);
 
-    ReservationServiceModel delete(ReservationServiceModel model);
+    void setReservationStatus(String id, String status);
 
     List<AllReservationViewModel> mapServiceToViewModels(List<ReservationServiceModel> models);
 
     ReservationServiceModel mapBindingToServiceModel(ReservationBindingModel model);
+
+    List<String> getReservationStatusValues();
 }

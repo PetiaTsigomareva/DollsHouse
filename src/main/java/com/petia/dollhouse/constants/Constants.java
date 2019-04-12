@@ -7,10 +7,15 @@ public interface Constants {
 	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm";
 	public static final String CUSTOMER = "Customer";
 	public static final String EMPLOYEE = "Employee";
+	public static final String USER = "user";
+	public static final String MODERATOR = "moderator";
+	public static final String ADMIN = "admin";
 	public static final String COMPANY_NAME = "Dolls House";
 	public static final String FORM_METHOD = "post";
-	public static final String FORM_METHOD_EDIT = "put";
-	public static final String FORM_METHOD_DELETE = "delete";
+	public static final String RESERVATION_REJECT = "Rejected";
+	public static final String RESERVATION_CONFIRM = "Confirmed";
+	public static final String RESERVATION_PENDING = "Pending-Confirmation";
+
 	// urls
 	public static final String INDEX_ACTION = "/";
 	public static final String HOME_ACTION = "/home";
@@ -43,6 +48,7 @@ public interface Constants {
 
 	public static final String SERVICE_CONTEXT = "/service";
 	public static final String ADD_SERVICE_ACTION = SERVICE_CONTEXT + "/add-service";
+
 	public static final String EDIT_SERVICE_ACTION = SERVICE_CONTEXT + "/edit-service/";
 	public static final String DELETE_SERVICE_ACTION = SERVICE_CONTEXT + "/delete-service/";
 	public static final String ALL_SERVICE_ACTION = SERVICE_CONTEXT + "/all-service";
@@ -56,8 +62,9 @@ public interface Constants {
 
 	public static final String ADD_MODERATOR_RESERVATION_ACTION = "/reservation/add-reservation-form";
 	public static final String EDIT_MODERATOR_RESERVATION_ACTION = "/reservation/edit-reservation-form/";
-	public static final String DELETE_MODERATOR_RESERVATION_ACTION = "/reservation/delete-reservation-form/";
+	public static final String REJECT_MODERATOR_RESERVATION_ACTION = "/reservation/reject-reservation-form/";
 	public static final String ALL_RESERVATIONS_ACTION = "/reservation/all-reservation-form";
+	public static final String CONFIRM_MODERATOR_RESERVATION_ACTION = "/reservation/confirm-reservation/";
 
 
 	public static final String LOGOUT_FORM_ACTION = "/logout?login";
@@ -100,7 +107,7 @@ public interface Constants {
 
 	public static final String ADD_MODERATOR_RESERVATION_PAGE = "/reservation/add-reservation-form";
 	public static final String EDIT_MODERATOR_RESERVATION_PAGE = "/reservation/edit-reservation-form";
-	public static final String DELETE_MODERATOR_RESERVATION_PAGE = "/reservation/delete-reservation-form";
+	public static final String REJECT_MODERATOR_RESERVATION_PAGE = "/reservation/reject-reservation-form";
 	public static final String ALL_RESERVATIONS_PAGE = "/reservation/all-reservation-form";
 
 	// Error Massages
@@ -140,7 +147,9 @@ public interface Constants {
 
 	public static final String ADD_RESERVATION_TITLE = ADD + " Reservation";
 	public static final String EDIT_RESERVATION_TITLE = EDIT + " Reservation";
-	public static final String DELETE_RESERVATION_TITLE = DELETE + " Reservation";
+	public static final String REJECT_RESERVATION_TITLE = RESERVATION_REJECT + " Reservation";
+	public static final String CONFIRM_RESERVATION_TITLE = RESERVATION_CONFIRM + " Reservation";
+
 	public static final String ALL_RESERVATIONS_TITLE = ALL + " Reservation";
 
 	public static final String INDEX_TITLE = "Index";

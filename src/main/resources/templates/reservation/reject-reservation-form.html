@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:insert="~{fragments/head}"></th:block>
+    <script th:src="@{/js/reservation.js}"></script>
+</head>
+<body>
+<header>
+    <th:block th:insert="~{fragments/navbar}"></th:block>
+</header>
+<main>
+    <div th:insert="~{fragments/reservation-form::reservation-form-fragment(
+        url=@{${T(com.petia.dollhouse.constants.Constants).REJECT_MODERATOR_RESERVATION_ACTION}}+${id},
+        title=#{reservation.reject.title},
+        methodLabel=${T(com.petia.dollhouse.constants.Constants).FORM_METHOD},
+        buttonText=#{form.reject.button}
+        )}">
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('form input[type="datetime-local"]').prop("disabled", true);
+            $('#inputDescription').prop("disabled", true);
+            $('#inputOffice').prop("disabled", true);
+            $('#inputService').prop("disabled", true);
+            $('#inputEmployee').prop("disabled", true);
+            $('#inputCustomer').prop("disabled", true);
+            $('#inputReservationStatus').prop("disabled", true);
+        });
+    </script>
+
+</main>
+<footer>
+    <th:block th:insert="~{fragments/footer}"></th:block>
+</footer>
+</body>
+</html>

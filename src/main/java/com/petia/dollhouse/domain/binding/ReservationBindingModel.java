@@ -14,6 +14,7 @@ public class ReservationBindingModel {
 	@DateTimeFormat(pattern = Constants.DATE_TIME_FORMAT)
 	private LocalDateTime reservationDateTime;
 	private String description;
+	private String reservationStatus;
 
 	public ReservationBindingModel() {
 	}
@@ -64,5 +65,13 @@ public class ReservationBindingModel {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getReservationStatus() {
+		return reservationStatus;
+	}
+
+	public void setReservationStatus(String reservationStatus) {
+		this.reservationStatus = reservationStatus;
 	}
 }
