@@ -36,4 +36,6 @@ public interface UserService extends UserDetailsService {
 	Collection<UserServiceModel> findEmployeesByService(String serviceId);
 
 	UserServiceModel mapBindingToServiceModel(EmployeeBindingModel model);
+
+	NamesViewModel mapUserServiceModelToNameViewModel(UserServiceModel model);
 }

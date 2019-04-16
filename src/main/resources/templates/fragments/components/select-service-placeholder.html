@@ -1,7 +1,7 @@
 <th:block th:fragment="select( componentId, itemsList, style )">
-    <div th:class="form-label-group" th:style="${style}" th:id="'div'+${componentId}">
-        <select class="form-control" th:id="${componentId}" th:field="*{bindingModel.serviceId}" required>
-            <option value="Please select...">Please select Service...</option>
-        </select>
-    </div>
+	<div th:class="form-label-group" th:style="${style}" th:id="'div'+${componentId}">
+		<select class="form-control" th:id="${componentId}" th:field="*{bindingModel.serviceId}" required>
+			<option value="Please select...">Please select Service...</option>
+		</select>
+	</div>
 </th:block>

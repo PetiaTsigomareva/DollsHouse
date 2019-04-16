@@ -255,7 +255,7 @@ public class UserController extends BaseController {
 	public List<NamesViewModel> fetchEmployeesByService(@PathVariable String serviceId) {
 		List<NamesViewModel> result;
 
-		result = this.userService.findEmployeesByService(serviceId).stream().map(product -> this.modelMapper.map(product, NamesViewModel.class)).collect(Collectors.toList());
+		result = this.userService.findEmployeesByService(serviceId).stream().map(product -> this.userService.mapUserServiceModelToNameViewModel(product)).collect(Collectors.toList());
 
 		return result;
 	}

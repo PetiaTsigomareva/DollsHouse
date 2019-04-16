@@ -15,9 +15,8 @@
 				<div class="card card-signin flex-row my-5">
 					<div class="card-body">
 						<div th:replace="~{fragments/components/select-office :: select( inputOffice, ${officeNames} )}"></div>
-						<div class="form-label-group" id="divinputService">
-						</div>
-						<!-- div th:replace="~{fragments/components/select-service :: select( inputService, ${serviceNames}, 'display: none;' )}"></div -->
+						<div th:replace="~{fragments/components/select-service-placeholder :: select( inputService, ${serviceNames}, 'display: none;' )}"></div>
+						<div th:replace="~{fragments/components/select-employee :: select( inputEmployee, ${employeeNames}, 'display: none;' )}"></div>
 					</div>
 				</div>
 			</div>
