@@ -24,7 +24,7 @@ public class HomeController extends BaseController {
 
 
     @Autowired
-    public HomeController( PromoOfferService promoOfferService) {
+    public HomeController(PromoOfferService promoOfferService) {
 
         this.promoOfferService = promoOfferService;
 
@@ -33,6 +33,8 @@ public class HomeController extends BaseController {
     @GetMapping(Constants.INDEX_ACTION)
     @PageTitle(Constants.INDEX_TITLE)
     public ModelAndView index(ModelAndView modelAndView) {
+        List<PromoOfferViewModel> promoOffers = this.promoOfferService.mapPromoOfferServiceToView(this.promoOfferService.allPromoOffer());
+        modelAndView.addObject("promoOffers", promoOffers);
 
         return super.view(Constants.INDEX_PAGE, modelAndView);
 
@@ -42,8 +44,8 @@ public class HomeController extends BaseController {
     @PreAuthorize("isAuthenticated()")
     @PageTitle(Constants.HOME_TITLE)
     public ModelAndView home(ModelAndView modelAndView) {
-        List<PromoOfferViewModel> promoOffers=this.promoOfferService.mapPromoOfferServiceToView(this.promoOfferService.allPromoOffer());
-        modelAndView.addObject("promoOffers",promoOffers);
+        List<PromoOfferViewModel> promoOffers = this.promoOfferService.mapPromoOfferServiceToView(this.promoOfferService.allPromoOffer());
+        modelAndView.addObject("promoOffers", promoOffers);
 
         return super.view(Constants.INDEX_PAGE, modelAndView);
     }

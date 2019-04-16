@@ -14,67 +14,7 @@
 
 <!-- Page Content -->
 <main class="custom-color">
-    <div class="container mt-4">
-
-        <!-- Marketing Icons Section -->
-        <h2 class="text-sm-center">PromoOffers</h2>
-        <div class="row">
-            <th:block th:each="promoOffer, iter : ${promoOffers}">
-                <div class="col-lg-4 mb-4">
-                    <div class="card h-100">
-                        <h4 class="card-header" th:text="${promoOffer.name}"></h4>
-                        <div class="card-body">
-                            <p class="card-text" th:text="${promoOffer.description}"></p>
-                            <p class="card-text" th:text="${promoOffer.startDate}"></p>
-                            <p class="card-text" th:text="${promoOffer.endDate}"></p>
-                            <p class="card-text" th:text="${promoOffer.price}|Lv."></p>
-                        </div>
-                        <div class="card-footer">
-                            <a href="#" class="btn btn-primary">Learn More</a>
-                        </div>
-                    </div>
-                </div>
-            </th:block>
-            <div class="col-lg-4 mb-4">
-                <div class="card h-100">
-                    <h4 class="card-header">PromoOffers</h4>
-                    <div class="card-body">
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse
-                            necessitatibus neque.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Learn More</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 mb-4">
-                <div class="card h-100">
-                    <h4 class="card-header">PromoOffers</h4>
-                    <div class="card-body">
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis ipsam
-                            eos, nam perspiciatis natus commodi similique totam consectetur praesentium molestiae atque
-                            exercitationem ut consequuntur, sed eveniet, magni nostrum sint fuga.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Learn More</a>
-                    </div>
-                </div>
-            </div>
-            <div-- class="col-lg-4 mb-4">
-                <div class="card h-100">
-                    <h4 class="card-header">PromoOffers</h4>
-                    <div class="card-body">
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse
-                            necessitatibus neque.</p>
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-primary">Learn More</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /.row -->
+    <th:block th:insert="~{fragments/promo-offers}"></th:block>
 </main>
 <hr/>
 <!-- Footer -->
