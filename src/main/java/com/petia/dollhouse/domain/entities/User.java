@@ -7,8 +7,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -19,8 +17,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.springframework.security.core.userdetails.UserDetails;
-
-import com.petia.dollhouse.domain.enums.Positions;
 
 @Entity
 @Table(name = "users")
@@ -57,12 +53,8 @@ public class User extends EntityWithStatus implements UserDetails {
 	@JoinColumn(name = "office_id", referencedColumnName = "id")
 	private Office office;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "position")
-	private Positions position;
-
-	@Column(name = "work_description")
-	private String description;
+	@ManyToMany(mappedBy = "employees", targetEntity = DHService.class)
+	private List<DHService> employeeServices;
 
 	@Column(name = "image_url")
 	private String imageUrl;
@@ -71,6 +63,7 @@ public class User extends EntityWithStatus implements UserDetails {
 		authorities = new HashSet<>();
 		customerReservations = new ArrayList<>();
 		employeeReservations = new ArrayList<>();
+		employeeServices = new ArrayList<>();
 	}
 
 	public String getFirstName() {
@@ -180,20 +173,12 @@ public class User extends EntityWithStatus implements UserDetails {
 		this.office = office;
 	}
 
-	public Positions getPosition() {
-		return position;
+	public List<DHService> getEmployeeServices() {
+		return employeeServices;
 	}
 
-	public void setPosition(Positions position) {
-		this.position = position;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
+	public void setEmployeeServices(List<DHService> employeeServices) {
+		this.employeeServices = employeeServices;
 	}
 
 	public String getImageUrl() {

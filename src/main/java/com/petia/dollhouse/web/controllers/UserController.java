@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.petia.dollhouse.constants.Constants;
@@ -25,20 +26,22 @@ import com.petia.dollhouse.domain.view.AllUserViewModel;
 import com.petia.dollhouse.domain.view.NamesViewModel;
 import com.petia.dollhouse.domain.view.UserProfileViewModel;
 import com.petia.dollhouse.service.CloudinaryService;
+import com.petia.dollhouse.service.DollHouseService;
 import com.petia.dollhouse.service.OfficeService;
 import com.petia.dollhouse.service.UserService;
 import com.petia.dollhouse.web.annotations.PageTitle;
 
 @Controller
 public class UserController extends BaseController {
-
+	private final DollHouseService dollHouseService;
 	private final UserService userService;
 	private final OfficeService officeService;
 	private final ModelMapper modelMapper;
 	private final CloudinaryService cloudinaryService;
 
 	@Autowired
-	public UserController(UserService userService, OfficeService officeService, ModelMapper modelMapper, CloudinaryService cloudinaryService) {
+	public UserController(DollHouseService dollHouseService, UserService userService, OfficeService officeService, ModelMapper modelMapper, CloudinaryService cloudinaryService) {
+		this.dollHouseService = dollHouseService;
 		this.userService = userService;
 		this.officeService = officeService;
 		this.modelMapper = modelMapper;
@@ -134,7 +137,7 @@ public class UserController extends BaseController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView addEmployeesConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") EmployeeBindingModel employeeBindingModel) throws IOException {
 		modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
-		UserServiceModel userServiceModel = this.modelMapper.map(employeeBindingModel, UserServiceModel.class);
+		UserServiceModel userServiceModel = this.userService.mapBindingToServiceModel(employeeBindingModel);
 		if (!employeeBindingModel.getImage().isEmpty()) {
 			userServiceModel.setImageUrl(this.cloudinaryService.uploadImage(employeeBindingModel.getImage()));
 		}
@@ -163,7 +166,7 @@ public class UserController extends BaseController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView editEmployeeConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") EmployeeBindingModel employeeBindingModel, @PathVariable String id)
 	    throws IOException {
-		UserServiceModel userServiceModel = this.modelMapper.map(employeeBindingModel, UserServiceModel.class);
+		UserServiceModel userServiceModel = this.userService.mapBindingToServiceModel(employeeBindingModel);
 		userServiceModel.setId(id);
 		if (!employeeBindingModel.getImage().isEmpty()) {
 			userServiceModel.setImageUrl(this.cloudinaryService.uploadImage(employeeBindingModel.getImage()));
@@ -246,6 +249,14 @@ public class UserController extends BaseController {
 		return redirect(Constants.AlL_EMLOYEES_ACTION);
 	}
 
+	@GetMapping(Constants.FETCH_SERVICE_ALL_EMPLOYEES_ACTION + "{serviceId}")
+	@PreAuthorize("isAuthenticated()")
+	@ResponseBody
+	public List<NamesViewModel> fetchEmployeesByService(@PathVariable String serviceId) {
+		List<NamesViewModel> result;
 
+		result = this.userService.findEmployeesByService(serviceId).stream().map(product -> this.modelMapper.map(product, NamesViewModel.class)).collect(Collectors.toList());
 
+		return result;
+	}
 }

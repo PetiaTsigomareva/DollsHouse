@@ -1,8 +1,8 @@
 package com.petia.dollhouse.domain.binding;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import java.math.BigDecimal;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class ServiceBindingModel {
 
@@ -11,6 +11,7 @@ public class ServiceBindingModel {
 	private BigDecimal price;
 	private MultipartFile image;
 	private String officeId;
+	private String serviceId;
 
 	public ServiceBindingModel() {
 		super();
@@ -56,4 +57,11 @@ public class ServiceBindingModel {
 		this.officeId = officeId;
 	}
 
+	public String getServiceId() {
+		return serviceId;
+	}
+
+	public void setServiceId(String serviceId) {
+		this.serviceId = serviceId;
+	}
 }

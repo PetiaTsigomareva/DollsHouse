@@ -15,5 +15,5 @@ public interface ServiceRepository extends JpaRepository<DHService, String> {
 	List<DHService> findAllActiveServices();
 
 	@Query("SELECT s FROM DHService s WHERE s.status = 'ACTIVE' and s.office.id =:officeId")
-	List<DHService> findOfficeAllActiveServices(String officeId);
+	List<DHService> findAllActiveServicesByOffice(String officeId);
 }

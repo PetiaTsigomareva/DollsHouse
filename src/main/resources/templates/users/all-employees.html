@@ -1,115 +1,119 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
-    <th:block th:insert="~{fragments/head}"></th:block>
+<th:block th:insert="~{fragments/head}"></th:block>
 </head>
 <body>
-<heder>
-    <th:block th:insert="~{fragments/navbar}"></th:block>
-</heder>
-<hr class="hr-2 bg-dark"/>
-<main class="mt-2">
-    <h5 class="text-center text-dark" th:text="#{allemployee.table.title}"></h5>
-    <hr class="hr-2 bg-dark w-75"/>
-    <table class="table table-active w-75 mx-auto">
-        <thead>
-        <tr class="row mx-auto text-dark">
-            <th class="col-md-1 text-center" th:text="#{allitems.table.number}"></th>
-            <th class="col-md-2 text-center" th:text="#{allemployee.table.firstname}"></th>
-            <th class="col-md-2 text-center" th:text="#{allemployee.table.lastname}"></th>
-            <th class="col-md-2 text-center" th:text="#{allitems.table.email}"></th>
-            <th class="col-md-2 text-center" th:text="#{allemployee.table.roles}"></th>
-            <th class="col-md-2 text-center" th:text="#{allemployee.table.roleactions}"></th>
-            <th class="col-md-1 text-center" th:text="#{allemployee.table.profileactions}"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <th:block th:each="user, iter : ${users}">
-            <tr class="row mx-auto text-dark">
-                <th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>
-                <td class="col-md-2 text-center" th:text="${user.firstName}"></td>
-                <td class="col-md-2 text-center" th:text="${user.lastName}"></td>
-                <td class="col-md-2 text-center" th:text="${user.email}"></td>
-                <td class="col-md-2 text-center" th:text="${#strings.listJoin(user.authorities, ', ')}"></td>
-                <td class="col-md-2 text-center">
-                    <div class="row">
-                        <th:block th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
+	<heder> <th:block th:insert="~{fragments/navbar}"></th:block> </heder>
+	<hr class="hr-2 bg-dark" />
+	<main class="mt-2">
+	<h5 class="text-center text-dark" th:text="#{allemployee.table.title}"></h5>
+	<hr class="hr-2 bg-dark w-75" />
+	<table class="table table-active w-75 mx-auto">
+		<thead>
+			<tr class="row mx-auto text-dark">
+				<th class="col-md-1 text-center" th:text="#{allitems.table.number}"></th>
+				<th class="col-md-2 text-center" th:text="#{allemployee.table.firstname}"></th>
+				<th class="col-md-2 text-center" th:text="#{allemployee.table.lastname}"></th>
+				<th class="col-md-2 text-center" th:text="#{allitems.table.email}"></th>
+				<th class="col-md-2 text-center" th:text="#{allemployee.table.roles}"></th>
+				<th class="col-md-2 text-center" th:text="#{allemployee.table.roleactions}"></th>
+				<th class="col-md-1 text-center" th:text="#{allemployee.table.profileactions}"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<th:block th:each="user, iter : ${users}">
+				<tr class="row mx-auto text-dark">
+					<th class="col-md-1 text-center" th:text="${iter.index + 1}"></th>
+					<td class="col-md-2 text-center" th:text="${user.firstName}"></td>
+					<td class="col-md-2 text-center" th:text="${user.lastName}"></td>
+					<td class="col-md-2 text-center" th:text="${user.email}"></td>
+					<td class="col-md-2 text-center" th:text="${#strings.listJoin(user.authorities, ', ')}"></td>
+					<td class="col-md-2 text-center">
+						<div class="row">
+							<th:block
+								th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
                             !#lists.contains(user.authorities, 'ROLE_MODERATOR') && !#lists.contains(user.authorities,'ROLE_ADMIN') }">
-                            <div th:insert="~{fragments/employee-roles-actions-form :: employee-roles-actions-form(
+								<div
+									th:insert="~{fragments/employee-roles-actions-form :: employee-roles-actions-form(
                                url=@{${T(com.petia.dollhouse.constants.Constants).SET_MODERATOR_ACTION}+${user.id}},
                                methodLabel=${T(com.petia.dollhouse.constants.Constants).FORM_METHOD},
                                buttonText=#{moderator.button.title}
                               )}">
 
-                            </div>
+								</div>
 
-                            <div th:insert="~{fragments/employee-roles-actions-form :: employee-roles-actions-form(
+								<div
+									th:insert="~{fragments/employee-roles-actions-form :: employee-roles-actions-form(
                                url=@{${T(com.petia.dollhouse.constants.Constants).SET_ADMIN_ACTION}+${user.id}},
                                methodLabel=${T(com.petia.dollhouse.constants.Constants).FORM_METHOD},
                                buttonText=#{admin.button.title}
                                )}">
 
-                            </div>
-                        </th:block>
-                        <th:block th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
+								</div>
+							</th:block>
+							<th:block
+								th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
                             #lists.contains(user.authorities, 'ROLE_MODERATOR') && !#lists.contains(user.authorities, 'ROLE_ADMIN') }">
 
 
-                            <div th:insert="~{fragments/employee-roles-actions-form :: employee-roles-actions-form(
+								<div
+									th:insert="~{fragments/employee-roles-actions-form :: employee-roles-actions-form(
                                url=@{${T(com.petia.dollhouse.constants.Constants).SET_USER_ACTION}+${user.id}},
                                methodLabel=${T(com.petia.dollhouse.constants.Constants).FORM_METHOD},
                                buttonText=#{user.button.title}
                               )}">
 
-                            </div>
+								</div>
 
-                            <div th:insert="~{fragments/employee-roles-actions-form :: employee-roles-actions-form(
+								<div
+									th:insert="~{fragments/employee-roles-actions-form :: employee-roles-actions-form(
                                url=@{${T(com.petia.dollhouse.constants.Constants).SET_ADMIN_ACTION}+${user.id}},
                                methodLabel=${T(com.petia.dollhouse.constants.Constants).FORM_METHOD},
                                buttonText=#{admin.button.title}
                                )}">
 
-                            </div>
-                        </th:block>
-                        <th:block th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
+								</div>
+							</th:block>
+							<th:block
+								th:if="${#lists.contains(user.authorities, 'ROLE_USER') &&
                            #lists.contains(user.authorities, 'ROLE_MODERATOR') && #lists.contains(user.authorities, 'ROLE_ADMIN') && !#lists.contains(user.authorities, 'ROLE_ROOT_ADMIN') }">
 
-                            <div th:insert="~{fragments/employee-roles-actions-form :: employee-roles-actions-form(
+								<div
+									th:insert="~{fragments/employee-roles-actions-form :: employee-roles-actions-form(
                                url=@{${T(com.petia.dollhouse.constants.Constants).SET_USER_ACTION}+${user.id}},
                                methodLabel=${T(com.petia.dollhouse.constants.Constants).FORM_METHOD},
                                buttonText=#{user.button.title}
                               )}">
-                            </div>
-                            <div th:insert="~{fragments/employee-roles-actions-form :: employee-roles-actions-form(
+								</div>
+								<div
+									th:insert="~{fragments/employee-roles-actions-form :: employee-roles-actions-form(
                                url=@{${T(com.petia.dollhouse.constants.Constants).SET_MODERATOR_ACTION}+${user.id}},
                                methodLabel=${T(com.petia.dollhouse.constants.Constants).FORM_METHOD},
                                buttonText=#{moderator.button.title}
                               )}">
 
-                            </div>
-                        </th:block>
-                    </div>
-                </td>
-                <td class="col-md-1 text-center">
-                    <div class="row">
-                        <a class="btn btn-outline-dark" th:text="#{form.edit.button}"
-                           th:href="@{${T(com.petia.dollhouse.constants.Constants).EDIT_EMPLOYEE_ACTION}+${user.id}}"></a>
-                        <a class="btn btn-outline-dark" th:text="#{form.delete.button}"
-                           th:href="@{${T(com.petia.dollhouse.constants.Constants).DELETE_EMPLOYEE_ACTION}+${user.id}}">Delete</a>
-                    </div>
-                </td>
-            </tr>
-        </th:block>
-        </tbody>
-    </table>
-    <hr class="hr-2 bg-dark"/>
-    <div th:replace="~{fragments/components/link :: link-item(link=@{${T(com.petia.dollhouse.constants.Constants).ADD_EMPLOYEE_ACTION}},title=#{employeeform.add.title})}"></div>
-    <hr class="hr-2 bg-dark"/>
-</main>
-<footer>
-    <th:block th:insert="~{fragments/footer}"></th:block>
-</footer>
+								</div>
+							</th:block>
+						</div>
+					</td>
+					<td class="col-md-1 text-center">
+						<div class="row">
+							<a class="btn btn-outline-dark" th:text="#{form.edit.button}" th:href="@{${T(com.petia.dollhouse.constants.Constants).EDIT_EMPLOYEE_ACTION}+${user.id}}"></a> <a
+								class="btn btn-outline-dark" th:text="#{form.delete.button}" th:href="@{${T(com.petia.dollhouse.constants.Constants).DELETE_EMPLOYEE_ACTION}+${user.id}}"></a>
+						</div>
+					</td>
+				</tr>
+			</th:block>
+		</tbody>
+	</table>
+	<hr class="hr-2 bg-dark" />
+	<div th:replace="~{fragments/components/link :: link-item(link=@{${T(com.petia.dollhouse.constants.Constants).ADD_EMPLOYEE_ACTION}},title=#{employeeform.add.title})}"></div>
+	<hr class="hr-2 bg-dark" />
+	</main>
+	<footer>
+		<th:block th:insert="~{fragments/footer}"></th:block>
+	</footer>
 </body>
 </html>

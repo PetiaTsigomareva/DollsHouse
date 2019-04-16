@@ -24,17 +24,23 @@ public interface Constants {
 	public static final String ADMIN_SIDEBAR_ACTION = "/admin";
 	public static final String MODERATOR_SIDEBAR_ACTION = "/moderator";
 
-	public static final String PROFILE_ACTION = "/users/profile";
-	public static final String EDIT_PROFILE_ACTION = "/users/edit-profile/";
-	public static final String REGISTER_FORM_ACTION = "/users/register";
-	public static final String LOGIN_FORM_ACTION = "/users/login";
-	public static final String ADD_EMPLOYEE_ACTION = "/users/add-employee";
-	public static final String EDIT_EMPLOYEE_ACTION = "/users/edit-employee/";
-	public static final String DELETE_EMPLOYEE_ACTION = "/users/delete-employee/";
-	public static final String AlL_EMLOYEES_ACTION = "/users/all-employees";
-	public static final String SET_USER_ACTION = "/users/set-user/";
-	public static final String SET_MODERATOR_ACTION = "/users/set-moderator/";
-	public static final String SET_ADMIN_ACTION = "/users/set-admin/";
+	public static final String USER_CONTEXT = "/users";
+	public static final String PROFILE_ACTION = USER_CONTEXT + "/profile";
+	public static final String EDIT_PROFILE_ACTION = USER_CONTEXT + "/edit-profile/";
+	public static final String REGISTER_FORM_ACTION = USER_CONTEXT + "/register";
+	public static final String LOGIN_FORM_ACTION = USER_CONTEXT + "/login";
+	public static final String ADD_EMPLOYEE_ACTION = USER_CONTEXT + "/add-employee";
+	public static final String EDIT_EMPLOYEE_ACTION = USER_CONTEXT + "/edit-employee/";
+	public static final String DELETE_EMPLOYEE_ACTION = USER_CONTEXT + "/delete-employee/";
+	public static final String AlL_EMLOYEES_ACTION = USER_CONTEXT + "/all-employees";
+	public static final String SET_USER_ACTION = USER_CONTEXT + "/set-user/";
+	public static final String SET_MODERATOR_ACTION = USER_CONTEXT + "/set-moderator/";
+	public static final String SET_ADMIN_ACTION = USER_CONTEXT + "/set-admin/";
+	public static final String FETCH_SERVICE_ALL_EMPLOYEES_ACTION = USER_CONTEXT + "/fetch/";
+	public static final String ADD_EMPLOYEE_PAGE = USER_CONTEXT + "/add-employee";
+	public static final String EDIT_EMPLOYEE_PAGE = USER_CONTEXT + "/edit-employee";
+	public static final String DELETE_EMPLOYEE_PAGE = USER_CONTEXT + "/delete-employee";
+	public static final String ALL_EMPLOYEES_PAGE = USER_CONTEXT + "/all-employees";
 
 	public static final String ADD_COMPANY_ACTION = "/company/add-company";
 	public static final String EDIT_COMPANY_ACTION = "/company/edit-company/";
@@ -66,7 +72,6 @@ public interface Constants {
 	public static final String ALL_RESERVATIONS_ACTION = "/reservation/all-reservation-form";
 	public static final String CONFIRM_MODERATOR_RESERVATION_ACTION = "/reservation/confirm-reservation/";
 
-
 	public static final String LOGOUT_FORM_ACTION = "/logout?login";
 
 	// pages name
@@ -79,10 +84,6 @@ public interface Constants {
 	public static final String ADMIN_SIDEBAR_PAGE = "admin";
 	public static final String MODERATOR_SIDEBAR_PAGE = "moderator";
 
-	public static final String ADD_EMPLOYEE_PAGE = "/users/add-employee";
-	public static final String EDIT_EMPLOYEE_PAGE = "/users/edit-employee";
-	public static final String DELETE_EMPLOYEE_PAGE = "/users/delete-employee";
-	public static final String ALL_EMPLOYEES_PAGE = "/users/all-employees";
 	public static final String PROFILE_PAGE = "/profile";
 	public static final String EDIT_PROFILE_PAGE = "/edit-profile";
 	public static final String ADD_COMPANY_PAGE = "/company/add-company";
@@ -102,8 +103,6 @@ public interface Constants {
 	public static final String ADD_RESERVATION_PAGE = "/reservation/add-reservation";
 	public static final String EDIT_RESERVATION_PAGE = "/reservation/edit-reservation";
 	public static final String DELETE_RESERVATION_PAGE = "/reservation/delete-reservation";
-
-
 
 	public static final String ADD_MODERATOR_RESERVATION_PAGE = "/reservation/add-reservation-form";
 	public static final String EDIT_MODERATOR_RESERVATION_PAGE = "/reservation/edit-reservation-form";

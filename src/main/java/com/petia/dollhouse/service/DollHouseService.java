@@ -24,4 +24,6 @@ public interface DollHouseService {
 	List<DayAvailabilityServiceModel> fetchAvailabilities(String serviceId, String emloyeeId, LocalDate fromDate, LocalDate toDate);
 
 	List<NamesViewModel> mapModelServiceNamesToViewNames();
+
+	List<NamesViewModel> getAllServicesByOfiice(String officeId);
 }

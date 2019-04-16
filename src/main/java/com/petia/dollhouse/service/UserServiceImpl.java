@@ -1,12 +1,12 @@
 package com.petia.dollhouse.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-import com.petia.dollhouse.domain.view.NamesViewModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,12 +15,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.petia.dollhouse.constants.Constants;
+import com.petia.dollhouse.domain.binding.EmployeeBindingModel;
+import com.petia.dollhouse.domain.entities.DHService;
 import com.petia.dollhouse.domain.entities.Office;
 import com.petia.dollhouse.domain.entities.User;
 import com.petia.dollhouse.domain.enums.Positions;
 import com.petia.dollhouse.domain.enums.RoleNames;
 import com.petia.dollhouse.domain.enums.StatusValues;
 import com.petia.dollhouse.domain.service.UserServiceModel;
+import com.petia.dollhouse.domain.view.NamesViewModel;
 import com.petia.dollhouse.repositories.UserRepository;
 
 @Service
@@ -28,15 +31,17 @@ public class UserServiceImpl implements UserService {
 	private final UserRepository userRepository;
 	private final RoleService roleService;
 	private final OfficeService officeService;
+	private final DollHouseService serviceService;
 	private final ModelMapper modelMapper;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Autowired
-	public UserServiceImpl(UserRepository userRepository, RoleService roleService, OfficeService officeService, ModelMapper modelMapper,
+	public UserServiceImpl(UserRepository userRepository, RoleService roleService, OfficeService officeService, DollHouseService serviceService, ModelMapper modelMapper,
 	    BCryptPasswordEncoder bCryptPasswordEncoder) {
 		this.userRepository = userRepository;
 		this.roleService = roleService;
 		this.officeService = officeService;
+		this.serviceService = serviceService;
 		this.modelMapper = modelMapper;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 	}
@@ -160,6 +165,10 @@ public class UserServiceImpl implements UserService {
 
 			User employee = this.modelMapper.map(model, User.class);
 			employee.setOffice(findOffice(model.getOfficeId()));
+			List<DHService> services = new ArrayList<>();
+			services.add(findService(model.getServiceId()));
+			employee.setEmployeeServices(services);
+
 			employee.setPassword(this.bCryptPasswordEncoder.encode(model.getPassword()));
 			employee.setStatus(StatusValues.ACTIVE);
 			employee = this.userRepository.saveAndFlush(employee);
@@ -180,16 +189,22 @@ public class UserServiceImpl implements UserService {
 		User employee = this.userRepository.findById(model.getId()).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
 		model.setStatus(employee.getStatus().name());
 		model.setPassword(employee.getPassword());
+
 		if (model.getImageUrl() == null && employee.getImageUrl() != null) {
 			model.setImageUrl(employee.getImageUrl());
 		}
-		User employeeNew = this.modelMapper.map(model, User.class);
-		employeeNew.setOffice(findOffice(model.getOfficeId()));
 
-		employeeNew.setAuthorities(employee.getAuthorities());
-		User mappedUser = this.userRepository.saveAndFlush(employeeNew);
+		User employee2 = this.modelMapper.map(model, User.class);
 
-		model = this.modelMapper.map(mappedUser, UserServiceModel.class);
+		employee2.setOffice(findOffice(model.getOfficeId()));
+		employee2.getEmployeeServices().add(findService(model.getServiceId()));
+
+		employee2.setAuthorities(employee.getAuthorities());
+		User storedUser = this.userRepository.saveAndFlush(employee2);
+//		storedUser.getEmployeeServices().add(findService(model.getServiceId()));
+//		User storedUser2 = this.userRepository.saveAndFlush(storedUser);
+
+		model = this.modelMapper.map(storedUser, UserServiceModel.class);
 
 		return model;
 	}
@@ -209,11 +224,14 @@ public class UserServiceImpl implements UserService {
 	private Office findOffice(String id) {
 		Office office;
 		office = this.modelMapper.map(this.officeService.findOfficeByID(id), Office.class);
-
 		return office;
-
 	}
 
+	private DHService findService(String id) {
+		DHService service;
+		service = this.modelMapper.map(this.serviceService.findByID(id), DHService.class);
+		return service;
+	}
 
 	public List<NamesViewModel> mapUserNamesByCriteria(String criteria) {
 		List<NamesViewModel> result = new ArrayList<>();
@@ -229,5 +247,29 @@ public class UserServiceImpl implements UserService {
 		return result;
 	}
 
+	@Override
+	public Collection<UserServiceModel> findEmployeesByService(String serviceId) {
+		List<User> users = this.userRepository.findAllEmployeesByService(serviceId);
 
+		List<UserServiceModel> userServiceModel = users.stream().map(s -> this.modelMapper.map(s, UserServiceModel.class)).collect(Collectors.toList());
+
+		return userServiceModel;
+	}
+
+	@Override
+	public UserServiceModel mapBindingToServiceModel(EmployeeBindingModel model) {
+		UserServiceModel result = new UserServiceModel();
+		result.setEmail(model.getEmail());
+		result.setFirstName(model.getFirstName());
+//		result.setId(model.getid);
+//		result.setImageUrl(model.getimageUrl);
+		result.setUsername(model.getUsername());
+		result.setLastName(model.getLastName());
+		result.setPassword(model.getPassword());
+		result.setPhoneNumber(model.getPhoneNumber());
+		result.setOfficeId(model.getOfficeId());
+		result.setServiceId(model.getServiceId());
+		result.setDescription(model.getDescription());
+		return result;
+	}
 }

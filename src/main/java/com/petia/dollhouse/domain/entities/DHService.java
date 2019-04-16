@@ -4,7 +4,14 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "services")
@@ -22,7 +29,7 @@ public class DHService extends EntityWithStatus {
 	@Column(name = "picture", nullable = false)
 	private String urlPicture;
 
-	//@ManyToMany(targetEntity = Reservation.class, mappedBy = "services")
+	// @ManyToMany(targetEntity = Reservation.class, mappedBy = "services")
 	@OneToMany(targetEntity = Reservation.class, mappedBy = "service")
 	private List<Reservation> reservations;
 
@@ -38,12 +45,11 @@ public class DHService extends EntityWithStatus {
 	@JoinTable(name = "users_services", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "service_id", referencedColumnName = "id"))
 	private List<User> employees;
 
-
 	public DHService() {
 		super();
 		offers = new ArrayList<>();
 		reservations = new ArrayList<>();
-		employees=new ArrayList<>();
+		employees = new ArrayList<>();
 	}
 
 	public String getName() {
