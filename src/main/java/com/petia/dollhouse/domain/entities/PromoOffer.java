@@ -1,5 +1,6 @@
 package com.petia.dollhouse.domain.entities;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,30 +15,33 @@ import javax.persistence.Table;
 @Table(name = "promo_offers")
 public class PromoOffer extends EntityWithStatus {
 
-	@Column(name = "name", nullable = false)
+	@Column(name = "name")
 	private String name;
 
-	@Column(name = "description", nullable = false)
+	@Column(name = "description")
 	private String description;
 
-	@Column(name = "picture", nullable = false)
-	private String urlPicture;
+	@Column(name = "price")
+	private BigDecimal price;
 
-	@Column(name = "start_date", nullable = false)
+//	@Column(name = "picture")
+//	private String urlPicture;
+
+	@Column(name = "start_date")
 	private LocalDate startDate;
 
-	@Column(name = "end_date", nullable = false)
+	@Column(name = "end_date")
 	private LocalDate endDate;
 
-	@ManyToMany(targetEntity = DHService.class, mappedBy = "offers")
-	private List<DHService> services;
+//	@ManyToMany(targetEntity = DHService.class, mappedBy = "offers")
+//	private List<DHService> services;
 
 	@OneToMany(targetEntity = Reservation.class, mappedBy = "offer")
 	private List<Reservation> reservations;
 
 	public PromoOffer() {
 
-		services = new ArrayList<>();
+		//services = new ArrayList<>();
 		reservations = new ArrayList<>();
 	}
 
@@ -57,13 +61,21 @@ public class PromoOffer extends EntityWithStatus {
 		this.description = description;
 	}
 
-	public String getUrlPicture() {
-		return urlPicture;
+	public BigDecimal getPrice() {
+		return price;
 	}
 
-	public void setUrlPicture(String urlPicture) {
-		this.urlPicture = urlPicture;
+	public void setPrice(BigDecimal price) {
+		this.price = price;
 	}
+
+//	public String getUrlPicture() {
+//		return urlPicture;
+//	}
+//
+//	public void setUrlPicture(String urlPicture) {
+//		this.urlPicture = urlPicture;
+//	}
 
 	public LocalDate getStartDate() {
 		return startDate;
@@ -81,13 +93,13 @@ public class PromoOffer extends EntityWithStatus {
 		this.endDate = endDate;
 	}
 
-	public List<DHService> getServices() {
-		return services;
-	}
-
-	public void setServices(List<DHService> services) {
-		this.services = services;
-	}
+//	public List<DHService> getServices() {
+//		return services;
+//	}
+//
+//	public void setServices(List<DHService> services) {
+//		this.services = services;
+//	}
 
 	public List<Reservation> getReservations() {
 		return reservations;

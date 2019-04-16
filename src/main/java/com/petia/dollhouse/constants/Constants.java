@@ -5,6 +5,12 @@ import java.time.format.DateTimeFormatter;
 public interface Constants {
 	public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm";
+	public static final String DATE_FORMAT = "yyyy-MM-dd";
+	public static final Integer YEAR = 2019;
+	public static final Integer MONTH = 12;
+	public static final Integer DAYS = 28;
+	public static final Integer FIRST = 1;
+
 	public static final String CUSTOMER = "Customer";
 	public static final String EMPLOYEE = "Employee";
 	public static final String USER = "user";
@@ -72,6 +78,9 @@ public interface Constants {
 	public static final String ALL_RESERVATIONS_ACTION = "/reservation/all-reservation-form";
 	public static final String CONFIRM_MODERATOR_RESERVATION_ACTION = "/reservation/confirm-reservation/";
 
+	public static final String PROMO_OFFER_ACTION = "/promo-offers";
+
+
 	public static final String LOGOUT_FORM_ACTION = "/logout?login";
 
 	// pages name
@@ -114,6 +123,8 @@ public interface Constants {
 	public static final String PASSWORD_ERROR_MESSAGE = "Incorrect password!";
 	public static final String ID_ERROR_MESSAGE = "Incorrect id!";
 	public static final String ERROR_MESSAGE = "The searched item not found!";
+	public static final String CRITERIA_ERROR_MESSAGE ="Enter criteria is invalid!";
+	public static final String RESERVATION_STATUS_ERROR_MESSAGE ="Invalid Reservation Status";
 
 	// Pages Titles
 	public static final String ADD = "Add";
@@ -159,4 +170,5 @@ public interface Constants {
 	public static final String MODERATOR_SIDEBAR_TITLE = "Moderator Sidebar";
 	public static final String REGISTER_TITLE = "Register";
 	public static final String LOGIN_TITLE = "Login";
+	public static final String PROMO_OFFERS_TITLE = "Promo Offers";
 }

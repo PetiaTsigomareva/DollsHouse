@@ -1,40 +1,33 @@
 package com.petia.dollhouse.web.controllers;
 
-import java.security.Principal;
-import java.util.List;
-
-import com.petia.dollhouse.domain.service.CompanyServiceModel;
-import com.petia.dollhouse.domain.service.OfficeServiceModel;
-import com.petia.dollhouse.domain.service.UserServiceModel;
-import com.petia.dollhouse.domain.view.AboutViewModel;
-import com.petia.dollhouse.domain.view.AllEmployeeViewModel;
+import com.petia.dollhouse.domain.view.PromoOfferViewModel;
 import com.petia.dollhouse.service.CompanyService;
+import com.petia.dollhouse.service.PromoOfferService;
 import com.petia.dollhouse.service.UserService;
 import com.petia.dollhouse.web.annotations.PageTitle;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.petia.dollhouse.constants.Constants;
 
+import java.util.List;
+
 @Controller
 public class HomeController extends BaseController {
 
-    private final CompanyService companyService;
-    private final UserService userService;
-    private final ModelMapper modelMapper;
+
+    private final PromoOfferService promoOfferService;
+
 
     @Autowired
-    public HomeController(CompanyService companyService, UserService userService, ModelMapper modelMapper) {
-        this.companyService = companyService;
-        this.userService = userService;
-        this.modelMapper = modelMapper;
+    public HomeController( PromoOfferService promoOfferService) {
+
+        this.promoOfferService = promoOfferService;
+
     }
 
     @GetMapping(Constants.INDEX_ACTION)
@@ -49,6 +42,8 @@ public class HomeController extends BaseController {
     @PreAuthorize("isAuthenticated()")
     @PageTitle(Constants.HOME_TITLE)
     public ModelAndView home(ModelAndView modelAndView) {
+        List<PromoOfferViewModel> promoOffers=this.promoOfferService.mapPromoOfferServiceToView(this.promoOfferService.allPromoOffer());
+        modelAndView.addObject("promoOffers",promoOffers);
 
         return super.view(Constants.INDEX_PAGE, modelAndView);
     }

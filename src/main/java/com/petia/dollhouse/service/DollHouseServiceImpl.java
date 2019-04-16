@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.petia.dollhouse.constants.Constants;
@@ -158,7 +159,7 @@ public class DollHouseServiceImpl implements DollHouseService {
 						}
 						break;
 					default:
-						throw new RuntimeException("Invalid Reservation Status" + reservationStatus);
+						throw new RuntimeException(Constants.RESERVATION_STATUS_ERROR_MESSAGE + reservationStatus);
 					}
 				}
 			}
@@ -183,4 +184,6 @@ public class DollHouseServiceImpl implements DollHouseService {
 
 		return result;
 	}
+
+
 }

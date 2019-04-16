@@ -1,5 +1,8 @@
 package com.petia.dollhouse.utils;
 
+import com.petia.dollhouse.constants.Constants;
+
+import java.time.LocalDate;
 import java.util.List;
 
 public class Utils {
@@ -28,4 +31,16 @@ public class Utils {
 
 		return result;
 	}
+
+	public static LocalDate createRandomDate(int startYear, int endYear) {
+		int day = createRandomIntBetween(Constants.FIRST, Constants.DAYS);
+		int month = createRandomIntBetween(Constants.FIRST, Constants.MONTH);
+		int year = createRandomIntBetween(startYear, endYear);
+		return LocalDate.of(year, month, day);
+	}
+
+	public static int createRandomIntBetween(int start, int end) {
+		return start + (int) Math.round(Math.random() * (end - start));
+	}
+
 }

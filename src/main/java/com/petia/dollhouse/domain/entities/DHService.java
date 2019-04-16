@@ -29,25 +29,23 @@ public class DHService extends EntityWithStatus {
 	@Column(name = "picture", nullable = false)
 	private String urlPicture;
 
-	// @ManyToMany(targetEntity = Reservation.class, mappedBy = "services")
 	@OneToMany(targetEntity = Reservation.class, mappedBy = "service")
 	private List<Reservation> reservations;
 
-	@ManyToMany(targetEntity = PromoOffer.class)
-	@JoinTable(name = "promo_offers_services", joinColumns = @JoinColumn(name = "promo_offers_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "service_id", referencedColumnName = "id"))
-	private List<PromoOffer> offers;
+//	@ManyToMany(targetEntity = PromoOffer.class)
+//	@JoinTable(name = "promo_offers_services", joinColumns = @JoinColumn(name = "promo_offers_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "service_id", referencedColumnName = "id"))
+//	private List<PromoOffer> offers;
 
 	@ManyToOne(targetEntity = Office.class)
 	@JoinColumn(name = "office_id", referencedColumnName = "id")
 	private Office office;
 
-	@ManyToMany(targetEntity = User.class)
-	@JoinTable(name = "users_services", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "service_id", referencedColumnName = "id"))
+	@OneToMany(targetEntity = User.class, mappedBy = "employeeService")
 	private List<User> employees;
 
 	public DHService() {
 		super();
-		offers = new ArrayList<>();
+	//	offers = new ArrayList<>();
 		reservations = new ArrayList<>();
 		employees = new ArrayList<>();
 	}
@@ -92,13 +90,13 @@ public class DHService extends EntityWithStatus {
 		this.reservations = reservations;
 	}
 
-	public List<PromoOffer> getOffers() {
-		return offers;
-	}
-
-	public void setOffers(List<PromoOffer> offers) {
-		this.offers = offers;
-	}
+//	public List<PromoOffer> getOffers() {
+//		return offers;
+//	}
+//
+//	public void setOffers(List<PromoOffer> offers) {
+//		this.offers = offers;
+//	}
 
 	public Office getOffice() {
 		return office;
