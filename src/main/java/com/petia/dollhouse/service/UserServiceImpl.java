@@ -249,7 +249,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Collection<UserServiceModel> findEmployeesByService(String serviceId) {
+    public List<UserServiceModel> findEmployeesByService(String serviceId) {
         List<User> users = this.userRepository.findAllEmployeesByService(serviceId);
 
         List<UserServiceModel> userServiceModel = users.stream().map(s -> this.modelMapper.map(s, UserServiceModel.class)).collect(Collectors.toList());

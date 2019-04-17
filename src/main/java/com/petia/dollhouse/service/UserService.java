@@ -33,7 +33,7 @@ public interface UserService extends UserDetailsService {
 
 	List<NamesViewModel> mapUserNamesByCriteria(String criteria);
 
-	Collection<UserServiceModel> findEmployeesByService(String serviceId);
+	List<UserServiceModel> findEmployeesByService(String serviceId);
 
 	UserServiceModel mapBindingToServiceModel(EmployeeBindingModel model);
 

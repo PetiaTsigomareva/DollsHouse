@@ -32,145 +32,148 @@ import com.petia.dollhouse.web.annotations.PageTitle;
 @Controller
 //@RequestMapping(Constants.SERVICE_CONTEXT)
 public class ServiceConroller extends BaseController {
-	private final DollHouseService dollHouseService;
-	private final OfficeService officeService;
-	private final ModelMapper modelMapper;
-	private final CloudinaryService cloudinaryService;
+    private final DollHouseService dollHouseService;
+    private final OfficeService officeService;
+    private final ModelMapper modelMapper;
+    private final CloudinaryService cloudinaryService;
 
-	@Autowired
-	public ServiceConroller(OfficeService officeService, ModelMapper modelMapper, DollHouseService dollHouseService, CloudinaryService cloudinaryService) {
-		super();
-		this.officeService = officeService;
-		this.modelMapper = modelMapper;
-		this.dollHouseService = dollHouseService;
-		this.cloudinaryService = cloudinaryService;
-	}
+    @Autowired
+    public ServiceConroller(OfficeService officeService, ModelMapper modelMapper, DollHouseService dollHouseService, CloudinaryService cloudinaryService) {
+        super();
+        this.officeService = officeService;
+        this.modelMapper = modelMapper;
+        this.dollHouseService = dollHouseService;
+        this.cloudinaryService = cloudinaryService;
+    }
 
-	@GetMapping(Constants.ADD_SERVICE_ACTION)
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@PageTitle(Constants.ADD_SERVICE_TITLE)
-	public ModelAndView addService(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ServiceBindingModel serviceBindingModel) {
-		modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
-		return view(Constants.ADD_SERVICE_PAGE, modelAndView);
-	}
+    @GetMapping(Constants.ADD_SERVICE_ACTION)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PageTitle(Constants.ADD_SERVICE_TITLE)
+    public ModelAndView addService(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ServiceBindingModel serviceBindingModel) {
+        modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
+        return view(Constants.ADD_SERVICE_PAGE, modelAndView);
+    }
 
-	@PostMapping(Constants.ADD_SERVICE_ACTION)
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public ModelAndView addServiceConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ServiceBindingModel serviceBindingModel) throws IOException {
-		modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
-		ServiceModel serviceModel = this.modelMapper.map(serviceBindingModel, ServiceModel.class);
+    @PostMapping(Constants.ADD_SERVICE_ACTION)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView addServiceConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ServiceBindingModel serviceBindingModel) throws IOException {
+        modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
+        //ServiceModel serviceModel = this.modelMapper.map(serviceBindingModel, ServiceModel.class);
+        ServiceModel serviceModel = this.dollHouseService.mapBindingToServiceModel(serviceBindingModel);
 
-		if (!serviceBindingModel.getImage().isEmpty()) {
-			serviceModel.setUrlPicture(this.cloudinaryService.uploadImage(serviceBindingModel.getImage()));
-		}
-		String id = this.dollHouseService.add(serviceModel);
-		if (id == null) {
-			return view(Constants.ADD_SERVICE_PAGE, modelAndView);
-		}
+        if (!serviceBindingModel.getImage().isEmpty()) {
+            serviceModel.setUrlPicture(this.cloudinaryService.uploadImage(serviceBindingModel.getImage()));
+        }
+        String id = this.dollHouseService.add(serviceModel);
+        if (id == null) {
+            return view(Constants.ADD_SERVICE_PAGE, modelAndView);
+        }
 
-		return redirect(Constants.ALL_SERVICE_PAGE);
-	}
+        return redirect(Constants.ALL_SERVICE_PAGE);
+    }
 
-	@GetMapping(Constants.ALL_SERVICE_ACTION)
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@PageTitle(Constants.ALL_SERVICE_TITLE)
-	public ModelAndView allServices(ModelAndView modelAndView) {
-		List<ServiceModel> serviceModels = this.dollHouseService.findAll();
-		List<AllServicesViewModel> allServicesViewModels = serviceModels.stream().map(sm -> this.modelMapper.map(sm, AllServicesViewModel.class)).collect(Collectors.toList());
-		modelAndView.addObject("services", allServicesViewModels);
+    @GetMapping(Constants.ALL_SERVICE_ACTION)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PageTitle(Constants.ALL_SERVICE_TITLE)
+    public ModelAndView allServices(ModelAndView modelAndView) {
+        List<ServiceModel> serviceModels = this.dollHouseService.findAll();
+        List<AllServicesViewModel> allServicesViewModels = serviceModels.stream().map(sm -> this.modelMapper.map(sm, AllServicesViewModel.class)).collect(Collectors.toList());
+        modelAndView.addObject("services", allServicesViewModels);
 
-		return view(Constants.ALL_SERVICE_PAGE, modelAndView);
-	}
+        return view(Constants.ALL_SERVICE_PAGE, modelAndView);
+    }
 
-	@GetMapping(Constants.EDIT_SERVICE_ACTION + "{id}")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@PageTitle(Constants.EDIT_SERVICE_TITLE)
-	public ModelAndView editService(ModelAndView modelAndView, @PathVariable String id) {
-		ServiceBindingModel serviceBindingModel = this.modelMapper.map(this.dollHouseService.findByID(id), ServiceBindingModel.class);
-		modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
-		modelAndView.addObject("bindingModel", serviceBindingModel);
+    @GetMapping(Constants.EDIT_SERVICE_ACTION + "{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PageTitle(Constants.EDIT_SERVICE_TITLE)
+    public ModelAndView editService(ModelAndView modelAndView, @PathVariable String id) {
 
-		return view(Constants.EDIT_SERVICE_PAGE, modelAndView);
-	}
+        ServiceBindingModel serviceBindingModel = this.modelMapper.map(this.dollHouseService.findByID(id), ServiceBindingModel.class);
+        modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
+        modelAndView.addObject("bindingModel", serviceBindingModel);
 
-	@PostMapping(Constants.EDIT_SERVICE_ACTION + "{id}")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public ModelAndView editServiceConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ServiceBindingModel serviceBindingModel, @PathVariable String id)
-	    throws IOException {
+        return view(Constants.EDIT_SERVICE_PAGE, modelAndView);
+    }
 
-		ServiceModel serviceModel = this.modelMapper.map(serviceBindingModel, ServiceModel.class);
-		serviceModel.setId(id);
-		if (!serviceBindingModel.getImage().isEmpty()) {
-			serviceModel.setUrlPicture(this.cloudinaryService.uploadImage(serviceBindingModel.getImage()));
-		}
-		serviceModel = this.dollHouseService.edit(serviceModel);
-		if (serviceModel == null) {
+    @PostMapping(Constants.EDIT_SERVICE_ACTION + "{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView editServiceConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ServiceBindingModel serviceBindingModel, @PathVariable String id) throws IOException {
 
-			return view(Constants.EDIT_SERVICE_PAGE, modelAndView);
-		}
+//		ServiceModel serviceModel = this.modelMapper.map(serviceBindingModel, ServiceModel.class);
+        ServiceModel serviceModel = this.dollHouseService.mapBindingToServiceModel(serviceBindingModel);
+        serviceModel.setId(id);
 
-		return redirect(Constants.ALL_SERVICE_PAGE);
+        if (!serviceBindingModel.getImage().isEmpty()) {
+            serviceModel.setUrlPicture(this.cloudinaryService.uploadImage(serviceBindingModel.getImage()));
+        }
+        serviceModel = this.dollHouseService.edit(serviceModel);
+        if (serviceModel == null) {
 
-	}
+            return view(Constants.EDIT_SERVICE_PAGE, modelAndView);
+        }
 
-	@GetMapping(Constants.DELETE_SERVICE_ACTION + "{id}")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@PageTitle(Constants.DELETE_SERVICE_TITLE)
-	public ModelAndView deleteService(ModelAndView modelAndView, @PathVariable String id) {
+        return redirect(Constants.ALL_SERVICE_PAGE);
 
-		ServiceBindingModel serviceBindingModel = this.modelMapper.map(this.dollHouseService.findByID(id), ServiceBindingModel.class);
-		modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
-		modelAndView.addObject("bindingModel", serviceBindingModel);
+    }
 
-		return view(Constants.DELETE_SERVICE_PAGE, modelAndView);
-	}
+    @GetMapping(Constants.DELETE_SERVICE_ACTION + "{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PageTitle(Constants.DELETE_SERVICE_TITLE)
+    public ModelAndView deleteService(ModelAndView modelAndView, @PathVariable String id) {
 
-	@PostMapping(Constants.DELETE_SERVICE_ACTION + "{id}")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public ModelAndView deleteServiceConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ServiceBindingModel serviceBindingModel, @PathVariable String id) {
+        ServiceBindingModel serviceBindingModel = this.modelMapper.map(this.dollHouseService.findByID(id), ServiceBindingModel.class);
+        modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
+        modelAndView.addObject("bindingModel", serviceBindingModel);
 
-		ServiceModel serviceModel = this.modelMapper.map(serviceBindingModel, ServiceModel.class);
-		serviceModel.setId(id);
-		serviceModel = this.dollHouseService.delete(serviceModel);
-		if (serviceModel == null) {
+        return view(Constants.DELETE_SERVICE_PAGE, modelAndView);
+    }
 
-			return view(Constants.DELETE_SERVICE_PAGE, modelAndView);
-		}
+    @PostMapping(Constants.DELETE_SERVICE_ACTION + "{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView deleteServiceConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ServiceBindingModel serviceBindingModel, @PathVariable String id) {
 
-		return redirect(Constants.ALL_SERVICE_PAGE);
-	}
+//		ServiceModel serviceModel = this.modelMapper.map(serviceBindingModel, ServiceModel.class);
 
-	@GetMapping(Constants.FETCH_OFFICE_ALL_SERVICES_ACTION + "{officeId}")
-	@PreAuthorize("isAuthenticated()")
-	@ResponseBody
-	public List<NamesViewModel> fetchServicesByOffice(@PathVariable String officeId) {
-		List<NamesViewModel> result;
+        ServiceModel serviceModel = this.dollHouseService.mapBindingToServiceModel(serviceBindingModel);
+        serviceModel.setId(id);
+        serviceModel = this.dollHouseService.delete(serviceModel);
+        if (serviceModel == null) {
 
-		result = this.dollHouseService.findServicesByOffice(officeId).stream().map(product -> this.modelMapper.map(product, NamesViewModel.class)).collect(Collectors.toList());
+            return view(Constants.DELETE_SERVICE_PAGE, modelAndView);
+        }
 
-		return result;
-	}
+        return redirect(Constants.ALL_SERVICE_PAGE);
+    }
 
-	@GetMapping(Constants.FETCH_AVAILABILITIES)
-	@PreAuthorize("isAuthenticated()")
-	@ResponseBody
-	public List<DayAvailabilityViewModel> fetchAvailabilities(@RequestParam String serviceId, @RequestParam String emloyeeId, @RequestParam String fromDate,
-	    @RequestParam String toDate) {
-		List<DayAvailabilityViewModel> result;
+    @GetMapping(Constants.FETCH_OFFICE_ALL_SERVICES_ACTION + "{officeId}")
+    @PreAuthorize("isAuthenticated()")
+    @ResponseBody
+    public List<NamesViewModel> fetchServicesByOffice(@PathVariable String officeId) {
+        List<NamesViewModel> result;
 
-		try {
-			LocalDate fDate = LocalDate.parse(fromDate, Constants.DATE_FORMATTER);
-			LocalDate tDate = LocalDate.parse(toDate, Constants.DATE_FORMATTER);
+        result = this.dollHouseService.findServicesByOffice(officeId).stream().map(product -> this.modelMapper.map(product, NamesViewModel.class)).collect(Collectors.toList());
 
-			result = this.dollHouseService.fetchAvailabilities(serviceId, emloyeeId, fDate, tDate).stream().map(product -> this.modelMapper.map(product, DayAvailabilityViewModel.class))
-			    .collect(Collectors.toList());
+        return result;
+    }
 
-		} catch (DateTimeParseException e) {
-			System.out.println(e);
-			// TODO: handle exception
-			throw new RuntimeException(e);
-		}
+    @GetMapping(Constants.FETCH_AVAILABILITIES)
+    @PreAuthorize("isAuthenticated()")
+    @ResponseBody
+    public List<DayAvailabilityViewModel> fetchAvailabilities(@RequestParam String serviceId, @RequestParam String emloyeeId, @RequestParam String fromDate, @RequestParam String toDate) {
+        List<DayAvailabilityViewModel> result;
 
-		return result;
-	}
+        try {
+            LocalDate fDate = LocalDate.parse(fromDate, Constants.DATE_FORMATTER);
+            LocalDate tDate = LocalDate.parse(toDate, Constants.DATE_FORMATTER);
+
+            result = this.dollHouseService.fetchAvailabilities(serviceId, emloyeeId, fDate, tDate).stream().map(product -> this.modelMapper.map(product, DayAvailabilityViewModel.class)).collect(Collectors.toList());
+
+        } catch (DateTimeParseException e) {
+            System.out.println(e);
+            // TODO: handle exception
+            throw new RuntimeException(e);
+        }
+
+        return result;
+    }
 }

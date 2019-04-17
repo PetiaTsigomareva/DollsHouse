@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+import com.petia.dollhouse.domain.binding.ServiceBindingModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -180,6 +181,17 @@ public class DollHouseServiceImpl implements DollHouseService {
 
         result = this.serviceRepository.findAllActiveServicesByOffice(officeId).stream().map(s -> this.modelMapper.map(s, NamesViewModel.class)).collect(Collectors.toList());
 
+        return result;
+    }
+
+    @Override
+    public ServiceModel mapBindingToServiceModel(ServiceBindingModel model) {
+        ServiceModel result = new ServiceModel();
+
+        result.setName(model.getName());
+        result.setDescription(model.getDescription());
+        result.setPrice(model.getPrice());
+        result.setOfficeId(model.getOfficeId());
         return result;
     }
 
