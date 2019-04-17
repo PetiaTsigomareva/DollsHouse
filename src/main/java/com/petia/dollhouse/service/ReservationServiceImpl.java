@@ -1,5 +1,6 @@
 package com.petia.dollhouse.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -25,6 +26,8 @@ import com.petia.dollhouse.domain.service.ServiceModel;
 import com.petia.dollhouse.domain.service.UserServiceModel;
 import com.petia.dollhouse.domain.view.AllReservationViewModel;
 import com.petia.dollhouse.repositories.ReservationRepository;
+
+import javax.persistence.NonUniqueResultException;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
@@ -54,6 +57,12 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setEmployee(this.modelMapper.map(this.userService.findUserById(model.getEmployeeId()), User.class));
         reservation.setService(this.modelMapper.map(this.dollHouseService.findByID(model.getServiceId()), DHService.class));
         reservation.setCustomer(this.modelMapper.map(userService.findUserByUserName(currentPrincipalName), User.class));
+        //TODO ERROR Handling
+//        if (this.reservationRepository.findByReservationDateTime(LocalDateTime time).orElse(null) != null) {
+//
+//             throw new IllegalArgumentException(Constants.EXIST_ITEM_ERROR_MESSAGE);
+//
+//        }
         reservation = this.reservationRepository.saveAndFlush(reservation);
         result = reservation.getId();
 
@@ -68,6 +77,12 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setService(this.modelMapper.map(this.dollHouseService.findByID(model.getServiceId()), DHService.class));
         reservation.setCustomer(this.modelMapper.map(userService.findUserById(model.getCustomerId()), User.class));
         reservation.setStatus(ReservationStatus.valueOf(model.getStatus()));
+         //TODO ERROR Handling
+        if (this.reservationRepository.findByReservationDateTime(reservation.getReservationDateTime()).orElse(null) != null) {
+
+            throw new IllegalArgumentException(Constants.EXIST_ITEM_ERROR_MESSAGE);
+
+        }
         reservation = this.reservationRepository.saveAndFlush(reservation);
         result = reservation.getId();
 

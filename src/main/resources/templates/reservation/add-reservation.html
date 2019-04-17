@@ -16,7 +16,7 @@
 					<div class="card-body">
 						<div th:replace="~{fragments/components/select-office :: select( inputOffice, ${officeNames} )}"></div>
 						<div th:replace="~{fragments/components/select-service-placeholder :: select( inputService, ${serviceNames}, 'display: none;' )}"></div>
-						<div th:replace="~{fragments/components/select-employee :: select( inputEmployee, ${employeeNames}, 'display: none;' )}"></div>
+						<div th:replace="~{fragments/components/select-employee :: select( inputEmployee, ${employeeNames}, 'display: none;' )}"http://localhost:8080/reservation/add-reservation#></div>
 					</div>
 				</div>
 			</div>

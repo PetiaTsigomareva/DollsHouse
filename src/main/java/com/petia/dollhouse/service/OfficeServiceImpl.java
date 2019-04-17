@@ -32,18 +32,18 @@ public class OfficeServiceImpl implements OfficeService {
     @Override
     public String addOffice(OfficeServiceModel model) {
         String result;
-        try {
-            Company company = findCompany(model.getCompanyId());
-            Office office = this.modelMapper.map(model, Office.class);
-            office.setCompany(company);
-            office.setStatus(StatusValues.ACTIVE);
-            office = this.officeRepository.saveAndFlush(office);
-            result = office.getId();
 
-        } catch (NullPointerException ex) {
-            ex.printStackTrace();
-            result = null;
+        Company company = findCompany(model.getCompanyId());
+        Office office = this.modelMapper.map(model, Office.class);
+        office.setCompany(company);
+        office.setStatus(StatusValues.ACTIVE);
+        if (this.officeRepository.findByName(office.getName()).orElse(null) != null) {
+
+            throw new IllegalArgumentException(Constants.EXIST_ITEM_ERROR_MESSAGE);
         }
+        office = this.officeRepository.saveAndFlush(office);
+        result = office.getId();
+
 
         return result;
     }

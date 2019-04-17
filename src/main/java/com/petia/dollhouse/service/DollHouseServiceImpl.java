@@ -28,162 +28,160 @@ import com.petia.dollhouse.utils.Utils;
 
 @Service
 public class DollHouseServiceImpl implements DollHouseService {
-	private final ServiceRepository serviceRepository;
-	private final ReservationRepository reservationRepository;
-	private final OfficeService officeService;
-	private final ModelMapper modelMapper;
+    private final ServiceRepository serviceRepository;
+    private final ReservationRepository reservationRepository;
+    private final OfficeService officeService;
+    private final ModelMapper modelMapper;
 
-	@Autowired
-	public DollHouseServiceImpl(ServiceRepository serviceRepository, ReservationRepository reservationRepository, OfficeService officeService, ModelMapper modelMapper) {
-		super();
-		this.serviceRepository = serviceRepository;
-		this.reservationRepository = reservationRepository;
-		this.officeService = officeService;
-		this.modelMapper = modelMapper;
-	}
+    @Autowired
+    public DollHouseServiceImpl(ServiceRepository serviceRepository, ReservationRepository reservationRepository, OfficeService officeService, ModelMapper modelMapper) {
+        super();
+        this.serviceRepository = serviceRepository;
+        this.reservationRepository = reservationRepository;
+        this.officeService = officeService;
+        this.modelMapper = modelMapper;
+    }
 
-	@Override
-	public String add(ServiceModel model) {
-		String result;
-		try {
+    @Override
+    public String add(ServiceModel model) {
+        String result;
 
-			DHService service = this.modelMapper.map(model, DHService.class);
-			service.setOffice(this.findOffice(model.getOfficeId()));
-			service.setStatus(StatusValues.ACTIVE);
-			service = this.serviceRepository.saveAndFlush(service);
-			result = service.getId();
+        DHService service = this.modelMapper.map(model, DHService.class);
+        service.setOffice(this.findOffice(model.getOfficeId()));
+        service.setStatus(StatusValues.ACTIVE);
+        if (this.serviceRepository.findByName(service.getName()).orElse(null) != null) {
 
-		} catch (NullPointerException ex) {
-			ex.printStackTrace();
-			result = null;
-		}
+            throw new IllegalArgumentException(Constants.EXIST_ITEM_ERROR_MESSAGE);
+        }
+        service = this.serviceRepository.saveAndFlush(service);
+        result = service.getId();
 
-		return result;
-	}
 
-	@Override
-	public ServiceModel edit(ServiceModel model) {
+        return result;
+    }
 
-		DHService service = this.serviceRepository.findById(model.getId()).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
-		if (model.getUrlPicture() == null && service.getUrlPicture() != null) {
-			model.setUrlPicture(service.getUrlPicture());
-		}
-		model.setStatus(service.getStatus().name());
+    @Override
+    public ServiceModel edit(ServiceModel model) {
 
-		DHService serviceNew = this.modelMapper.map(model, DHService.class);
-		serviceNew.setOffice(this.findOffice(model.getOfficeId()));
-		serviceNew = this.serviceRepository.saveAndFlush(serviceNew);
+        DHService service = this.serviceRepository.findById(model.getId()).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
+        if (model.getUrlPicture() == null && service.getUrlPicture() != null) {
+            model.setUrlPicture(service.getUrlPicture());
+        }
+        model.setStatus(service.getStatus().name());
 
-		model = this.modelMapper.map(serviceNew, ServiceModel.class);
+        DHService serviceNew = this.modelMapper.map(model, DHService.class);
+        serviceNew.setOffice(this.findOffice(model.getOfficeId()));
+        serviceNew = this.serviceRepository.saveAndFlush(serviceNew);
 
-		return model;
-	}
+        model = this.modelMapper.map(serviceNew, ServiceModel.class);
 
-	@Override
-	public List<ServiceModel> findAll() {
-		List<DHService> services = this.serviceRepository.findAllActiveServices();
+        return model;
+    }
 
-		List<ServiceModel> servicesModel = services.stream().map(s -> this.modelMapper.map(s, ServiceModel.class)).collect(Collectors.toList());
+    @Override
+    public List<ServiceModel> findAll() {
+        List<DHService> services = this.serviceRepository.findAllActiveServices();
 
-		return servicesModel;
-	}
+        List<ServiceModel> servicesModel = services.stream().map(s -> this.modelMapper.map(s, ServiceModel.class)).collect(Collectors.toList());
 
-	@Override
-	public ServiceModel findByID(String id) {
-		DHService service = this.serviceRepository.findById(id).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
-		ServiceModel model = this.modelMapper.map(service, ServiceModel.class);
+        return servicesModel;
+    }
 
-		return model;
-	}
+    @Override
+    public ServiceModel findByID(String id) {
+        DHService service = this.serviceRepository.findById(id).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
+        ServiceModel model = this.modelMapper.map(service, ServiceModel.class);
 
-	@Override
-	public ServiceModel delete(ServiceModel model) {
-		DHService service = this.serviceRepository.findById(model.getId()).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
+        return model;
+    }
 
-		service.setStatus(StatusValues.INACTIVE);
+    @Override
+    public ServiceModel delete(ServiceModel model) {
+        DHService service = this.serviceRepository.findById(model.getId()).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
 
-		service = this.serviceRepository.saveAndFlush(service);
+        service.setStatus(StatusValues.INACTIVE);
 
-		model = this.modelMapper.map(service, ServiceModel.class);
+        service = this.serviceRepository.saveAndFlush(service);
 
-		return model;
-	}
+        model = this.modelMapper.map(service, ServiceModel.class);
 
-	private Office findOffice(String id) {
-		Office office = this.modelMapper.map(this.officeService.findOfficeByID(id), Office.class);
+        return model;
+    }
 
-		return office;
+    private Office findOffice(String id) {
+        Office office = this.modelMapper.map(this.officeService.findOfficeByID(id), Office.class);
 
-	}
+        return office;
 
-	@Override
-	public List<ServiceModel> findServicesByOffice(String officeId) {
-		List<DHService> services = this.serviceRepository.findAllActiveServicesByOffice(officeId);
+    }
 
-		List<ServiceModel> servicesModel = services.stream().map(s -> this.modelMapper.map(s, ServiceModel.class)).collect(Collectors.toList());
+    @Override
+    public List<ServiceModel> findServicesByOffice(String officeId) {
+        List<DHService> services = this.serviceRepository.findAllActiveServicesByOffice(officeId);
 
-		return servicesModel;
-	}
+        List<ServiceModel> servicesModel = services.stream().map(s -> this.modelMapper.map(s, ServiceModel.class)).collect(Collectors.toList());
 
-	@Override
-	public List<DayAvailabilityServiceModel> fetchAvailabilities(String serviceId, String emloyeeId, LocalDate fromDate, LocalDate toDate) {
-		List<DayAvailabilityServiceModel> result = DayAvailabilityServiceModel.constructAvailability(fromDate, toDate);
+        return servicesModel;
+    }
 
-		List<Reservation> reservations = this.reservationRepository.getAllReservationsForTimePeriodOfficeServiceEmployee(serviceId, emloyeeId,
-		    fromDate.format(Constants.DATE_FORMATTER), toDate.plusDays(1).format(Constants.DATE_FORMATTER));
+    @Override
+    public List<DayAvailabilityServiceModel> fetchAvailabilities(String serviceId, String emloyeeId, LocalDate fromDate, LocalDate toDate) {
+        List<DayAvailabilityServiceModel> result = DayAvailabilityServiceModel.constructAvailability(fromDate, toDate);
 
-		for (Reservation reservation : reservations) {
-			LocalDate reservationDate = reservation.getReservationDateTime().toLocalDate();
-			DayAvailabilityServiceModel dateToMark = DayAvailabilityServiceModel.getAvailabilityByDate(reservationDate, result);
+        List<Reservation> reservations = this.reservationRepository.getAllReservationsForTimePeriodOfficeServiceEmployee(serviceId, emloyeeId, fromDate.format(Constants.DATE_FORMATTER), toDate.plusDays(1).format(Constants.DATE_FORMATTER));
 
-			if (dateToMark != null) {
-				LocalTime reservationTime = reservation.getReservationDateTime().toLocalTime();
-				String reservationHour = Utils.format24Hour(reservationTime.getHour());
+        for (Reservation reservation : reservations) {
+            LocalDate reservationDate = reservation.getReservationDateTime().toLocalDate();
+            DayAvailabilityServiceModel dateToMark = DayAvailabilityServiceModel.getAvailabilityByDate(reservationDate, result);
 
-				HourAvailabilityServiceModel hour = dateToMark.getHour(reservationHour);
-				if (hour != null) {
-					ReservationStatus reservationStatus = reservation.getStatus();
+            if (dateToMark != null) {
+                LocalTime reservationTime = reservation.getReservationDateTime().toLocalTime();
+                String reservationHour = Utils.format24Hour(reservationTime.getHour());
 
-					switch (reservationStatus) {
-					case Confirmed:
-						hour.setAvailability(AvailabilityStatus.UNAVAILABLE);
-						break;
-					case PendingConfirmation:
-						if (!AvailabilityStatus.UNAVAILABLE.equals(hour.getAvailability())) {
-							hour.setAvailability(AvailabilityStatus.PENDING_CONFIRMATION);
-						}
-						break;
-					case Rejected:
-						if (!AvailabilityStatus.UNAVAILABLE.equals(hour.getAvailability()) && !AvailabilityStatus.PENDING_CONFIRMATION.equals(hour.getAvailability())) {
-							hour.setAvailability(AvailabilityStatus.AVAILABLE);
-						}
-						break;
-					default:
-						throw new RuntimeException(Constants.RESERVATION_STATUS_ERROR_MESSAGE + reservationStatus);
-					}
-				}
-			}
-		}
+                HourAvailabilityServiceModel hour = dateToMark.getHour(reservationHour);
+                if (hour != null) {
+                    ReservationStatus reservationStatus = reservation.getStatus();
 
-		return result;
-	}
+                    switch (reservationStatus) {
+                        case Confirmed:
+                            hour.setAvailability(AvailabilityStatus.UNAVAILABLE);
+                            break;
+                        case PendingConfirmation:
+                            if (!AvailabilityStatus.UNAVAILABLE.equals(hour.getAvailability())) {
+                                hour.setAvailability(AvailabilityStatus.PENDING_CONFIRMATION);
+                            }
+                            break;
+                        case Rejected:
+                            if (!AvailabilityStatus.UNAVAILABLE.equals(hour.getAvailability()) && !AvailabilityStatus.PENDING_CONFIRMATION.equals(hour.getAvailability())) {
+                                hour.setAvailability(AvailabilityStatus.AVAILABLE);
+                            }
+                            break;
+                        default:
+                            throw new RuntimeException(Constants.RESERVATION_STATUS_ERROR_MESSAGE + reservationStatus);
+                    }
+                }
+            }
+        }
 
-	public List<NamesViewModel> mapModelServiceNamesToViewNames() {
-		List<NamesViewModel> result;
+        return result;
+    }
 
-		result = findAll().stream().map(s -> this.modelMapper.map(s, NamesViewModel.class)).collect(Collectors.toList());
+    public List<NamesViewModel> mapModelServiceNamesToViewNames() {
+        List<NamesViewModel> result;
 
-		return result;
-	}
+        result = findAll().stream().map(s -> this.modelMapper.map(s, NamesViewModel.class)).collect(Collectors.toList());
 
-	@Override
-	public List<NamesViewModel> getAllServicesByOfiice(String officeId) {
-		List<NamesViewModel> result;
+        return result;
+    }
 
-		result = this.serviceRepository.findAllActiveServicesByOffice(officeId).stream().map(s -> this.modelMapper.map(s, NamesViewModel.class)).collect(Collectors.toList());
+    @Override
+    public List<NamesViewModel> getAllServicesByOfiice(String officeId) {
+        List<NamesViewModel> result;
 
-		return result;
-	}
+        result = this.serviceRepository.findAllActiveServicesByOffice(officeId).stream().map(s -> this.modelMapper.map(s, NamesViewModel.class)).collect(Collectors.toList());
+
+        return result;
+    }
 
 
 }

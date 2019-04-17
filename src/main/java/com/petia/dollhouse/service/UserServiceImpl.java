@@ -28,254 +28,257 @@ import com.petia.dollhouse.repositories.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService {
-	private final UserRepository userRepository;
-	private final RoleService roleService;
-	private final OfficeService officeService;
-	private final DollHouseService serviceService;
-	private final ModelMapper modelMapper;
-	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserRepository userRepository;
+    private final RoleService roleService;
+    private final OfficeService officeService;
+    private final DollHouseService serviceService;
+    private final ModelMapper modelMapper;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	@Autowired
-	public UserServiceImpl(UserRepository userRepository, RoleService roleService, OfficeService officeService, DollHouseService serviceService, ModelMapper modelMapper,
-	    BCryptPasswordEncoder bCryptPasswordEncoder) {
-		this.userRepository = userRepository;
-		this.roleService = roleService;
-		this.officeService = officeService;
-		this.serviceService = serviceService;
-		this.modelMapper = modelMapper;
-		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-	}
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository, RoleService roleService, OfficeService officeService, DollHouseService serviceService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userRepository = userRepository;
+        this.roleService = roleService;
+        this.officeService = officeService;
+        this.serviceService = serviceService;
+        this.modelMapper = modelMapper;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
-	// TODO refactoring set admin authority and set office of the admin
-	@Override
-	public UserServiceModel registerUser(UserServiceModel userServiceModel) {
-		UserServiceModel savedUser;
-		this.roleService.seedRoles();
-		if (this.userRepository.count() == 0) {
-			userServiceModel.setAuthorities(this.roleService.findAllRoles());
-			userServiceModel.setPosition(Positions.root_admin.toString());
-		} else {
-			userServiceModel.setAuthorities(new HashSet<>());
-			userServiceModel.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()));
-		}
+    // TODO refactoring set admin authority and set office of the admin
+    @Override
+    public UserServiceModel registerUser(UserServiceModel userServiceModel) {
+        UserServiceModel savedUser;
+        this.roleService.seedRoles();
+        if (this.userRepository.count() == 0) {
+            userServiceModel.setAuthorities(this.roleService.findAllRoles());
+            userServiceModel.setPosition(Positions.root_admin.toString());
+        } else {
+            userServiceModel.setAuthorities(new HashSet<>());
+            userServiceModel.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()));
+        }
 
-		User user = this.modelMapper.map(userServiceModel, User.class);
-		user.setPassword(this.bCryptPasswordEncoder.encode(userServiceModel.getPassword()));
-		user.setStatus(StatusValues.ACTIVE);
-		savedUser = this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
-		return savedUser;
-	}
+        User user = this.modelMapper.map(userServiceModel, User.class);
+        user.setPassword(this.bCryptPasswordEncoder.encode(userServiceModel.getPassword()));
+        user.setStatus(StatusValues.ACTIVE);
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return this.userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(Constants.USERNAME_ERROR_MESSAGE));
-	}
+        if (this.userRepository.findByUsername(user.getUsername()).orElse(null) != null) {
 
-	@Override
-	public UserServiceModel findUserByUserName(String username) {
-		return this.userRepository.findByUsername(username).map(u -> this.modelMapper.map(u, UserServiceModel.class))
-		    .orElseThrow(() -> new UsernameNotFoundException(Constants.USERNAME_ERROR_MESSAGE));
-	}
+            throw new IllegalArgumentException(Constants.EXIST_USERNAME_ERROR_MESSAGE);
+        }
+        savedUser = this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
+        return savedUser;
+    }
 
-	@Override
-	public UserServiceModel findUserById(String id) {
-		User user = this.userRepository.findById(id).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
-		UserServiceModel model = this.modelMapper.map(user, UserServiceModel.class);
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return this.userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(Constants.USERNAME_ERROR_MESSAGE));
+    }
 
-		return model;
-	}
+    @Override
+    public UserServiceModel findUserByUserName(String username) {
+        return this.userRepository.findByUsername(username).map(u -> this.modelMapper.map(u, UserServiceModel.class)).orElseThrow(() -> new UsernameNotFoundException(Constants.USERNAME_ERROR_MESSAGE));
+    }
 
-	@Override
-	public List<UserServiceModel> findUsersByOfficeId(String id) {
-		List<UserServiceModel> result;
-		List<User> employees = this.userRepository.findAllEmployeesByOffice(id);
-		result = employees.stream().map(e -> this.modelMapper.map(e, UserServiceModel.class)).collect(Collectors.toList());
-		return result;
-	}
+    @Override
+    public UserServiceModel findUserById(String id) {
+        User user = this.userRepository.findById(id).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
+        UserServiceModel model = this.modelMapper.map(user, UserServiceModel.class);
 
-	@Override
-	public UserServiceModel editUserProfile(UserServiceModel userServiceModel, String oldPassword) {
-		User user = this.userRepository.findByUsername(userServiceModel.getUsername()).orElseThrow(() -> new UsernameNotFoundException(Constants.USERNAME_ERROR_MESSAGE));
+        return model;
+    }
 
-		if (!this.bCryptPasswordEncoder.matches(oldPassword, user.getPassword())) {
-			throw new IllegalArgumentException(Constants.PASSWORD_ERROR_MESSAGE);
-		}
+    @Override
+    public List<UserServiceModel> findUsersByOfficeId(String id) {
+        List<UserServiceModel> result;
+        List<User> employees = this.userRepository.findAllEmployeesByOffice(id);
+        result = employees.stream().map(e -> this.modelMapper.map(e, UserServiceModel.class)).collect(Collectors.toList());
+        return result;
+    }
 
-		user.setPassword(!"".equals(userServiceModel.getPassword()) ? this.bCryptPasswordEncoder.encode(userServiceModel.getPassword()) : user.getPassword());
-		user.setEmail(userServiceModel.getEmail());
-		if (userServiceModel.getImageUrl() != null) {
-			user.setImageUrl(userServiceModel.getImageUrl());
-		}
-		user = this.userRepository.saveAndFlush(user);
-		return this.modelMapper.map(user, UserServiceModel.class);
-	}
+    @Override
+    public UserServiceModel editUserProfile(UserServiceModel userServiceModel, String oldPassword) {
+        User user = this.userRepository.findByUsername(userServiceModel.getUsername()).orElseThrow(() -> new UsernameNotFoundException(Constants.USERNAME_ERROR_MESSAGE));
 
-	@Override
-	public List<UserServiceModel> findUsersByCriteria(String criteria) {
-		List<UserServiceModel> result;
-		switch (criteria) {
-		case Constants.EMPLOYEE:
-			result = this.userRepository.findAllEmployees().stream().map(u -> this.modelMapper.map(u, UserServiceModel.class)).collect(Collectors.toList());
+        if (!this.bCryptPasswordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new IllegalArgumentException(Constants.PASSWORD_ERROR_MESSAGE);
+        }
 
-			break;
-		case Constants.CUSTOMER:
-			result = this.userRepository.findAllCustomers().stream().map(u -> this.modelMapper.map(u, UserServiceModel.class)).collect(Collectors.toList());
+        user.setPassword(!"".equals(userServiceModel.getPassword()) ? this.bCryptPasswordEncoder.encode(userServiceModel.getPassword()) : user.getPassword());
+        user.setEmail(userServiceModel.getEmail());
+        if (userServiceModel.getImageUrl() != null) {
+            user.setImageUrl(userServiceModel.getImageUrl());
+        }
+        user = this.userRepository.saveAndFlush(user);
+        return this.modelMapper.map(user, UserServiceModel.class);
+    }
 
-			break;
-		default:
-			throw new IllegalArgumentException(Constants.CRITERIA_ERROR_MESSAGE);
+    @Override
+    public List<UserServiceModel> findUsersByCriteria(String criteria) {
+        List<UserServiceModel> result;
+        switch (criteria) {
+            case Constants.EMPLOYEE:
+                result = this.userRepository.findAllEmployees().stream().map(u -> this.modelMapper.map(u, UserServiceModel.class)).collect(Collectors.toList());
 
-		}
-		return result;
-	}
+                break;
+            case Constants.CUSTOMER:
+                result = this.userRepository.findAllCustomers().stream().map(u -> this.modelMapper.map(u, UserServiceModel.class)).collect(Collectors.toList());
 
-	// TODO optimization - set user roles implementation
-	@Override
-	public void setUserRole(String id, String role) {
-		User user = this.userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(Constants.ID_ERROR_MESSAGE));
+                break;
+            default:
+                throw new IllegalArgumentException(Constants.CRITERIA_ERROR_MESSAGE);
 
-		UserServiceModel userServiceModel = this.modelMapper.map(user, UserServiceModel.class);
-		userServiceModel.getAuthorities().clear();
+        }
+        return result;
+    }
 
-		switch (role) {
-		case Constants.USER:
-			userServiceModel.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()));
-			break;
-		case Constants.MODERATOR:
-			userServiceModel.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()));
-			userServiceModel.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_MODERATOR.toString()));
-			break;
-		case Constants.ADMIN:
-			userServiceModel.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()));
-			userServiceModel.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_MODERATOR.toString()));
-			userServiceModel.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_ADMIN.toString()));
-			break;
-		}
+    // TODO optimization - set user roles implementation
+    @Override
+    public void setUserRole(String id, String role) {
+        User user = this.userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(Constants.ID_ERROR_MESSAGE));
 
-		this.userRepository.saveAndFlush(this.modelMapper.map(userServiceModel, User.class));
-	}
+        UserServiceModel userServiceModel = this.modelMapper.map(user, UserServiceModel.class);
+        userServiceModel.getAuthorities().clear();
 
-	@Override
-	public String addEmployee(UserServiceModel model) {
-		String result;
-		try {
+        switch (role) {
+            case Constants.USER:
+                userServiceModel.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()));
+                break;
+            case Constants.MODERATOR:
+                userServiceModel.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()));
+                userServiceModel.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_MODERATOR.toString()));
+                break;
+            case Constants.ADMIN:
+                userServiceModel.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()));
+                userServiceModel.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_MODERATOR.toString()));
+                userServiceModel.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_ADMIN.toString()));
+                break;
+        }
 
-			model.setAuthorities(new HashSet<>());
-			model.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()));
+        this.userRepository.saveAndFlush(this.modelMapper.map(userServiceModel, User.class));
+    }
 
-			User employee = this.modelMapper.map(model, User.class);
-			employee.setOffice(findOffice(model.getOfficeId()));
-			employee.setEmployeeService(findService(model.getServiceId()));
-			employee.setPassword(this.bCryptPasswordEncoder.encode(model.getPassword()));
-			employee.setStatus(StatusValues.ACTIVE);
-			employee = this.userRepository.saveAndFlush(employee);
-			result = employee.getId();
+    @Override
+    public String addEmployee(UserServiceModel model) {
+        String result;
 
-		} catch (NullPointerException ex) {
-			ex.printStackTrace();
-			result = null;
-		}
+            model.setAuthorities(new HashSet<>());
+            model.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()));
 
-		return result;
-	}
+            User employee = this.modelMapper.map(model, User.class);
+            employee.setOffice(findOffice(model.getOfficeId()));
+            employee.setEmployeeService(findService(model.getServiceId()));
+            employee.setPassword(this.bCryptPasswordEncoder.encode(model.getPassword()));
+            employee.setStatus(StatusValues.ACTIVE);
 
-	// TODO
-	@Override
-	public UserServiceModel editEmployee(UserServiceModel model) {
+        if (this.userRepository.findByUsername(employee.getUsername()).orElse(null) != null) {
 
-		User employee = this.userRepository.findById(model.getId()).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
-		model.setStatus(employee.getStatus().name());
-		model.setPassword(employee.getPassword());
+            throw new IllegalArgumentException(Constants.EXIST_USERNAME_ERROR_MESSAGE);
+        }
+            employee = this.userRepository.saveAndFlush(employee);
 
-		if (model.getImageUrl() == null && employee.getImageUrl() != null) {
-			model.setImageUrl(employee.getImageUrl());
-		}
+            result = employee.getId();
 
-		User employee2 = this.modelMapper.map(model, User.class);
 
-		employee2.setOffice(findOffice(model.getOfficeId()));
 
-		employee2.setEmployeeService(findService(model.getServiceId()));
+        return result;
+    }
 
-		employee2.setAuthorities(employee.getAuthorities());
-		User storedUser = this.userRepository.saveAndFlush(employee2);
-//		storedUser.getEmployeeServices().add(findService(model.getServiceId()));
-//		User storedUser2 = this.userRepository.saveAndFlush(storedUser);
+    // TODO
+    @Override
+    public UserServiceModel editEmployee(UserServiceModel model) {
 
-		model = this.modelMapper.map(storedUser, UserServiceModel.class);
+        User employee = this.userRepository.findById(model.getId()).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
+        model.setStatus(employee.getStatus().name());
+        model.setPassword(employee.getPassword());
 
-		return model;
-	}
+        if (model.getImageUrl() == null && employee.getImageUrl() != null) {
+            model.setImageUrl(employee.getImageUrl());
+        }
 
-	@Override
-	public UserServiceModel deleteEmployee(UserServiceModel model) {
-		User employee = this.userRepository.findById(model.getId()).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
-		employee.setStatus(StatusValues.INACTIVE);
+        User employee2 = this.modelMapper.map(model, User.class);
 
-		employee = this.userRepository.saveAndFlush(employee);
+        employee2.setOffice(findOffice(model.getOfficeId()));
 
-		model = this.modelMapper.map(employee, UserServiceModel.class);
+        employee2.setEmployeeService(findService(model.getServiceId()));
 
-		return model;
-	}
+        employee2.setAuthorities(employee.getAuthorities());
+        User storedUser = this.userRepository.saveAndFlush(employee2);
 
-	private Office findOffice(String id) {
-		Office office;
-		office = this.modelMapper.map(this.officeService.findOfficeByID(id), Office.class);
-		return office;
-	}
+        model = this.modelMapper.map(storedUser, UserServiceModel.class);
 
-	private DHService findService(String id) {
-		DHService service;
-		service = this.modelMapper.map(this.serviceService.findByID(id), DHService.class);
-		return service;
-	}
+        return model;
+    }
 
-	public List<NamesViewModel> mapUserNamesByCriteria(String criteria) {
-		List<NamesViewModel> result = new ArrayList<>();
-		List<UserServiceModel> userServiceModels = findUsersByCriteria(criteria);
-		for (UserServiceModel u : userServiceModels) {
-			NamesViewModel namesViewModel = new NamesViewModel();
-			namesViewModel.setId(u.getId());
-			namesViewModel.setName(u.getFirstName() + " " + u.getLastName() + "(" + u.getUsername() + ")");
-			result.add(namesViewModel);
+    @Override
+    public UserServiceModel deleteEmployee(UserServiceModel model) {
+        User employee = this.userRepository.findById(model.getId()).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
+        employee.setStatus(StatusValues.INACTIVE);
 
-		}
+        employee = this.userRepository.saveAndFlush(employee);
 
-		return result;
-	}
+        model = this.modelMapper.map(employee, UserServiceModel.class);
 
-	@Override
-	public Collection<UserServiceModel> findEmployeesByService(String serviceId) {
-		List<User> users = this.userRepository.findAllEmployeesByService(serviceId);
+        return model;
+    }
 
-		List<UserServiceModel> userServiceModel = users.stream().map(s -> this.modelMapper.map(s, UserServiceModel.class)).collect(Collectors.toList());
+    private Office findOffice(String id) {
+        Office office;
+        office = this.modelMapper.map(this.officeService.findOfficeByID(id), Office.class);
+        return office;
+    }
 
-		return userServiceModel;
-	}
+    private DHService findService(String id) {
+        DHService service;
+        service = this.modelMapper.map(this.serviceService.findByID(id), DHService.class);
+        return service;
+    }
 
-	@Override
-	public UserServiceModel mapBindingToServiceModel(EmployeeBindingModel model) {
-		UserServiceModel result = new UserServiceModel();
-		result.setEmail(model.getEmail());
-		result.setFirstName(model.getFirstName());
+    public List<NamesViewModel> mapUserNamesByCriteria(String criteria) {
+        List<NamesViewModel> result = new ArrayList<>();
+        List<UserServiceModel> userServiceModels = findUsersByCriteria(criteria);
+        for (UserServiceModel u : userServiceModels) {
+            NamesViewModel namesViewModel = new NamesViewModel();
+            namesViewModel.setId(u.getId());
+            namesViewModel.setName(u.getFirstName() + " " + u.getLastName() + "(" + u.getUsername() + ")");
+            result.add(namesViewModel);
+
+        }
+
+        return result;
+    }
+
+    @Override
+    public Collection<UserServiceModel> findEmployeesByService(String serviceId) {
+        List<User> users = this.userRepository.findAllEmployeesByService(serviceId);
+
+        List<UserServiceModel> userServiceModel = users.stream().map(s -> this.modelMapper.map(s, UserServiceModel.class)).collect(Collectors.toList());
+
+        return userServiceModel;
+    }
+
+    @Override
+    public UserServiceModel mapBindingToServiceModel(EmployeeBindingModel model) {
+        UserServiceModel result = new UserServiceModel();
+        result.setEmail(model.getEmail());
+        result.setFirstName(model.getFirstName());
 //		result.setId(model.getid);
 //		result.setImageUrl(model.getimageUrl);
-		result.setUsername(model.getUsername());
-		result.setLastName(model.getLastName());
-		result.setPassword(model.getPassword());
-		result.setPhoneNumber(model.getPhoneNumber());
-		result.setOfficeId(model.getOfficeId());
-		result.setServiceId(model.getServiceId());
-		result.setDescription(model.getDescription());
-		return result;
-	}
+        result.setUsername(model.getUsername());
+        result.setLastName(model.getLastName());
+        result.setPassword(model.getPassword());
+        result.setPhoneNumber(model.getPhoneNumber());
+        result.setOfficeId(model.getOfficeId());
+        result.setServiceId(model.getServiceId());
+        result.setDescription(model.getDescription());
+        return result;
+    }
 
-	@Override
-	public NamesViewModel mapUserServiceModelToNameViewModel(UserServiceModel model) {
-		NamesViewModel result = new NamesViewModel();
-		result.setId(model.getId());
-		result.setName(model.getFirstName() + " " + model.getLastName());
-		return result;
-	}
+    @Override
+    public NamesViewModel mapUserServiceModelToNameViewModel(UserServiceModel model) {
+        NamesViewModel result = new NamesViewModel();
+        result.setId(model.getId());
+        result.setName(model.getFirstName() + " " + model.getLastName());
+        return result;
+    }
 }

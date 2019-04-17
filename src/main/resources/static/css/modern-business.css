@@ -26,3 +26,9 @@ body {
 .portfolio-item {
     margin-bottom: 30px;
 }
+.error-page-container {
+
+    /* Link to your background image using in the property below! */
+    background: scroll center url('https://res.cloudinary.com/dollhouce-cloud/image/upload/w_1000,ar_16:9,c_fill,g_auto,e_sharpen/v1555496769/dh_images/WhatsApp_Image_2019-04-17_at_13.24.05_1.jpg');
+    background-size: cover;
+}

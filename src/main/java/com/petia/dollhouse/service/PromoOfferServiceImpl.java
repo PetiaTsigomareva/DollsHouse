@@ -63,6 +63,7 @@ public class PromoOfferServiceImpl implements PromoOfferService {
         for (int i = 0; i < 3; i++) {
             DHService dhService = getRandomServices(services);
             PromoOffer promoOffer = mapPromoOffer(dhService);
+            //Todo
             //if (promoOffers.stream().filter(po -> po.getId().equals(promoOffer.getId())).count() == 0) {
                 promoOffers.add(promoOffer);
            // }

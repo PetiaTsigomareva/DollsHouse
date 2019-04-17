@@ -17,92 +17,81 @@ import javax.persistence.Table;
 @Table(name = "services")
 public class DHService extends EntityWithStatus {
 
-	@Column(name = "name", nullable = false)
-	private String name;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-	@Column(name = "description", nullable = false)
-	private String description;
+    @Column(name = "description", nullable = false)
+    private String description;
 
-	@Column(name = "price", nullable = false, columnDefinition = "DECIMAL(10,2) default '00.00'")
-	private BigDecimal price;
+    @Column(name = "price", nullable = false, columnDefinition = "DECIMAL(10,2) default '00.00'")
+    private BigDecimal price;
 
-	@Column(name = "picture", nullable = false)
-	private String urlPicture;
+    @Column(name = "picture", nullable = false)
+    private String urlPicture;
 
-	@OneToMany(targetEntity = Reservation.class, mappedBy = "service")
-	private List<Reservation> reservations;
+    @OneToMany(targetEntity = Reservation.class, mappedBy = "service")
+    private List<Reservation> reservations;
 
-//	@ManyToMany(targetEntity = PromoOffer.class)
-//	@JoinTable(name = "promo_offers_services", joinColumns = @JoinColumn(name = "promo_offers_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "service_id", referencedColumnName = "id"))
-//	private List<PromoOffer> offers;
 
-	@ManyToOne(targetEntity = Office.class)
-	@JoinColumn(name = "office_id", referencedColumnName = "id")
-	private Office office;
+    @ManyToOne(targetEntity = Office.class)
+    @JoinColumn(name = "office_id", referencedColumnName = "id")
+    private Office office;
 
-	@OneToMany(targetEntity = User.class, mappedBy = "employeeService")
-	private List<User> employees;
+    @OneToMany(targetEntity = User.class, mappedBy = "employeeService")
+    private List<User> employees;
 
-	public DHService() {
-		super();
-	//	offers = new ArrayList<>();
-		reservations = new ArrayList<>();
-		employees = new ArrayList<>();
-	}
+    public DHService() {
+        super();
 
-	public String getName() {
-		return name;
-	}
+        reservations = new ArrayList<>();
+        employees = new ArrayList<>();
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public BigDecimal getPrice() {
-		return price;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
+    public BigDecimal getPrice() {
+        return price;
+    }
 
-	public String getUrlPicture() {
-		return urlPicture;
-	}
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 
-	public void setUrlPicture(String urlPicture) {
-		this.urlPicture = urlPicture;
-	}
+    public String getUrlPicture() {
+        return urlPicture;
+    }
 
-	public List<Reservation> getReservations() {
-		return reservations;
-	}
+    public void setUrlPicture(String urlPicture) {
+        this.urlPicture = urlPicture;
+    }
 
-	public void setReservations(List<Reservation> reservations) {
-		this.reservations = reservations;
-	}
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
 
-//	public List<PromoOffer> getOffers() {
-//		return offers;
-//	}
-//
-//	public void setOffers(List<PromoOffer> offers) {
-//		this.offers = offers;
-//	}
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
 
-	public Office getOffice() {
-		return office;
-	}
+    public Office getOffice() {
+        return office;
+    }
 
-	public void setOffice(Office office) {
-		this.office = office;
-	}
+    public void setOffice(Office office) {
+        this.office = office;
+    }
 }

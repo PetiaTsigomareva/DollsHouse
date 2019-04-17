@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <th:block th:insert="~{fragments/head}"></th:block>
+</head>
+<body>
+<header>
+    <th:block th:insert="~{fragments/navbar}"></th:block>
+</header>
+<main>
+    <div class="container">
+        <h2 class="mt-4 mb-3 text-sm-center" th:text="#{error.message}"></h2>
+        <div class="jumbotron mt-2">
+            <h4 class="mt-4 mb-3 text-sm-center" th:text="#{error.title} + ${message}"></h4>
+            <hr/>
+        </div>
+
+    </div>
+</main>
+
+<div>
+    <th:block th:insert="~{fragments/footer}"></th:block>
+</div>
+
+</body>
+</html>
