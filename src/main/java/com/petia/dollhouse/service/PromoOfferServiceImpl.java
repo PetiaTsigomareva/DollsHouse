@@ -25,7 +25,8 @@ public class PromoOfferServiceImpl implements PromoOfferService {
     private final DollHouseService dollHouseService;
     private final ModelMapper modelMapper;
     private final Random random;
-
+    public static final long FIXED_RATE = 30000;
+    public static final Double DISCOUNT = 0.10;
 
     @Autowired
     public PromoOfferServiceImpl(PromoOfferRepository promoOfferRepository, DollHouseService dollHouseService, ModelMapper modelMapper, Random random) {
@@ -50,7 +51,7 @@ public class PromoOfferServiceImpl implements PromoOfferService {
         return promoOfferViewModelList;
     }
 
-    @Scheduled(fixedRate = 30000)
+    @Scheduled(fixedRate = FIXED_RATE)
     private void generatePromoOffer() {
         this.promoOfferRepository.deleteAll();
 
@@ -85,7 +86,7 @@ public class PromoOfferServiceImpl implements PromoOfferService {
         PromoOffer promoOffer = new PromoOffer();
         promoOffer.setName(dhService.getName());
         promoOffer.setDescription(dhService.getDescription());
-        promoOffer.setPrice(dhService.getPrice().multiply(new BigDecimal(0.10)));
+        promoOffer.setPrice(dhService.getPrice().multiply(new BigDecimal(DISCOUNT)));
         promoOffer.setStartDate(Utils.createRandomDate(Constants.YEAR, Constants.YEAR));
         promoOffer.setEndDate(Utils.createRandomDate(Constants.YEAR, Constants.YEAR));
 

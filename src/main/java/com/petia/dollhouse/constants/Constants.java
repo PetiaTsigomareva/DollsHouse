@@ -6,11 +6,15 @@ public interface Constants {
 	public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm";
 	public static final String DATE_FORMAT = "yyyy-MM-dd";
+	public static final String TIME_HOUR_FORMAT =  ":00";
+	public static final String TIME_ZERO_FORMAT =  "0";
 	public static final Integer YEAR = 2019;
 	public static final Integer MONTH = 12;
 	public static final Integer DAYS = 28;
 	public static final Integer FIRST = 1;
 
+	public static final String MODEL = "model";
+	public static final String BINDING_MODEL ="bindingModel";
 	public static final String CUSTOMER = "Customer";
 	public static final String EMPLOYEE = "Employee";
 	public static final String USER = "user";

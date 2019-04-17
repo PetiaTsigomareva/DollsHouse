@@ -6,11 +6,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Utils {
+
 	public static final String format24Hour(int hour) {
 		String result;
 
 		if (hour <= 9) {
-			result = "0" + hour + ":00";
+			result = Constants.TIME_ZERO_FORMAT + hour + Constants.TIME_HOUR_FORMAT;
 		} else {
 			result = hour + ":00";
 		}

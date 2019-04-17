@@ -12,20 +12,19 @@ import javax.servlet.http.HttpServletResponse;
 
 @Component
 public class TitleInterceptor extends HandlerInterceptorAdapter {
+    public static final String TITLE_LABLE = "title";
+    public static final String TITLE = "Doll House Reservation System - ";
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        String title = "Doll House Reservation System";
-
         if (modelAndView == null) {
             modelAndView = new ModelAndView();
         } else {
             if (handler instanceof HandlerMethod) {
                 PageTitle methodAnnotation = ((HandlerMethod) handler).getMethodAnnotation(PageTitle.class);
-
                 if (methodAnnotation != null) {
                     modelAndView
-                            .addObject("title", title + " - " + methodAnnotation.value());
+                            .addObject(TITLE_LABLE, TITLE + methodAnnotation.value());
                 }
             }
         }
