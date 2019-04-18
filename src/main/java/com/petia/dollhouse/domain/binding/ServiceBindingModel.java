@@ -2,16 +2,32 @@ package com.petia.dollhouse.domain.binding;
 
 import java.math.BigDecimal;
 
+import com.petia.dollhouse.constants.ValidatedConstants;
 import org.springframework.web.multipart.MultipartFile;
 
-public class ServiceBindingModel {
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
-	private String name;
-	private String description;
-	private BigDecimal price;
-	private MultipartFile image;
-	private String officeId;
+public class ServiceBindingModel {
 	private String serviceId;
+
+	@NotNull()
+	@NotEmpty()
+	private String name;
+
+	private String description;
+
+	@NotNull()
+	@NotEmpty()
+	@DecimalMin(value = "0.01")
+	private BigDecimal price;
+
+	private MultipartFile image;
+
+	@NotNull()
+	@NotEmpty()
+	private String officeId;
 
 	public ServiceBindingModel() {
 		super();

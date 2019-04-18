@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
         this.roleService.seedRoles();
         if (this.userRepository.count() == 0) {
             userServiceModel.setAuthorities(this.roleService.findAllRoles());
-            userServiceModel.setPosition(Positions.root_admin.toString());
+
         } else {
             userServiceModel.setAuthorities(new HashSet<>());
             userServiceModel.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()));
@@ -67,6 +67,7 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException(Constants.EXIST_USERNAME_ERROR_MESSAGE);
         }
         savedUser = this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
+
         return savedUser;
     }
 
@@ -270,7 +271,7 @@ public class UserServiceImpl implements UserService {
         result.setPhoneNumber(model.getPhoneNumber());
         result.setOfficeId(model.getOfficeId());
         result.setServiceId(model.getServiceId());
-        result.setDescription(model.getDescription());
+
         return result;
     }
 

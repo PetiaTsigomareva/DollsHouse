@@ -125,6 +125,10 @@ public interface Constants {
 	public static final String ERROR_GENERAL_PAGE = "/errors/general-error";
 
 	// Error Massages
+	//false = redirect, true = throw exception
+	public static final boolean THROW_EXCEPTION_FOR_INVALID_DATA_IN_CONTROLLER = true;
+	public static final String INVALID_DATA_IN_CONTROLLER_MESSAGE = "Invalid data - item can not added!";
+	public static final String INVALID_STATUS_MESSAGE="Field must be PendingConfirmation, Confirmed or Rejected;";
 	public static final String USERNAME_ERROR_MESSAGE = "Username not found!";
 	public static final String EXIST_USERNAME_ERROR_MESSAGE = "Already exists user with this username!";
 	public static final String EXIST_ITEM_ERROR_MESSAGE = "Item Already exists!";

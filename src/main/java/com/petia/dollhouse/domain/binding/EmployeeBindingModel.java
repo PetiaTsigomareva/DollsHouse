@@ -1,19 +1,50 @@
 package com.petia.dollhouse.domain.binding;
 
+import com.petia.dollhouse.constants.ValidatedConstants;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class EmployeeBindingModel {
+	@NotNull()
+	@NotEmpty()
+	@Size(min = 5, max = 10)
 	private String username;
+
+	@NotNull()
+	@NotEmpty()
+	@Size(min = 6)//TODO
 	private String password;
+
+	@NotNull()
+	@NotEmpty()
+	@Size(min = 6)//TODO
 	private String confirmPassword;
+
+	@NotNull()
+	@NotEmpty()
+	@Size(min = 6)//TODO
 	private String email;
+
+	@NotNull()
+	@NotEmpty()
 	private String firstName;
+
+	@NotNull()
+	@NotEmpty()
 	private String lastName;
+
+	@NotNull()
+	@NotEmpty()
+	@Size(min = 7,max = 12)
 	private String phoneNumber;
-	private String position;
-	private String description;
+
 	private MultipartFile image;
+
 	private String officeId;
+
 	private String serviceId;
 
 	public EmployeeBindingModel() {
@@ -75,32 +106,16 @@ public class EmployeeBindingModel {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public String getPosition() {
-		return position;
-	}
-
-	public void setPosition(String position) {
-		this.position = position;
-	}
-
-	public String getOfficeId() {
-		return officeId;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 	public MultipartFile getImage() {
 		return image;
 	}
 
 	public void setImage(MultipartFile image) {
 		this.image = image;
+	}
+
+	public String getOfficeId() {
+		return officeId;
 	}
 
 	public void setOfficeId(String officeId) {

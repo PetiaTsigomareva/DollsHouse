@@ -1,13 +1,43 @@
 package com.petia.dollhouse.domain.binding;
 
-public class UserRegisterBindingModel {
+import com.petia.dollhouse.constants.ValidatedConstants;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+public class UserRegisterBindingModel {
+    @NotNull()
+    @NotEmpty()
+    @Size(min = 5, max = 10)
     private String username;
+
+    @NotNull()
+    @NotEmpty()
+    @Size(min = 6)//TODO
     private String password;
+
+    @NotNull()
+    @NotEmpty()
+    @Size(min = 6)//TODO
     private String confirmPassword;
+
+    @NotNull()
+    @NotEmpty()
+    @Size(min = 6)//TODO
     private String email;
+
+    @NotNull()
+    @NotEmpty()
     private String firstName;
+
+    @NotNull()
+    @NotEmpty()
     private String lastName;
+
+    @NotNull()
+    @NotEmpty()
+    @Size(min = 7,max = 12)
     private String phoneNumber;
 
     public UserRegisterBindingModel() {

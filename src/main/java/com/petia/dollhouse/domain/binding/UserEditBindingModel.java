@@ -1,14 +1,38 @@
 package com.petia.dollhouse.domain.binding;
 
+import com.petia.dollhouse.constants.ValidatedConstants;
 import org.springframework.web.multipart.MultipartFile;
 
-public class UserEditBindingModel {
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
+public class UserEditBindingModel {
+    @NotNull()
+    @NotEmpty()
+    @Size(min = 5, max = 10)
     private String username;
+
+    @NotNull()
+    @NotEmpty()
+    @Size(min = 6)//TODO
     private String oldPassword;
+
+    @NotNull()
+    @NotEmpty()
+    @Size(min = 6)//TODO
     private String password;
+
+    @NotNull()
+    @NotEmpty()
+    @Size(min = 6)//TODO
     private String confirmPassword;
+
+    @NotNull()
+    @NotEmpty()
+    @Size(min = 6)//TODO
     private String email;
+
     private MultipartFile image;
 
     public UserEditBindingModel() {

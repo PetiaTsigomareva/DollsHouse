@@ -4,19 +4,42 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.petia.dollhouse.constants.ValidatedConstants;
+import com.petia.dollhouse.domain.enums.ReservationStatus;
+import com.petia.dollhouse.validation.EnumValidation;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.petia.dollhouse.constants.Constants;
 
-public class ReservationServiceModel extends BaseServiceModel {
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
+public class ReservationServiceModel extends BaseServiceModel {
+    @NotNull()
+    @NotEmpty()
     private String officeId;
+
+    @NotNull()
+    @NotEmpty()
     private String serviceId;
+
+    @NotNull()
+    @NotEmpty()
     private String employeeId;
+
+    @NotNull()
+    @NotEmpty()
     private String customerId;
+
+
     @DateTimeFormat(pattern = Constants.DATE_TIME_FORMAT)
     private LocalDateTime reservationDateTime;
+
     private String description;
+
+
+    @EnumValidation(enumClass = ReservationStatus.class, ignoreCase = true)
+    private String reservationStatus;
 
     public ReservationServiceModel() {
 
@@ -70,5 +93,11 @@ public class ReservationServiceModel extends BaseServiceModel {
         this.description = description;
     }
 
+    public String getReservationStatus() {
+        return reservationStatus;
+    }
 
+    public void setReservationStatus(String reservationStatus) {
+        this.reservationStatus = reservationStatus;
+    }
 }

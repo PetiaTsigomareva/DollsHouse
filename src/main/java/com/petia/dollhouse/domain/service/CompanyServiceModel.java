@@ -1,23 +1,44 @@
 package com.petia.dollhouse.domain.service;
 
+import com.petia.dollhouse.constants.Constants;
+import com.petia.dollhouse.constants.ValidatedConstants;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 public class CompanyServiceModel extends BaseServiceModel {
+    @NotNull()
+    @NotEmpty()
     private String name;
+
+    @NotNull()
+    @NotEmpty()
     private String address;
+
+    @NotNull()
+    @NotEmpty()
+    @Size(min = 9, max = 9)
     private String identificationCode;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+
+
+    @DateTimeFormat(pattern = Constants.DATE_FORMAT)
     private LocalDate dateOfCreation;
+
+    @NotNull()
+    @NotEmpty()
     private String owner;
+
     private String description;
     private Set<String> offices;
 
     public CompanyServiceModel() {
-        offices=new HashSet<>();
+        offices = new HashSet<>();
     }
 
     public String getName() {

@@ -4,11 +4,20 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.petia.dollhouse.constants.ValidatedConstants;
 import com.petia.dollhouse.domain.enums.AvailabilityStatus;
 import com.petia.dollhouse.utils.Utils;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class DayAvailabilityServiceModel extends BaseServiceModel {
+	@NotNull()
+	@NotEmpty()
 	private LocalDate date;
+
+	@NotNull()
+	@NotEmpty()
 	private List<HourAvailabilityServiceModel> hours;
 
 	private DayAvailabilityServiceModel(LocalDate date) {

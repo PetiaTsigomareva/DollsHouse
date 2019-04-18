@@ -13,13 +13,13 @@ import javax.persistence.Table;
 @Table(name = "company")
 public class Company extends EntityWithStatus {
 
-	@Column(name = "name", nullable = false,unique = true)
+	@Column(name = "name", nullable = false, unique = true)
 	private String name;
 
 	@Column(name = "address", nullable = false)
 	private String address;
 
-	@Column(name = "identification_code", nullable = false)
+	@Column(name = "identification_code", nullable = false,length = 9)
 	private String identificationCode;
 
 	@Column(name = "date_of_creation", nullable = false)

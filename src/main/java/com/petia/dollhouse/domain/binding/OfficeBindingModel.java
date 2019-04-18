@@ -1,11 +1,32 @@
 package com.petia.dollhouse.domain.binding;
 
-public class OfficeBindingModel {
+import com.petia.dollhouse.constants.ValidatedConstants;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+public class OfficeBindingModel {
+	@NotNull()
+	@NotEmpty()
 	private String name;
+
+	@NotNull()
+	@NotEmpty()
 	private String address;
+
+	@NotNull()
+	@NotEmpty()
+	@Size(min = 7,max = 12)
 	private String phoneNumber;
+
+	@NotNull()
+	@NotEmpty()
+	@Size(min = 6)//TODO
 	private String email;
+
+	@NotNull()
+	@NotEmpty()
 	private String companyId;
 
 	public OfficeBindingModel() {

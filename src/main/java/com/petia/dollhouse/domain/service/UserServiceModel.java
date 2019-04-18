@@ -1,19 +1,44 @@
 package com.petia.dollhouse.domain.service;
 
+import com.petia.dollhouse.constants.ValidatedConstants;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 public class UserServiceModel extends BaseServiceModel {
-
+	@NotNull()
+	@NotEmpty()
+	@Size(min = 5, max = 10)
 	private String username;
+
+	@NotNull()
+	@NotEmpty()
+	@Size(min = 6)//TODO
 	private String password;
+
+
+    @Size(min = 6)//TODO
 	private String email;
+
+	@NotNull()
+	@NotEmpty()
 	private String firstName;
+
+	@NotNull()
+	@NotEmpty()
 	private String lastName;
+
+	@NotNull()
+	@NotEmpty()
+    @Size(min = 7,max = 12)
 	private String phoneNumber;
-	private String position;
-	private String description;
+
 	private String imageUrl;
+
 	private String officeId;
+
 	private String serviceId;
 
 	private Set<RoleServiceModel> authorities;
@@ -83,22 +108,6 @@ public class UserServiceModel extends BaseServiceModel {
 
 	public void setOfficeId(String officeId) {
 		this.officeId = officeId;
-	}
-
-	public String getPosition() {
-		return position;
-	}
-
-	public void setPosition(String position) {
-		this.position = position;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public String getImageUrl() {

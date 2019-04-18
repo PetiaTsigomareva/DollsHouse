@@ -37,8 +37,8 @@ public class CompanyServiceImpl implements CompanyService {
         company.setStatus(StatusValues.ACTIVE);
         if (this.companyRepository.findCompanyByName(company.getName()).orElse(null) != null) {
 
-          //  throw new IllegalArgumentException(Constants.EXIST_ITEM_ERROR_MESSAGE);
-            throw new NonUniqueResultException(Constants.EXIST_ITEM_ERROR_MESSAGE);
+           throw new IllegalArgumentException(Constants.EXIST_ITEM_ERROR_MESSAGE);
+           // throw new NonUniqueResultException(Constants.EXIST_ITEM_ERROR_MESSAGE);
         }
         company = this.companyRepository.saveAndFlush(company);
         result = company.getId();

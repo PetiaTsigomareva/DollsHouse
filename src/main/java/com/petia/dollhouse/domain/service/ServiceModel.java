@@ -1,13 +1,27 @@
 package com.petia.dollhouse.domain.service;
 
+import com.petia.dollhouse.constants.ValidatedConstants;
+
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public class ServiceModel extends BaseServiceModel {
-
+	@NotNull()
+	@NotEmpty()
 	private String name;
+
 	private String description;
+
+	@NotNull()
+	@DecimalMin(value = "0.01")
 	private BigDecimal price;
+
 	private String urlPicture;
+
+	@NotNull()
+	@NotEmpty()
 	private String officeId;
 
 	public String getName() {

@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -28,15 +31,16 @@ public class User extends EntityWithStatus implements UserDetails {
     private String lastName;
 
     @Column(name = "phone_number", nullable = false)
+    @Size(min = 7, max = 12)
     private String phoneNumber;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @OneToMany(mappedBy = "customer", targetEntity = Reservation.class)

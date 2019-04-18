@@ -1,29 +1,38 @@
 package com.petia.dollhouse.domain.service;
 
+import com.petia.dollhouse.constants.ValidatedConstants;
 import com.petia.dollhouse.domain.enums.AvailabilityStatus;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class HourAvailabilityServiceModel extends BaseServiceModel {
-	private String hour;
-	private AvailabilityStatus availability;
+    @NotNull()
+    @NotEmpty()
+    private String hour;
 
-	public HourAvailabilityServiceModel(String hour, AvailabilityStatus availability) {
-		this.hour = hour;
-		this.availability = availability;
-	}
+    @NotNull()
+    @NotEmpty()
+    private AvailabilityStatus availability;
 
-	public String getHour() {
-		return hour;
-	}
+    public HourAvailabilityServiceModel(String hour, AvailabilityStatus availability) {
+        this.hour = hour;
+        this.availability = availability;
+    }
 
-	public void setHour(String hour) {
-		this.hour = hour;
-	}
+    public String getHour() {
+        return hour;
+    }
 
-	public AvailabilityStatus getAvailability() {
-		return availability;
-	}
+    public void setHour(String hour) {
+        this.hour = hour;
+    }
 
-	public void setAvailability(AvailabilityStatus availability) {
-		this.availability = availability;
-	}
+    public AvailabilityStatus getAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(AvailabilityStatus availability) {
+        this.availability = availability;
+    }
 }

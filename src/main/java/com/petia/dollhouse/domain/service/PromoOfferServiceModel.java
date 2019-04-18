@@ -1,23 +1,36 @@
 package com.petia.dollhouse.domain.service;
 
 import com.petia.dollhouse.constants.Constants;
+import com.petia.dollhouse.constants.ValidatedConstants;
 import com.petia.dollhouse.domain.entities.DHService;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-public class PromoOfferServiceModel extends BaseServiceModel{
-
+public class PromoOfferServiceModel extends BaseServiceModel {
+    @NotNull()
+    @NotEmpty()
     private String name;
+
     private String description;
+
+    @NotNull()
+    @DecimalMin(value = "0.01")
     private BigDecimal price;
+
+
     @DateTimeFormat(pattern = Constants.DATE_FORMAT)
     private LocalDate startDate;
+
+
     @DateTimeFormat(pattern = Constants.DATE_FORMAT)
     private LocalDate endDate;
-    private List<String> services;
+
 
     public PromoOfferServiceModel() {
     }
@@ -62,11 +75,5 @@ public class PromoOfferServiceModel extends BaseServiceModel{
         this.endDate = endDate;
     }
 
-    public List<String> getServices() {
-        return services;
-    }
 
-    public void setServices(List<String> services) {
-        this.services = services;
-    }
 }

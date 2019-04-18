@@ -16,14 +16,18 @@ public class GlobalExceptionHandler extends BaseController {
 
     @ExceptionHandler({NotFoundExceptions.class})
     public ModelAndView handleProductNotFound(RuntimeException e) {
+        e.printStackTrace();
+
         ModelAndView modelAndView = new ModelAndView(Constants.ERROR_GENERAL_PAGE);
+
         modelAndView.addObject(Constants.ERROR_MESSAGE_TITLE, e.getMessage());
 
         return modelAndView;
     }
-//TODO validations
+
     @ExceptionHandler({IllegalArgumentException.class, NoSuchElementException.class,UsernameNotFoundException.class, NonUniqueResultException.class})
     public ModelAndView handleSqlException(RuntimeException e) {
+        e.printStackTrace();
 
         ModelAndView modelAndView = new ModelAndView(Constants.ERROR_GENERAL_PAGE);
 
