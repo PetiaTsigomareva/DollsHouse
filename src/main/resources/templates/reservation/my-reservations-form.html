@@ -11,9 +11,15 @@
 </heder>
 <main class="mt-2">
     <div th:insert="~{fragments/reservation-table::reservation-table-fragment(
-        title=#{reservation.all.title},
+        title=#{reservation.my.title},
        )}">
     </div>
+    <script>
+        $(document).ready(function () {
+            $('#confirmButton').hide();
+            $('#linkButton').hide();
+        });
+    </script>
 
 </main>
 <footer>

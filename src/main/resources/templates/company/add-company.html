@@ -4,6 +4,7 @@
 
 <head>
     <th:block th:insert="~{fragments/head}"></th:block>
+    <script th:src="@{/js/forms-fields-validation.js}"></script>
 </head>
 <body>
 <heder>
@@ -18,10 +19,23 @@
         )}">
 
     </div>
+    <script>
+        function handleInterval( fieldId, helperId, from, to ) {
+        let field = $(fieldId);
+        let helpText = $(helperId);
+        let value = field.val().trim();
+
+        if (value == null || value === "" || value < from || value > to) {
+            showHelpText(field, helpText, EMPTY_MESSAGE);
+        } else {
+            removeHelpText(field, helpText);
+        }
+    }
+    </script>
 </main>
 <footer>
     <th:block th:insert="~{fragments/footer}"></th:block>
 </footer>
-<!--script>validFormFields()</script-->
+
 </body>
 </html>

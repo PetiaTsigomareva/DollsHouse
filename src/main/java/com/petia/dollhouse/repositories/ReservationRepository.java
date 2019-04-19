@@ -16,6 +16,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, String
 	@Query("SELECT r FROM Reservation r WHERE r.service.id =:serviceId and r.employee.id = :employeeId and r.reservationDateTime > DATE_FORMAT(:fromDate, '%Y-%m-%d 00:00:00') and r.reservationDateTime < DATE_FORMAT(:toDate, '%Y-%m-%d 00:00:00')")
 	List<Reservation> getAllReservationsForTimePeriodOfficeServiceEmployee(String serviceId, String employeeId, String fromDate, String toDate);
 
-
 	Optional<Reservation> findByReservationDateTime(LocalDateTime reservationDateTime);
+
+	@Query("SELECT r FROM Reservation r WHERE r.customer.id =:customer")
+	List<Reservation> findAllByUsername(String customer);
 }

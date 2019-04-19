@@ -1,5 +1,6 @@
 package com.petia.dollhouse.web.controllers;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -24,166 +25,173 @@ import com.petia.dollhouse.web.annotations.PageTitle;
 
 @Controller
 public class ReservationController extends BaseController {
-    private final DollHouseService dollHouseService;
-    private final ServiceRepository serviceRepository;
-    private final OfficeService officeService;
-    private final UserService userService;
-    private final ReservationService reservationService;
-    private final ModelMapper modelMapper;
+	private final DollHouseService dollHouseService;
+	private final ServiceRepository serviceRepository;
+	private final OfficeService officeService;
+	private final UserService userService;
+	private final ReservationService reservationService;
+	private final ModelMapper modelMapper;
 
-    @Autowired
-    public ReservationController(DollHouseService dollHouseService, ServiceRepository serviceRepository, OfficeService officeService, UserService userService, ReservationService reservationService, ModelMapper modelMapper) {
-        this.dollHouseService = dollHouseService;
-        this.serviceRepository = serviceRepository;
-        this.officeService = officeService;
-        this.userService = userService;
-        this.reservationService = reservationService;
-        this.modelMapper = modelMapper;
-    }
+	@Autowired
+	public ReservationController(DollHouseService dollHouseService, ServiceRepository serviceRepository, OfficeService officeService, UserService userService,
+	    ReservationService reservationService, ModelMapper modelMapper) {
+		this.dollHouseService = dollHouseService;
+		this.serviceRepository = serviceRepository;
+		this.officeService = officeService;
+		this.userService = userService;
+		this.reservationService = reservationService;
+		this.modelMapper = modelMapper;
+	}
 
-    @GetMapping(Constants.ADD_RESERVATION_ACTION)
-    @PreAuthorize("isAuthenticated()")
-    @PageTitle(Constants.ADD_RESERVATION_TITLE)
-    public ModelAndView addReservation(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ReservationBindingModel reservationBindingModel) {
-        modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
-        modelAndView.addObject("serviceNames", this.dollHouseService.mapModelServiceNamesToViewNames());
-        return view(Constants.ADD_RESERVATION_ACTION, modelAndView);
-    }
+	@GetMapping(Constants.ADD_RESERVATION_ACTION)
+	@PreAuthorize("isAuthenticated()")
+	@PageTitle(Constants.ADD_RESERVATION_TITLE)
+	public ModelAndView addReservation(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ReservationBindingModel reservationBindingModel) {
+		modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
+		modelAndView.addObject("serviceNames", this.dollHouseService.mapModelServiceNamesToViewNames());
+		return view(Constants.ADD_RESERVATION_ACTION, modelAndView);
+	}
 
-    @PostMapping(Constants.ADD_RESERVATION_ACTION)
-    @PreAuthorize("isAuthenticated()")
-    public ModelAndView addReservationConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ReservationBindingModel reservationBindingModel) {
-        modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
-        modelAndView.addObject("serviceNames", this.dollHouseService.mapModelServiceNamesToViewNames());
-        String id = this.reservationService.add(this.modelMapper.map(reservationBindingModel, ReservationServiceModel.class));
-        if (id == null) {
-            return view(Constants.ADD_RESERVATION_PAGE, modelAndView);
-        }
+	@PostMapping(Constants.ADD_RESERVATION_ACTION)
+	@PreAuthorize("isAuthenticated()")
+	public ModelAndView addReservationConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ReservationBindingModel reservationBindingModel) {
+		modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
+		modelAndView.addObject("serviceNames", this.dollHouseService.mapModelServiceNamesToViewNames());
+		String id = this.reservationService.add(this.modelMapper.map(reservationBindingModel, ReservationServiceModel.class));
+		if (id == null) {
+			return view(Constants.ADD_RESERVATION_PAGE, modelAndView);
+		}
 
-        return redirect(Constants.ALL_RESERVATIONS_PAGE);
-    }
+		return redirect(Constants.ALL_RESERVATIONS_PAGE);
+	}
 
-    // Moderator reservation form
-    @GetMapping(Constants.ADD_MODERATOR_RESERVATION_ACTION)
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    @PageTitle(Constants.ADD_RESERVATION_TITLE)
-    public ModelAndView addModeratorReservation(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ReservationBindingModel reservationBindingModel) {
-        modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
-        modelAndView.addObject("serviceNames", this.dollHouseService.mapModelServiceNamesToViewNames());
-        modelAndView.addObject("employeeNames", this.userService.mapUserNamesByCriteria(Constants.EMPLOYEE));
-        modelAndView.addObject("customerNames", this.userService.mapUserNamesByCriteria(Constants.CUSTOMER));
-        modelAndView.addObject("statusReservations", this.reservationService.getReservationStatusValues());
-        return view(Constants.ADD_MODERATOR_RESERVATION_PAGE, modelAndView);
-    }
+	// Moderator reservation form
+	@GetMapping(Constants.ADD_MODERATOR_RESERVATION_ACTION)
+	@PreAuthorize("hasRole('ROLE_MODERATOR')")
+	@PageTitle(Constants.ADD_RESERVATION_TITLE)
+	public ModelAndView addModeratorReservation(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ReservationBindingModel reservationBindingModel) {
+		modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
+		modelAndView.addObject("serviceNames", this.dollHouseService.mapModelServiceNamesToViewNames());
+		modelAndView.addObject("employeeNames", this.userService.mapUserNamesByCriteria(Constants.EMPLOYEE));
+		modelAndView.addObject("customerNames", this.userService.mapUserNamesByCriteria(Constants.CUSTOMER));
+		modelAndView.addObject("statusReservations", this.reservationService.getReservationStatusValues());
+		return view(Constants.ADD_MODERATOR_RESERVATION_PAGE, modelAndView);
+	}
 
-    @PostMapping(Constants.ADD_MODERATOR_RESERVATION_ACTION)
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView addModeratorReservationConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ReservationBindingModel reservationBindingModel) {
-        modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
-        modelAndView.addObject("serviceNames", this.dollHouseService.mapModelServiceNamesToViewNames());
-        modelAndView.addObject("employeeNames", this.userService.mapUserNamesByCriteria(Constants.EMPLOYEE));
-        modelAndView.addObject("customerNames", this.userService.mapUserNamesByCriteria(Constants.CUSTOMER));
-        modelAndView.addObject("statusReservations", this.reservationService.getReservationStatusValues());
+	@PostMapping(Constants.ADD_MODERATOR_RESERVATION_ACTION)
+	@PreAuthorize("hasRole('ROLE_MODERATOR')")
+	public ModelAndView addModeratorReservationConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ReservationBindingModel reservationBindingModel) {
+		modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
+		modelAndView.addObject("serviceNames", this.dollHouseService.mapModelServiceNamesToViewNames());
+		modelAndView.addObject("employeeNames", this.userService.mapUserNamesByCriteria(Constants.EMPLOYEE));
+		modelAndView.addObject("customerNames", this.userService.mapUserNamesByCriteria(Constants.CUSTOMER));
+		modelAndView.addObject("statusReservations", this.reservationService.getReservationStatusValues());
 
-        ReservationServiceModel reservationServiceModel = this.reservationService.mapBindingToServiceModel(reservationBindingModel);
+		ReservationServiceModel reservationServiceModel = this.reservationService.mapBindingToServiceModel(reservationBindingModel);
 
+		String id = this.reservationService.addModeratorReservation(reservationServiceModel);
+		if (id == null) {
+			return view(Constants.ADD_MODERATOR_RESERVATION_PAGE, modelAndView);
+		}
 
-        String id = this.reservationService.addModeratorReservation(reservationServiceModel);
-        if (id == null) {
-            return view(Constants.ADD_MODERATOR_RESERVATION_PAGE, modelAndView);
-        }
+		return redirect(Constants.ALL_RESERVATIONS_PAGE);
+	}
 
-        return redirect(Constants.ALL_RESERVATIONS_PAGE);
-    }
+	@GetMapping(Constants.EDIT_MODERATOR_RESERVATION_ACTION + "{id}")
+	@PreAuthorize("hasRole('ROLE_MODERATOR')")
+	@PageTitle(Constants.EDIT_RESERVATION_TITLE)
+	public ModelAndView editModeratorReservation(ModelAndView modelAndView, @PathVariable String id) {
+		ReservationBindingModel reservationBindingModel = this.modelMapper.map(this.reservationService.findByID(id), ReservationBindingModel.class);
+		modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
+		modelAndView.addObject("serviceNames", this.dollHouseService.mapModelServiceNamesToViewNames());
+		modelAndView.addObject("employeeNames", this.userService.mapUserNamesByCriteria(Constants.EMPLOYEE));
+		modelAndView.addObject("customerNames", this.userService.mapUserNamesByCriteria(Constants.CUSTOMER));
+		modelAndView.addObject("statusReservations", this.reservationService.getReservationStatusValues());
+		modelAndView.addObject("bindingModel", reservationBindingModel);
 
-    @GetMapping(Constants.EDIT_MODERATOR_RESERVATION_ACTION + "{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    @PageTitle(Constants.EDIT_RESERVATION_TITLE)
-    public ModelAndView editModeratorReservation(ModelAndView modelAndView, @PathVariable String id) {
-        ReservationBindingModel reservationBindingModel = this.modelMapper.map(this.reservationService.findByID(id), ReservationBindingModel.class);
-        modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
-        modelAndView.addObject("serviceNames", this.dollHouseService.mapModelServiceNamesToViewNames());
-        modelAndView.addObject("employeeNames", this.userService.mapUserNamesByCriteria(Constants.EMPLOYEE));
-        modelAndView.addObject("customerNames", this.userService.mapUserNamesByCriteria(Constants.CUSTOMER));
-        modelAndView.addObject("statusReservations", this.reservationService.getReservationStatusValues());
-        modelAndView.addObject("bindingModel", reservationBindingModel);
+		return view(Constants.EDIT_MODERATOR_RESERVATION_PAGE, modelAndView);
+	}
 
-        return view(Constants.EDIT_MODERATOR_RESERVATION_PAGE, modelAndView);
-    }
+	@PostMapping(Constants.EDIT_MODERATOR_RESERVATION_ACTION + "{id}")
+	@PreAuthorize("hasRole('ROLE_MODERATOR')")
+	public ModelAndView editModeratorReservationConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ReservationBindingModel reservationBindingModel,
+	    @PathVariable String id) {
 
-    @PostMapping(Constants.EDIT_MODERATOR_RESERVATION_ACTION + "{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView editModeratorReservationConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ReservationBindingModel reservationBindingModel, @PathVariable String id) {
+		ReservationServiceModel reservationServiceModel = this.reservationService.mapBindingToServiceModel(reservationBindingModel);
+		reservationServiceModel.setId(id);
 
-        ReservationServiceModel reservationServiceModel = this.reservationService.mapBindingToServiceModel(reservationBindingModel);
-        reservationServiceModel.setId(id);
+		reservationServiceModel = this.reservationService.edit(reservationServiceModel);
+		if (reservationServiceModel == null) {
 
-        reservationServiceModel = this.reservationService.edit(reservationServiceModel);
-        if (reservationServiceModel == null) {
+			modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
+			modelAndView.addObject("serviceNames", this.dollHouseService.mapModelServiceNamesToViewNames());
+			modelAndView.addObject("employeeNames", this.userService.mapUserNamesByCriteria(Constants.EMPLOYEE));
+			modelAndView.addObject("customerNames", this.userService.mapUserNamesByCriteria(Constants.CUSTOMER));
+			modelAndView.addObject("statusReservations", this.reservationService.getReservationStatusValues());
+			modelAndView.addObject("bindingModel", reservationBindingModel);
 
-            modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
-            modelAndView.addObject("serviceNames", this.dollHouseService.mapModelServiceNamesToViewNames());
-            modelAndView.addObject("employeeNames", this.userService.mapUserNamesByCriteria(Constants.EMPLOYEE));
-            modelAndView.addObject("customerNames", this.userService.mapUserNamesByCriteria(Constants.CUSTOMER));
-            modelAndView.addObject("statusReservations", this.reservationService.getReservationStatusValues());
-            modelAndView.addObject("bindingModel", reservationBindingModel);
+			return view(Constants.EDIT_MODERATOR_RESERVATION_PAGE, modelAndView);
+		}
 
+		return redirect(Constants.ALL_RESERVATIONS_PAGE);
 
-            return view(Constants.EDIT_MODERATOR_RESERVATION_PAGE, modelAndView);
-        }
+	}
 
-        return redirect(Constants.ALL_RESERVATIONS_PAGE);
+	@GetMapping(Constants.REJECT_MODERATOR_RESERVATION_ACTION + "{id}")
+	@PreAuthorize("hasRole('ROLE_MODERATOR')")
+	@PageTitle(Constants.REJECT_RESERVATION_TITLE)
+	public ModelAndView rejectReservation(ModelAndView modelAndView, @PathVariable String id) {
+		ReservationBindingModel reservationBindingModel = this.modelMapper.map(this.reservationService.findByID(id), ReservationBindingModel.class);
 
-    }
+		modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
+		modelAndView.addObject("serviceNames", this.dollHouseService.mapModelServiceNamesToViewNames());
+		modelAndView.addObject("employeeNames", this.userService.mapUserNamesByCriteria(Constants.EMPLOYEE));
+		modelAndView.addObject("customerNames", this.userService.mapUserNamesByCriteria(Constants.CUSTOMER));
+		modelAndView.addObject("statusReservations", this.reservationService.getReservationStatusValues());
+		modelAndView.addObject("bindingModel", reservationBindingModel);
 
-    @GetMapping(Constants.REJECT_MODERATOR_RESERVATION_ACTION + "{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    @PageTitle(Constants.REJECT_RESERVATION_TITLE)
-    public ModelAndView rejectReservation(ModelAndView modelAndView, @PathVariable String id) {
-        ReservationBindingModel reservationBindingModel = this.modelMapper.map(this.reservationService.findByID(id), ReservationBindingModel.class);
+		return view(Constants.REJECT_MODERATOR_RESERVATION_PAGE, modelAndView);
+	}
 
-        modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
-        modelAndView.addObject("serviceNames", this.dollHouseService.mapModelServiceNamesToViewNames());
-        modelAndView.addObject("employeeNames", this.userService.mapUserNamesByCriteria(Constants.EMPLOYEE));
-        modelAndView.addObject("customerNames", this.userService.mapUserNamesByCriteria(Constants.CUSTOMER));
-        modelAndView.addObject("statusReservations", this.reservationService.getReservationStatusValues());
-        modelAndView.addObject("bindingModel", reservationBindingModel);
+	@PostMapping(Constants.REJECT_MODERATOR_RESERVATION_ACTION + "{id}")
+	@PreAuthorize("hasRole('ROLE_MODERATOR')")
+	public ModelAndView rejectReservationConfirm(@PathVariable String id) {
 
-        return view(Constants.REJECT_MODERATOR_RESERVATION_PAGE, modelAndView);
-    }
+		this.reservationService.setReservationStatus(id, Constants.RESERVATION_REJECT);
 
-    @PostMapping(Constants.REJECT_MODERATOR_RESERVATION_ACTION + "{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView rejectReservationConfirm(@PathVariable String id) {
+		return redirect(Constants.ALL_RESERVATIONS_PAGE);
 
-        this.reservationService.setReservationStatus(id, Constants.RESERVATION_REJECT);
+	}
 
+	@GetMapping(Constants.ALL_RESERVATIONS_ACTION)
+	@PreAuthorize("hasRole('ROLE_MODERATOR')")
+	@PageTitle(Constants.ALL_RESERVATIONS_TITLE)
+	public ModelAndView allReservations(ModelAndView modelAndView) {
+		List<ReservationServiceModel> reservationServiceModels = this.reservationService.findAll();
 
-        return redirect(Constants.ALL_RESERVATIONS_PAGE);
+		modelAndView.addObject("reservations", this.reservationService.mapServiceToViewModels(reservationServiceModels));
 
-    }
+		return view(Constants.ALL_RESERVATIONS_PAGE, modelAndView);
+	}
 
-    @GetMapping(Constants.ALL_RESERVATIONS_ACTION)
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    @PageTitle(Constants.ALL_RESERVATIONS_TITLE)
-    public ModelAndView allReservations(ModelAndView modelAndView) {
-        List<ReservationServiceModel> reservationServiceModels = this.reservationService.findAll();
+	@GetMapping(Constants.MY_RESERVATIONS_ACTION)
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@PageTitle(Constants.MY_RESERVATIONS_TITLE)
+	public ModelAndView myReservations(ModelAndView modelAndView, Principal principal) {
+		List<ReservationServiceModel> reservationServiceModels = this.reservationService.findALLByUser(principal.getName());
 
-        modelAndView.addObject("reservations", this.reservationService.mapServiceToViewModels(reservationServiceModels));
+		modelAndView.addObject("reservations", this.reservationService.mapServiceToViewModels(reservationServiceModels));
 
-        return view(Constants.ALL_RESERVATIONS_PAGE, modelAndView);
-    }
+		return view(Constants.MY_RESERVATIONS_PAGE, modelAndView);
+	}
 
+	@PostMapping(Constants.CONFIRM_MODERATOR_RESERVATION_ACTION + "{id}")
+	@PreAuthorize("hasRole('ROLE_MODERATOR')")
+	public ModelAndView confirmReservation(@PathVariable String id) {
 
-    @PostMapping(Constants.CONFIRM_MODERATOR_RESERVATION_ACTION + "{id}")
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
-    public ModelAndView confirmReservation(@PathVariable String id) {
+		this.reservationService.setReservationStatus(id, Constants.RESERVATION_CONFIRM);
 
-        this.reservationService.setReservationStatus(id, Constants.RESERVATION_CONFIRM);
-
-
-        return redirect(Constants.ALL_RESERVATIONS_PAGE);
-    }
-
+		return redirect(Constants.ALL_RESERVATIONS_PAGE);
+	}
 
 }

@@ -6,15 +6,15 @@ public interface Constants {
 	public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm";
 	public static final String DATE_FORMAT = "yyyy-MM-dd";
-	public static final String TIME_HOUR_FORMAT =  ":00";
-	public static final String TIME_ZERO_FORMAT =  "0";
+	public static final String TIME_HOUR_FORMAT = ":00";
+	public static final String TIME_ZERO_FORMAT = "0";
 	public static final Integer YEAR = 2019;
 	public static final Integer MONTH = 12;
 	public static final Integer DAYS = 28;
 	public static final Integer FIRST = 1;
 
 	public static final String MODEL = "model";
-	public static final String BINDING_MODEL ="bindingModel";
+	public static final String BINDING_MODEL = "bindingModel";
 	public static final String CUSTOMER = "Customer";
 	public static final String EMPLOYEE = "Employee";
 	public static final String USER = "user";
@@ -74,7 +74,7 @@ public interface Constants {
 	public static final String ADD_RESERVATION_ACTION = "/reservation/add-reservation";
 	public static final String EDIT_RESERVATION_ACTION = "/reservation/edit-reservation/";
 	public static final String DELETE_RESERVATION_ACTION = "/reservation/delete-reservation/";
-	public static final String MY_RESERVATIONS_ACTION = "/reservation/my-reservations";
+	public static final String MY_RESERVATIONS_ACTION = "/reservation/my-reservations-form";
 
 	public static final String ADD_MODERATOR_RESERVATION_ACTION = "/reservation/add-reservation-form";
 	public static final String EDIT_MODERATOR_RESERVATION_ACTION = "/reservation/edit-reservation-form/";
@@ -120,15 +120,15 @@ public interface Constants {
 	public static final String EDIT_MODERATOR_RESERVATION_PAGE = "/reservation/edit-reservation-form";
 	public static final String REJECT_MODERATOR_RESERVATION_PAGE = "/reservation/reject-reservation-form";
 	public static final String ALL_RESERVATIONS_PAGE = "/reservation/all-reservation-form";
-
+	public static final String MY_RESERVATIONS_PAGE = "/reservation/my-reservations-form";
 
 	public static final String ERROR_GENERAL_PAGE = "/errors/general-error";
 
 	// Error Massages
-	//false = redirect, true = throw exception
+	// false = redirect, true = throw exception
 	public static final boolean THROW_EXCEPTION_FOR_INVALID_DATA_IN_CONTROLLER = true;
 	public static final String INVALID_DATA_IN_CONTROLLER_MESSAGE = "Invalid data - item can not added!";
-	public static final String INVALID_STATUS_MESSAGE="Field must be PendingConfirmation, Confirmed or Rejected;";
+	public static final String INVALID_STATUS_MESSAGE = "Field must be PendingConfirmation, Confirmed or Rejected;";
 	public static final String USERNAME_ERROR_MESSAGE = "Username not found!";
 	public static final String EXIST_USERNAME_ERROR_MESSAGE = "Already exists user with this username!";
 	public static final String EXIST_ITEM_ERROR_MESSAGE = "Item Already exists!";
@@ -174,6 +174,7 @@ public interface Constants {
 	public static final String CONFIRM_RESERVATION_TITLE = RESERVATION_CONFIRM + " Reservation";
 
 	public static final String ALL_RESERVATIONS_TITLE = ALL + " Reservation";
+	public static final String MY_RESERVATIONS_TITLE = "My Reservation";
 
 	public static final String INDEX_TITLE = "Index";
 	public static final String HOME_TITLE = "Home";

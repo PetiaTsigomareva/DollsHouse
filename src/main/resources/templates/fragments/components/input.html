@@ -1,8 +1,10 @@
-<th:block th:fragment="input( type, componentId, name, value, placeholder, from, to )">
+<th:block th:fragment="input( type, componentId, name, value, placeholder)">
 	<div class="form-label-group">
 		<input th:type="${type}" th:id="${componentId}" class="form-control" th:placeholder="${name}" th:name="${name}"
-			   th:value="${value}" onkeypress="handleInterval( 'componentId', 'componentId+Help', from, to )">
+			   th:value="${value}" >
 		<label th:for="${componentId}" th:text="${placeholder}"></label>
 		<small th:id="${componentId}+Help" style="display: none" class="form-text text-muted"></small>
 	</div>
 </th:block>
+
+<!--TODO VALIDATION th:onkeypress="|handleInterval('${componentId}','${componentId}+Help', ${from}, ${to})|"-->

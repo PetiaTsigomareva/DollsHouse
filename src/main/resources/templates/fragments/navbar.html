@@ -75,9 +75,6 @@
                             </div></li-->
                         <th:block sec:authorize="hasRole('ROLE_MODERATOR')">
 
-                            <!--li class="nav-item active"><a class="nav-link text-dark"
-                                                           th:href="@{${T(com.petia.dollhouse.constants.Constants).MODERATOR_SIDEBAR_ACTION}}">Moderator</a>
-                            </li-->
                             <li class="nav-item active"><a class="nav-link text-dark"
                                                            th:href="@{${T(com.petia.dollhouse.constants.Constants).ALL_RESERVATIONS_ACTION}}"
                                                            th:text="#{reservation.all.title}"></a></li>
@@ -92,7 +89,7 @@
                                                 th:href="@{${T(com.petia.dollhouse.constants.Constants).ADD_RESERVATION_ACTION}}"
                                                 th:text="#{reservation.add.title}"></a></li>
                         <li class="nav-item"><a class="nav-link text-dark"
-                                                th:href="@{${T(com.petia.dollhouse.constants.Constants).HOME_ACTION}}"
+                                                th:href="@{${T(com.petia.dollhouse.constants.Constants).MY_RESERVATIONS_ACTION}}"
                                                 th:text="#{reservation.my.title}">My Reservations</a></li>
                         <li class="nav-item active"><a class="nav-link text-dark" th:href="@{/users/profile}"
                                                        th:text="#{navbar.profile.title}">Profile</a></li>
