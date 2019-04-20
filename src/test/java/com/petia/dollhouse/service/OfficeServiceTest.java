@@ -33,7 +33,7 @@ public class OfficeServiceTest {
 	public static final String ERROR_MESSAGE = "Can not add office with same name!";
 	public static final String ERROR_EDIT_MESSAGE = "Can not edit office with empty fields!";
 	public static final String INVALID_PHONE_NUMBER = "Phone number must be between 7 and 12 lenght!";
-	public static final String DELETE_OFFICE_MESSAGE = "Office no exist! Can not be delete!";
+	public static final String DELETE_OFFICE_MESSAGE = "Office no exist! Can not be deleted!";
 
 	private OfficeService officeService;
 
