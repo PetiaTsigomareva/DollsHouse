@@ -203,7 +203,7 @@ public class OfficeServiceTest {
 	}
 
 	@Test(expected = Exception.class)
-	public void test_deleteOffice_whendataIsInCorrect_then_return_deletedOffice() {
+	public void test_deleteOffice_whendataIsInCorrect_then_return_exeption() {
 		// given or arrange
 		OfficeServiceModel officeServiceModel = new OfficeServiceModel();
 		// when or act

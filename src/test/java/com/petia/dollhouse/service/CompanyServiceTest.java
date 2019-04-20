@@ -218,7 +218,7 @@ public class CompanyServiceTest {
 	}
 
 	@Test(expected = AssertionError.class)
-	public void test_deleteCompany_whendataIsInCorrect_then_return_deletedOffice() {
+	public void test_deleteCompany_whendataIsInCorrect_then_return_exeption() {
 		// given or arrange
 		String actualId = this.companyService.addCompany(createCompanyModel());
 
