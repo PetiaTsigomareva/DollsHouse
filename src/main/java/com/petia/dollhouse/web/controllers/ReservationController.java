@@ -1,7 +1,10 @@
 package com.petia.dollhouse.web.controllers;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +37,7 @@ public class ReservationController extends BaseController {
 
 	@Autowired
 	public ReservationController(DollHouseService dollHouseService, ServiceRepository serviceRepository, OfficeService officeService, UserService userService,
-	    ReservationService reservationService, ModelMapper modelMapper) {
+			ReservationService reservationService, ModelMapper modelMapper) {
 		this.dollHouseService = dollHouseService;
 		this.serviceRepository = serviceRepository;
 		this.officeService = officeService;
@@ -49,15 +52,22 @@ public class ReservationController extends BaseController {
 	public ModelAndView addReservation(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ReservationBindingModel reservationBindingModel) {
 		modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
 		modelAndView.addObject("serviceNames", this.dollHouseService.mapModelServiceNamesToViewNames());
-		return view(Constants.ADD_RESERVATION_ACTION, modelAndView);
+		return view(Constants.ADD_RESERVATION_PAGE, modelAndView);
 	}
 
 	@PostMapping(Constants.ADD_RESERVATION_ACTION)
 	@PreAuthorize("isAuthenticated()")
-	public ModelAndView addReservationConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ReservationBindingModel reservationBindingModel) {
+	public ModelAndView addReservationConfirm(HttpServletRequest request, ModelAndView modelAndView,
+			@ModelAttribute(name = "bindingModel") ReservationBindingModel reservationBindingModel) {
 		modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
 		modelAndView.addObject("serviceNames", this.dollHouseService.mapModelServiceNamesToViewNames());
-		String id = this.reservationService.add(this.modelMapper.map(reservationBindingModel, ReservationServiceModel.class));
+
+		String selectedHour = request.getParameter("selectedHour");
+		LocalDateTime selectedHourDateTime = LocalDateTime.parse(selectedHour, Constants.DATE_TIME_FORMATTER);
+
+		reservationBindingModel.setReservationDateTime(selectedHourDateTime);
+
+		String id = this.reservationService.add(this.reservationService.mapBindingToServiceModel(reservationBindingModel));
 		if (id == null) {
 			return view(Constants.ADD_RESERVATION_PAGE, modelAndView);
 		}
@@ -115,7 +125,7 @@ public class ReservationController extends BaseController {
 	@PostMapping(Constants.EDIT_MODERATOR_RESERVATION_ACTION + "{id}")
 	@PreAuthorize("isAuthenticated()")
 	public ModelAndView editModeratorReservationConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ReservationBindingModel reservationBindingModel,
-	    @PathVariable String id) {
+			@PathVariable String id) {
 
 		ReservationServiceModel reservationServiceModel = this.reservationService.mapBindingToServiceModel(reservationBindingModel);
 		reservationServiceModel.setId(id);

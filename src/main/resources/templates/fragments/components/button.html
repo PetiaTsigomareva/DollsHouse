@@ -1,5 +1,5 @@
-<th:block th:fragment="button( buttonText )">
-	<div class="button-holder d-flex justify-content-center">
-		<button class="btn btn-lg btn-outline-dark text-uppercase" th:text="${buttonText}" type="submit"></button>
+<th:block th:fragment="button( componentId, buttonText, style, disabled )">
+	<div class="button-holder d-flex justify-content-center" th:style="${style}" th:id="'div'+${componentId}">
+		<button class="btn btn-lg btn-outline-dark text-uppercase" th:text="${buttonText}" type="submit" th:disabled="${disabled}" th:id="'button'+${componentId}"></button>
 	</div>
 </th:block>

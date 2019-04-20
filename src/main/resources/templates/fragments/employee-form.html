@@ -16,7 +16,7 @@
 							<div th:replace="~{fragments/components/select-office :: select(inputOffice,${officeNames})}"></div>
 							<div th:replace="~{fragments/components/select-service-placeholder :: select( inputService, ${serviceNames},'display: none;')}"></div>
 							<div th:replace="~{fragments/components/image :: image( file, inputImage, image, ${bindingModel.username},Image )}"></div>
-							<div th:replace="~{fragments/components/button :: button( ${buttonText} )}"></div>
+							<div th:replace="~{fragments/components/button :: button( employeeSubmit, ${buttonText}, '', false )}"></div>
 						</form>
 					</div>
 				</div>

@@ -3,9 +3,12 @@ package com.petia.dollhouse.constants;
 import java.time.format.DateTimeFormatter;
 
 public interface Constants {
-	public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm";
 	public static final String DATE_FORMAT = "yyyy-MM-dd";
+	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm";
+
+	public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_FORMAT);
+	public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern(DATE_TIME_FORMAT);
+
 	public static final String TIME_HOUR_FORMAT = ":00";
 	public static final String TIME_ZERO_FORMAT = "0";
 	public static final Integer YEAR = 2019;

@@ -1,15 +1,15 @@
 package com.petia.dollhouse.domain.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.petia.dollhouse.constants.ValidatedConstants;
-import com.petia.dollhouse.domain.enums.AvailabilityStatus;
-import com.petia.dollhouse.utils.Utils;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import com.petia.dollhouse.domain.enums.AvailabilityStatus;
+import com.petia.dollhouse.utils.Utils;
 
 public class DayAvailabilityServiceModel extends BaseServiceModel {
 	@NotNull()
@@ -24,7 +24,11 @@ public class DayAvailabilityServiceModel extends BaseServiceModel {
 		this.date = date;
 		hours = new ArrayList<HourAvailabilityServiceModel>();
 		for (int i = 9; i <= 18; i++) {
-			hours.add(new HourAvailabilityServiceModel(Utils.format24Hour(i), AvailabilityStatus.AVAILABLE));
+			if (LocalDate.now().equals(date) && i <= LocalDateTime.now().getHour()) {
+				hours.add(new HourAvailabilityServiceModel(Utils.format24Hour(i), AvailabilityStatus.UNAVAILABLE));
+			} else {
+				hours.add(new HourAvailabilityServiceModel(Utils.format24Hour(i), AvailabilityStatus.AVAILABLE));
+			}
 		}
 	}
 

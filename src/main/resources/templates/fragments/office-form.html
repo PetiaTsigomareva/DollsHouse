@@ -11,7 +11,7 @@
 							<div th:replace="~{fragments/components/input :: input( text, inputPhoneNumber, phoneNumber, ${bindingModel.phoneNumber}, 'Phone Number' )}"></div>
 							<div th:replace="~{fragments/components/input :: input( text, inputEmail, email, ${bindingModel.email}, Email )}"></div>
 							<div th:replace="~{fragments/components/select-company :: select( inputCompany,${companyNames} )}"></div>
-							<div th:replace="~{fragments/components/button :: button( ${buttonText} )}"></div>
+							<div th:replace="~{fragments/components/button :: button( officeSubmit, ${buttonText}, '', false )}"></div>
 						</form>
 					</div>
 				</div>

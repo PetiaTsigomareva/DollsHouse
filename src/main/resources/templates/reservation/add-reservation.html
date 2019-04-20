@@ -5,27 +5,32 @@
 <script th:src="@{/js/reservation.js}"></script>
 </head>
 <body>
-	<header>
-		<th:block th:insert="~{fragments/navbar}"></th:block>
-	</header>
-	<main>
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-10 col-xl-9 mx-auto">
-				<div class="card card-signin flex-row my-5">
-					<div class="card-body">
-						<div th:replace="~{fragments/components/select-office :: select( inputOffice, ${officeNames} )}"></div>
-						<div th:replace="~{fragments/components/select-service-placeholder :: select( inputService, ${serviceNames}, 'display: none;' )}"></div>
-						<div th:replace="~{fragments/components/select-employee :: select( inputEmployee, ${employeeNames}, 'display: none;' )}"http://localhost:8080/reservation/add-reservation#></div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div th:replace="~{fragments/reservation-available-dates}"></div>
-	</div>
-	</main>
-	<footer>
-		<th:block th:insert="~{fragments/footer}"></th:block>
-	</footer>
+  <header>
+    <th:block th:insert="~{fragments/navbar}"></th:block>
+  </header>
+  <main>
+  <form class="form-signin" action="/reservation/add-reservation" method="post">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-10 col-xl-9 mx-auto">
+          <div class="card card-signin flex-row my-5">
+            <div class="card-body">
+              <div th:replace="~{fragments/components/select-office :: select( inputOffice, ${officeNames} )}"></div>
+              <div th:replace="~{fragments/components/select-service-placeholder :: select( inputService, ${serviceNames}, 'display: none;' )}"></div>
+              <div th:replace="~{fragments/components/select-employee :: select( inputEmployee, ${employeeNames}, 'display: none;' )}"></div>
+              <div th:replace="~{fragments/components/input :: input( hidden, selectedHour, selectedHour, '', '' )}"></div>
+              <div th:replace="~{fragments/components/text-area :: text-area( inputDescription, 6, 40, 'display: none;' )}"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div th:replace="~{fragments/reservation-available-dates}"></div>
+      <div th:replace="~{fragments/components/button :: button( makeReservation, #{reservation.add.title}, 'display: none;', true )}"></div>
+    </div>
+  </form>
+  </main>
+  <footer>
+    <th:block th:insert="~{fragments/footer}"></th:block>
+  </footer>
 </body>
 </html>

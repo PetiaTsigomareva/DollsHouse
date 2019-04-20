@@ -1,23 +1,24 @@
 <th:block th:fragment="reservation-form-fragment(url, title, methodLabel, buttonText)">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-10 col-xl-9 mx-auto">
-                <div class="card card-signin flex-row my-5">
-                    <div class="card-body">
-                        <h5 class="card-title text-center" th:text="${title}"></h5>
-                        <form class="form-signin" th:action="${url}" th:method="${methodLabel}">
-                            <div th:replace="~{fragments/components/select-office :: select( inputOffice, ${officeNames} )}"></div>
-                            <div th:replace="~{fragments/components/select-service :: select( inputService, ${serviceNames},'display: block;')}"></div>
-                            <div th:replace="~{fragments/components/select-employee :: select( inputEmployee, ${employeeNames}, '' )}"></div>
-                            <div th:replace="~{fragments/components/select-customer :: select( inputCustomer,${customerNames} )}"></div>
-                            <div th:replace="~{fragments/components/select-reservation-status :: select( inputReservationStatus, ${statusReservations} )}"></div>
-                            <div th:replace="~{fragments/components/input :: input( datetime-local, inputReservationDateTime, reservationDateTime, ${bindingModel.reservationDateTime}, 'Reservation Date Time' )}"></div>
-                            <div th:replace="~{fragments/components/text-area :: text-area( inputDescription, 6, 40 )}"></div>
-                            <div th:replace="~{fragments/components/button :: button( ${buttonText} )}"></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 col-xl-9 mx-auto">
+        <div class="card card-signin flex-row my-5">
+          <div class="card-body">
+            <h5 class="card-title text-center" th:text="${title}"></h5>
+            <form class="form-signin" th:action="${url}" th:method="${methodLabel}">
+              <div th:replace="~{fragments/components/select-office :: select( inputOffice, ${officeNames} )}"></div>
+              <div th:replace="~{fragments/components/select-service :: select( inputService, ${serviceNames},'display: block;')}"></div>
+              <div th:replace="~{fragments/components/select-employee :: select( inputEmployee, ${employeeNames}, '' )}"></div>
+              <div th:replace="~{fragments/components/select-customer :: select( inputCustomer,${customerNames} )}"></div>
+              <div th:replace="~{fragments/components/select-reservation-status :: select( inputReservationStatus, ${statusReservations} )}"></div>
+              <div
+                th:replace="~{fragments/components/input :: input( datetime-local, inputReservationDateTime, reservationDateTime, ${bindingModel.reservationDateTime}, 'Reservation Date Time' )}"></div>
+              <div th:replace="~{fragments/components/text-area :: text-area( inputDescription, 6, 40, '' )}"></div>
+              <div th:replace="~{fragments/components/button :: button( reservationSubmit, ${buttonText}, '', false )}"></div>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </th:block>

@@ -10,9 +10,9 @@
                             <div th:replace="~{fragments/components/input :: input( text, inputAddress, address, ${bindingModel.address}, Address)}"></div>
                             <div th:replace="~{fragments/components/input :: input( text, inputIdentificationCode, identificationCode, ${bindingModel.identificationCode}, 'Identification Code')}"></div>
                             <div th:replace="~{fragments/components/input :: input( date, inputDateOfCreation, dateOfCreation, ${bindingModel.dateOfCreation}, 'Date Of Creation')}"></div>
-                            <div th:replace="~{fragments/components/text-area :: text-area( inputDescription)}"></div>
+                            <div th:replace="~{fragments/components/text-area :: text-area( inputDescription, 6, 40, '' )}"></div>
                             <div th:replace="~{fragments/components/input :: input( text, inputOwner, owner, ${bindingModel.owner}, Owner )}"></div>
-                            <div th:replace="~{fragments/components/button :: button( ${buttonText} )}"></div>
+                            <div th:replace="~{fragments/components/button :: button( companySubmit, ${buttonText}, '', false )}"></div>
                         </form>
                     </div>
                 </div>

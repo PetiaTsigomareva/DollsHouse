@@ -49,7 +49,7 @@
                                 <label for="email">Email</label>
                             </div>
                             <div th:replace="~{fragments/components/image :: image( file, inputImage, image, ${model.username},Image )}"></div>
-                            <div th:replace="~{fragments/components/button :: button( #{form.edit.button} )}"></div>
+                            <div th:replace="~{fragments/components/button :: button( profileSubmit, #{form.edit.button}, '', false )}"></div>
 
                         </form>
                     </div>

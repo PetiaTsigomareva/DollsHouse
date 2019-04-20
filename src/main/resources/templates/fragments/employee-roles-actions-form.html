@@ -1,7 +1,5 @@
 <th:block th:fragment="employee-roles-actions-form(url, methodLabel, buttonText)">
-    <form th:action="${url}" th:method="${methodLabel}">
-        <input type="hidden" name="_csrf"
-               value="80417983-fe8b-45c7-963e-31f6915a1560">
-        <button class="btn btn-outline-dark" th:text="${buttonText}"></button>
-    </form>
+  <form th:action="${url}" th:method="${methodLabel}">
+    <button class="btn btn-outline-dark" th:text="${buttonText}"></button>
+  </form>
 </th:block>

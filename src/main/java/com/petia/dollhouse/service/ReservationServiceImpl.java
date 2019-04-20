@@ -35,7 +35,7 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Autowired
 	public ReservationServiceImpl(ModelMapper modelMapper, ReservationRepository reservationRepository, DollHouseService dollHouseService, UserService userService,
-	    OfficeService officeService) {
+			OfficeService officeService) {
 		this.modelMapper = modelMapper;
 		this.reservationRepository = reservationRepository;
 		this.dollHouseService = dollHouseService;
@@ -53,6 +53,7 @@ public class ReservationServiceImpl implements ReservationService {
 		reservation.setEmployee(this.modelMapper.map(this.userService.findUserById(model.getEmployeeId()), User.class));
 		reservation.setService(this.modelMapper.map(this.dollHouseService.findByID(model.getServiceId()), DHService.class));
 		reservation.setCustomer(this.modelMapper.map(userService.findUserByUserName(currentPrincipalName), User.class));
+		reservation.setStatus(ReservationStatus.PendingConfirmation);
 		// TODO ERROR Handling
 //        if (this.reservationRepository.findByReservationDateTime(LocalDateTime time).orElse(null) != null) {
 //
