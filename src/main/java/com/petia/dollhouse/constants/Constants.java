@@ -133,11 +133,12 @@ public interface Constants {
 	public static final String EXIST_USERNAME_ERROR_MESSAGE = "Already exists user with this username!";
 	public static final String EXIST_ITEM_ERROR_MESSAGE = "Item Already exists!";
 	public static final String PASSWORD_ERROR_MESSAGE = "Incorrect password!";
-	public static final String ID_ERROR_MESSAGE = "Incorrect id!";
+	public static final String ID_ERROR_MESSAGE = "Invalid id!";
 	public static final String ERROR_MESSAGE = "The searched item not found!";
 	public static final String CRITERIA_ERROR_MESSAGE = "Enter criteria is invalid!";
 	public static final String RESERVATION_STATUS_ERROR_MESSAGE = "Invalid Reservation Status";
 	public static final String ERROR_MESSAGE_TITLE = "message";
+	public static final String INVALID_ROLE = "Invalid role name";
 
 	// Pages Titles
 	public static final String ADD = "Add";
@@ -185,4 +186,5 @@ public interface Constants {
 	public static final String REGISTER_TITLE = "Register";
 	public static final String LOGIN_TITLE = "Login";
 	public static final String PROMO_OFFERS_TITLE = "Promo Offers";
+
 }

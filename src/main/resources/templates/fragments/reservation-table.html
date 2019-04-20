@@ -9,7 +9,7 @@
             <th class="col-md-1 text-center" th:text="#{reservation.table.office}"></th>
             <th class="col-md-1 text-center" th:text="#{reservation.table.service}"></th>
             <th class="col-md-1 text-center" th:text="#{reservation.table.employee}"></th>
-            <th class="col-md-2 text-center" th:text="#{reservation.table.customer}"></th>
+            <th id="customerHeader" class="col-md-2 text-center" th:text="#{reservation.table.customer}"></th>
             <th class="col-md-2 text-center" th:text="#{reservation.table.date}"></th>
             <th class="col-md-2 text-center" th:text="#{reservation.table.status}"></th>
             <th class="col-md-2 text-center" th:text="#{allitems.table.action}"></th>
@@ -22,7 +22,7 @@
                 <td class="col-md-1 text-center" th:text="${reservation.office}"></td>
                 <td class="col-md-1 text-center" th:text="${reservation.service}"></td>
                 <td class="col-md-1 text-center" th:text="${reservation.employee}"></td>
-                <td class="col-md-2 text-center" th:text="${reservation.customer}"></td>
+                <td id="customerData" class="col-md-2 text-center" th:text="${reservation.customer}"></td>
                 <td class="col-md-2 text-center" th:text="${reservation.reservationDateTime}"></td>
                 <td class="col-md-2 text-center" th:text="${reservation.reservationStatus}"></td>
                 <td class="col-md-2 text-center">

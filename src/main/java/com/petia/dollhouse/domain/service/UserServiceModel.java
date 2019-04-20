@@ -1,11 +1,10 @@
 package com.petia.dollhouse.domain.service;
 
-import com.petia.dollhouse.constants.ValidatedConstants;
+import java.util.Set;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Set;
 
 public class UserServiceModel extends BaseServiceModel {
 	@NotNull()
@@ -15,11 +14,10 @@ public class UserServiceModel extends BaseServiceModel {
 
 	@NotNull()
 	@NotEmpty()
-	@Size(min = 6)//TODO
+	@Size(min = 6) // TODO
 	private String password;
 
-
-    @Size(min = 6)//TODO
+	@Size(min = 6) // TODO
 	private String email;
 
 	@NotNull()
@@ -32,7 +30,7 @@ public class UserServiceModel extends BaseServiceModel {
 
 	@NotNull()
 	@NotEmpty()
-    @Size(min = 7,max = 12)
+	@Size(min = 7, max = 12)
 	private String phoneNumber;
 
 	private String imageUrl;

@@ -98,7 +98,7 @@ public class ReservationController extends BaseController {
 	}
 
 	@GetMapping(Constants.EDIT_MODERATOR_RESERVATION_ACTION + "{id}")
-	@PreAuthorize("hasRole('ROLE_MODERATOR')")
+	@PreAuthorize("isAuthenticated()")
 	@PageTitle(Constants.EDIT_RESERVATION_TITLE)
 	public ModelAndView editModeratorReservation(ModelAndView modelAndView, @PathVariable String id) {
 		ReservationBindingModel reservationBindingModel = this.modelMapper.map(this.reservationService.findByID(id), ReservationBindingModel.class);
@@ -113,7 +113,7 @@ public class ReservationController extends BaseController {
 	}
 
 	@PostMapping(Constants.EDIT_MODERATOR_RESERVATION_ACTION + "{id}")
-	@PreAuthorize("hasRole('ROLE_MODERATOR')")
+	@PreAuthorize("isAuthenticated()")
 	public ModelAndView editModeratorReservationConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ReservationBindingModel reservationBindingModel,
 	    @PathVariable String id) {
 
@@ -138,7 +138,7 @@ public class ReservationController extends BaseController {
 	}
 
 	@GetMapping(Constants.REJECT_MODERATOR_RESERVATION_ACTION + "{id}")
-	@PreAuthorize("hasRole('ROLE_MODERATOR')")
+	@PreAuthorize("isAuthenticated()")
 	@PageTitle(Constants.REJECT_RESERVATION_TITLE)
 	public ModelAndView rejectReservation(ModelAndView modelAndView, @PathVariable String id) {
 		ReservationBindingModel reservationBindingModel = this.modelMapper.map(this.reservationService.findByID(id), ReservationBindingModel.class);
@@ -154,7 +154,7 @@ public class ReservationController extends BaseController {
 	}
 
 	@PostMapping(Constants.REJECT_MODERATOR_RESERVATION_ACTION + "{id}")
-	@PreAuthorize("hasRole('ROLE_MODERATOR')")
+	@PreAuthorize("isAuthenticated()")
 	public ModelAndView rejectReservationConfirm(@PathVariable String id) {
 
 		this.reservationService.setReservationStatus(id, Constants.RESERVATION_REJECT);
