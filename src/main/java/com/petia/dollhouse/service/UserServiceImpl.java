@@ -164,12 +164,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String addEmployee(UserServiceModel model) {
 		String result;
-
+		Office office = findOffice(model.getOfficeId());
 		model.setAuthorities(new HashSet<>());
 		model.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()));
 
 		User employee = this.modelMapper.map(model, User.class);
-		employee.setOffice(findOffice(model.getOfficeId()));
+		employee.setOffice(office);
 		employee.setEmployeeService(findService(model.getServiceId()));
 		employee.setPassword(this.bCryptPasswordEncoder.encode(model.getPassword()));
 		employee.setStatus(StatusValues.ACTIVE);
