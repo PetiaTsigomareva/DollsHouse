@@ -13,8 +13,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.petia.dollhouse.constants.Constants;
 
 @Entity
@@ -30,7 +28,7 @@ public class Office extends EntityWithStatus {
 	private String address;
 
 	@Column(name = "phone_number", nullable = false)
-	@DateTimeFormat(pattern = Constants.PHONE_NUMBER_REGEX)
+//	@DateTimeFormat(pattern = Constants.PHONE_NUMBER_REGEX)
 	private String phoneNumber;
 
 	@Column(name = "email", nullable = false, unique = true)

@@ -61,7 +61,7 @@ public class UserController extends BaseController {
 
 	@PostMapping(Constants.REGISTER_FORM_ACTION)
 	@PreAuthorize("isAnonymous()")
-	public ModelAndView registerConfirm(@ModelAttribute UserRegisterBindingModel model) {
+	public ModelAndView registerConfirm(@Valid @ModelAttribute UserRegisterBindingModel model) {
 		if (!model.getPassword().equals(model.getConfirmPassword())) {
 			return view(Constants.REGISTER_PAGE);
 		}
@@ -91,7 +91,7 @@ public class UserController extends BaseController {
 	@PreAuthorize("isAuthenticated()")
 	@PageTitle(Constants.EDIT_PROFILE_TITLE)
 	public ModelAndView editProfile(Principal principal, ModelAndView modelAndView) {
-		modelAndView.addObject("model", this.modelMapper.map(this.userService.findUserByUserName(principal.getName()), UserProfileViewModel.class));
+		modelAndView.addObject("model", this.modelMapper.map(this.userService.findUserByUserName(principal.getName()), UserEditBindingModel.class));
 
 		return view(Constants.EDIT_PROFILE_PAGE, modelAndView);
 	}
@@ -174,7 +174,7 @@ public class UserController extends BaseController {
 	@PostMapping(Constants.EDIT_EMPLOYEE_ACTION + "{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView editEmployeeConfirm(ModelAndView modelAndView, @Valid @ModelAttribute(name = "bindingModel") EmployeeEditBindingModel employeeBindingModel,
-	    @PathVariable String id, BindingResult bindingResult) throws IOException {
+	    BindingResult bindingResult, @PathVariable String id) throws IOException {
 		if (bindingResult.hasErrors() || "Please select...".equals(employeeBindingModel.getOfficeId()) || "Please select...".equals(employeeBindingModel.getServiceId())) {
 			modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
 			modelAndView.addObject("serviceNames", this.dollHouseService.getAllServicesByOffice(employeeBindingModel.getOfficeId()));

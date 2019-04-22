@@ -3,8 +3,10 @@ package com.petia.dollhouse.web.controllers;
 import java.util.NoSuchElementException;
 
 import javax.persistence.NonUniqueResultException;
+import javax.validation.ConstraintViolationException;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,7 +28,8 @@ public class GlobalExceptionHandler extends BaseController {
 		return modelAndView;
 	}
 
-	@ExceptionHandler({ IllegalArgumentException.class, NoSuchElementException.class, UsernameNotFoundException.class, NonUniqueResultException.class })
+	@ExceptionHandler({ IllegalArgumentException.class, NoSuchElementException.class, UsernameNotFoundException.class, NonUniqueResultException.class,
+	    ConstraintViolationException.class, BindException.class })
 	public ModelAndView handleSqlException(RuntimeException e) {
 		e.printStackTrace();
 

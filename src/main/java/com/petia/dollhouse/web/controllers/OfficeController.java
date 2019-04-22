@@ -50,15 +50,15 @@ public class OfficeController extends BaseController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView addOfficeConfirm(ModelAndView modelAndView, @Valid @ModelAttribute(name = "bindingModel") OfficeBindingModel officeBindingModel,
 	    BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			return super.view(Constants.ADD_OFFICE_PAGE);
+		if (bindingResult.hasErrors() || "Please select...".equals(officeBindingModel.getCompanyId())) {
+			modelAndView.addObject("companyNames", this.companyService.mapCompanyNames());
+			return view(Constants.ADD_OFFICE_PAGE, modelAndView);
 		}
 
 		modelAndView.addObject("companyNames", this.companyService.mapCompanyNames());
 
 		String id = this.officeService.addOffice(this.modelMapper.map(officeBindingModel, OfficeServiceModel.class));
 		if (id == null) {
-//			throw new NotFoundExceptions(Constants.ERROR_MESSAGE);
 			return view(Constants.ADD_OFFICE_PAGE, modelAndView);
 		}
 
@@ -90,17 +90,20 @@ public class OfficeController extends BaseController {
 
 	@PostMapping(Constants.EDIT_OFFICE_ACTION + "{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public ModelAndView editOfficeConfirm(ModelAndView modelAndView, @Valid @ModelAttribute(name = "bindingModel") OfficeBindingModel officeBindingModel, @PathVariable String id,
-	    BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			return super.view(Constants.EDIT_OFFICE_PAGE);
+	public ModelAndView editOfficeConfirm(ModelAndView modelAndView, @Valid @ModelAttribute(name = "bindingModel") OfficeBindingModel officeBindingModel, BindingResult bindingResult,
+	    @PathVariable String id) {
+		if (bindingResult.hasErrors() || "Please select...".equals(officeBindingModel.getCompanyId())) {
+			modelAndView.addObject("companyId", officeBindingModel.getCompanyId());
+			modelAndView.addObject("companyNames", this.companyService.mapCompanyNames());
+			modelAndView.addObject("bindingModel", officeBindingModel);
+
+			return view(Constants.EDIT_OFFICE_PAGE, modelAndView);
 		}
 
 		OfficeServiceModel officeServiceModel = this.modelMapper.map(officeBindingModel, OfficeServiceModel.class);
 		officeServiceModel.setId(id);
 		officeServiceModel = this.officeService.editOffice(officeServiceModel);
 		if (officeServiceModel == null) {
-
 			return view(Constants.EDIT_OFFICE_PAGE, modelAndView);
 		}
 
@@ -127,12 +130,9 @@ public class OfficeController extends BaseController {
 		officeServiceModel.setId(id);
 		officeServiceModel = this.officeService.deleteOffice(officeServiceModel);
 		if (officeServiceModel == null) {
-
 			return view(Constants.DELETE_OFFICE_PAGE, modelAndView);
 		}
 
 		return redirect(Constants.ALL_OFFICE_PAGE);
-
 	}
-
 }

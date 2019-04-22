@@ -1,11 +1,13 @@
 package com.petia.dollhouse.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.util.NoSuchElementException;
+import java.util.regex.Pattern;
 
 import javax.validation.ConstraintViolationException;
 
@@ -119,14 +121,14 @@ public class OfficeServiceTest {
 		assertEquals(expected.getStatus(), actual.getStatus());
 	}
 
-	@Test(expected = AssertionError.class)
+	@Test(expected = ConstraintViolationException.class)
 	public void test_editOffice_with_incorrect_data_then_return_exeption() {
 		// given or arrange
 		String companyId = this.companyService.addCompany(createCompanyModel());
 		String actualId = this.officeService.addOffice(getOfficeModel(companyId));
 
 		OfficeServiceModel toBeEdited = this.officeService.findOfficeByID(actualId);
-		toBeEdited.setName("");
+		toBeEdited.setName("a");
 
 		// given or arrange
 		OfficeServiceModel actual = this.officeService.editOffice(toBeEdited);
@@ -135,6 +137,19 @@ public class OfficeServiceTest {
 		// then or assert
 		assertTrue(ERROR_MESSAGE, expected == null);
 
+	}
+
+	@Test()
+	public void test_phoneRegex() {
+		String regex = Constants.PHONE_NUMBER_REGEX;
+		String test = "123";
+
+		boolean result = Pattern.matches(regex, test);
+		assertFalse("Expecting regex " + regex + " to not match " + test, result);
+		test = INVALID_PHONE_NUMBER;
+
+		result = Pattern.matches(regex, test);
+		assertFalse("Expecting regex " + regex + " to not match " + test, result);
 	}
 
 	@Test(expected = ConstraintViolationException.class)
@@ -152,7 +167,6 @@ public class OfficeServiceTest {
 
 		// then or assert
 		assertTrue(INVALID_PHONE_NUMBER, expected == null);
-
 	}
 
 	@Test
@@ -217,8 +231,8 @@ public class OfficeServiceTest {
 		OfficeServiceModel officeServiceModel = new OfficeServiceModel();
 
 		officeServiceModel.setName("validName");
-		officeServiceModel.setAddress("validAddress");
-		officeServiceModel.setPhoneNumber("validPhone");
+		officeServiceModel.setAddress("very long validAddress");
+		officeServiceModel.setPhoneNumber("1234567890");
 		officeServiceModel.setEmail("valid@mail.com");
 		officeServiceModel.setCompanyId(companyId);
 
@@ -231,7 +245,7 @@ public class OfficeServiceTest {
 
 		officeServiceModel.setName("validName");
 		officeServiceModel.setAddress(null);
-		officeServiceModel.setPhoneNumber("validPhone");
+		officeServiceModel.setPhoneNumber("1234567890");
 		officeServiceModel.setEmail("valid@mail.com");
 		officeServiceModel.setCompanyId(companyId);
 
@@ -243,7 +257,7 @@ public class OfficeServiceTest {
 		CompanyServiceModel c = new CompanyServiceModel();
 
 		c.setName("name");
-		c.setAddress("address");
+		c.setAddress("very long address");
 		c.setIdentificationCode("123456789");
 		c.setDateOfCreation(LocalDate.now());
 		c.setOwner("owner");

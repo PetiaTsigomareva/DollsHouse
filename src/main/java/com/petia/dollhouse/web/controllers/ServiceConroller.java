@@ -104,8 +104,8 @@ public class ServiceConroller extends BaseController {
 
 	@PostMapping(Constants.EDIT_SERVICE_ACTION + "{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public ModelAndView editServiceConfirm(ModelAndView modelAndView, @Valid @ModelAttribute(name = "bindingModel") ServiceBindingModel serviceBindingModel, @PathVariable String id,
-	    BindingResult bindingResult) throws IOException {
+	public ModelAndView editServiceConfirm(ModelAndView modelAndView, @Valid @ModelAttribute(name = "bindingModel") ServiceBindingModel serviceBindingModel,
+	    BindingResult bindingResult, @PathVariable String id) throws IOException {
 		if (bindingResult.hasErrors() || "Please select...".equals(serviceBindingModel.getOfficeId())) {
 			return super.view(Constants.EDIT_SERVICE_PAGE);
 		}

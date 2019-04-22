@@ -221,7 +221,6 @@ public class UserServiceTests {
 		UserServiceModel expected = modelMapper.map(userRepository.findById(actualId).orElse(null), UserServiceModel.class);
 
 		assertEquals(expected.getId(), actualId);
-
 	}
 
 	private UserServiceModel getUserServiceModel() {
@@ -271,8 +270,13 @@ public class UserServiceTests {
 		testUser.setLastName("Petrova");
 		testUser.setPhoneNumber("12345678");
 
-		testUser.setOfficeId(officeId);
-		testUser.setServiceId(serviceId);
+		OfficeServiceModel officeServiceModel = new OfficeServiceModel();
+		officeServiceModel.setId(officeId);
+		testUser.setOfficeServiceModel(officeServiceModel);
+
+		ServiceModel serviceModel = new ServiceModel();
+		serviceModel.setId(serviceId);
+		testUser.setServiceModel(serviceModel);
 
 		return testUser;
 	}
@@ -280,9 +284,9 @@ public class UserServiceTests {
 	private OfficeServiceModel createOffice(String companyId) {
 		OfficeServiceModel o = new OfficeServiceModel();
 
-		o.setAddress("address");
+		o.setAddress("very long address");
 		o.setCompanyId(companyId);
-		o.setEmail("email");
+		o.setEmail("email@abv.bg");
 		o.setId("id");
 		o.setName("name");
 		o.setPhoneNumber("1234567890");
@@ -295,7 +299,7 @@ public class UserServiceTests {
 		CompanyServiceModel c = new CompanyServiceModel();
 
 		c.setId("companyId");
-		c.setAddress("address");
+		c.setAddress("very long address");
 		c.setIdentificationCode("123456789");
 		c.setName("name");
 		c.setDateOfCreation(LocalDate.now());

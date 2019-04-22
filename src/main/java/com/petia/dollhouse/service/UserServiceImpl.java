@@ -16,12 +16,11 @@ import org.springframework.stereotype.Service;
 import com.petia.dollhouse.constants.Constants;
 import com.petia.dollhouse.domain.binding.EmployeeBindingModel;
 import com.petia.dollhouse.domain.binding.EmployeeEditBindingModel;
-import com.petia.dollhouse.domain.entities.DHService;
-import com.petia.dollhouse.domain.entities.Office;
 import com.petia.dollhouse.domain.entities.User;
 import com.petia.dollhouse.domain.enums.RoleNames;
 import com.petia.dollhouse.domain.enums.StatusValues;
 import com.petia.dollhouse.domain.service.OfficeServiceModel;
+import com.petia.dollhouse.domain.service.ServiceModel;
 import com.petia.dollhouse.domain.service.UserServiceModel;
 import com.petia.dollhouse.domain.view.NamesViewModel;
 import com.petia.dollhouse.repositories.UserRepository;
@@ -165,13 +164,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String addEmployee(UserServiceModel model) {
 		String result;
-		Office office = findOffice(model.getOfficeId());
 		model.setAuthorities(new HashSet<>());
 		model.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()));
 
 		User employee = this.modelMapper.map(model, User.class);
-		employee.setOffice(office);
-		employee.setEmployeeService(findService(model.getServiceId()));
 		employee.setPassword(this.bCryptPasswordEncoder.encode(model.getPassword()));
 		employee.setStatus(StatusValues.ACTIVE);
 
@@ -199,11 +195,6 @@ public class UserServiceImpl implements UserService {
 		}
 
 		User employee2 = this.modelMapper.map(model, User.class);
-
-		employee2.setOffice(findOffice(model.getOfficeId()));
-
-		employee2.setEmployeeService(findService(model.getServiceId()));
-
 		employee2.setAuthorities(employee.getAuthorities());
 		User storedUser = this.userRepository.saveAndFlush(employee2);
 
@@ -222,19 +213,6 @@ public class UserServiceImpl implements UserService {
 		model = this.modelMapper.map(employee, UserServiceModel.class);
 
 		return model;
-	}
-
-	private Office findOffice(String id) {
-		Office office;
-		OfficeServiceModel oModel = this.officeService.findOfficeByID(id);
-		office = this.modelMapper.map(oModel, Office.class);
-		return office;
-	}
-
-	private DHService findService(String id) {
-		DHService service;
-		service = this.modelMapper.map(this.serviceService.findByID(id), DHService.class);
-		return service;
 	}
 
 	public List<NamesViewModel> mapUserNamesByCriteria(String criteria) {
@@ -271,8 +249,14 @@ public class UserServiceImpl implements UserService {
 		result.setLastName(model.getLastName());
 		result.setPassword(model.getPassword());
 		result.setPhoneNumber(model.getPhoneNumber());
-		result.setOfficeId(model.getOfficeId());
-		result.setServiceId(model.getServiceId());
+
+		OfficeServiceModel officeServiceModel = new OfficeServiceModel();
+		officeServiceModel.setId(model.getOfficeId());
+		result.setOfficeServiceModel(officeServiceModel);
+
+		ServiceModel serviceModel = new ServiceModel();
+		serviceModel.setId(model.getServiceId());
+		result.setServiceModel(serviceModel);
 
 		return result;
 	}
@@ -288,8 +272,14 @@ public class UserServiceImpl implements UserService {
 		result.setLastName(model.getLastName());
 		result.setPassword(model.getPassword());
 		result.setPhoneNumber(model.getPhoneNumber());
-		result.setOfficeId(model.getOfficeId());
-		result.setServiceId(model.getServiceId());
+
+		OfficeServiceModel officeServiceModel = new OfficeServiceModel();
+		officeServiceModel.setId(model.getOfficeId());
+		result.setOfficeServiceModel(officeServiceModel);
+
+		ServiceModel serviceModel = new ServiceModel();
+		serviceModel.setId(model.getServiceId());
+		result.setServiceModel(serviceModel);
 
 		return result;
 	}

@@ -82,7 +82,6 @@ public class CompanyController extends BaseController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PageTitle(Constants.EDIT_COMPANY_TITLE)
 	public ModelAndView editCompany(ModelAndView modelAndView, @PathVariable String id) {
-
 		CompanyBindingModel companyBindingModel = this.modelMapper.map(this.companyService.findCompanyByID(id), CompanyBindingModel.class);
 		modelAndView.addObject("bindingModel", companyBindingModel);
 
@@ -92,13 +91,17 @@ public class CompanyController extends BaseController {
 	@PostMapping(Constants.EDIT_COMPANY_ACTION + "{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView editCompanyConfirm(ModelAndView modelAndView, @Valid @ModelAttribute(name = "bindingModel") CompanyBindingModel companyBindingModel,
-	    @PathVariable String id) {
+	    BindingResult bindingResult, @PathVariable String id) {
+		if (bindingResult.hasErrors()) {
+			modelAndView.addObject("bindingModel", companyBindingModel);
+
+			return view(Constants.EDIT_COMPANY_PAGE, modelAndView);
+		}
 
 		CompanyServiceModel companyServiceModel = this.modelMapper.map(companyBindingModel, CompanyServiceModel.class);
 		companyServiceModel.setId(id);
 		companyServiceModel = this.companyService.editCompany(companyServiceModel);
 		if (companyServiceModel == null) {
-
 			return view(Constants.EDIT_COMPANY_PAGE, modelAndView);
 		}
 

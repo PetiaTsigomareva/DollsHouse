@@ -15,8 +15,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Pattern;
 
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.petia.dollhouse.constants.Constants;
 
 @Entity
 @Table(name = "users")
@@ -28,6 +31,7 @@ public class User extends EntityWithStatus implements UserDetails {
 	private String lastName;
 
 	@Column(name = "phone_number", nullable = false)
+	@Pattern(regexp = Constants.PHONE_NUMBER_REGEX)
 	private String phoneNumber;
 
 	@Column(name = "username", nullable = false, unique = true)

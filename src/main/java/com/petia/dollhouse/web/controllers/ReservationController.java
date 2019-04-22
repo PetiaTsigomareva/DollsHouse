@@ -155,7 +155,7 @@ public class ReservationController extends BaseController {
 	@PostMapping(Constants.EDIT_MODERATOR_RESERVATION_ACTION + "{id}")
 	@PreAuthorize("hasRole('ROLE_MODERATOR')")
 	public ModelAndView editModeratorReservationConfirm(ModelAndView modelAndView, @Valid @ModelAttribute(name = "bindingModel") ReservationBindingModel reservationBindingModel,
-	    @PathVariable String id, BindingResult bindingResult) {
+	    BindingResult bindingResult, @PathVariable String id) {
 		if (bindingResult.hasErrors()) {
 			return super.view(Constants.EDIT_MODERATOR_RESERVATION_PAGE);
 		}

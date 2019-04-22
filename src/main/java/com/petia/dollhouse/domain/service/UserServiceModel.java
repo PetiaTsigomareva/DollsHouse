@@ -39,9 +39,9 @@ public class UserServiceModel extends BaseServiceModel {
 
 	private String imageUrl;
 
-	private String officeId;
+	private OfficeServiceModel officeServiceModel;
 
-	private String serviceId;
+	private ServiceModel serviceModel;
 
 	private Set<RoleServiceModel> authorities;
 
@@ -104,12 +104,12 @@ public class UserServiceModel extends BaseServiceModel {
 		this.authorities = authorities;
 	}
 
-	public String getOfficeId() {
-		return officeId;
+	public OfficeServiceModel getOfficeServiceModel() {
+		return officeServiceModel;
 	}
 
-	public void setOfficeId(String officeId) {
-		this.officeId = officeId;
+	public void setOfficeServiceModel(OfficeServiceModel officeServiceModel) {
+		this.officeServiceModel = officeServiceModel;
 	}
 
 	public String getImageUrl() {
@@ -120,11 +120,11 @@ public class UserServiceModel extends BaseServiceModel {
 		this.imageUrl = imageUrl;
 	}
 
-	public String getServiceId() {
-		return serviceId;
+	public ServiceModel getServiceModel() {
+		return serviceModel;
 	}
 
-	public void setServiceId(String serviceId) {
-		this.serviceId = serviceId;
+	public void setServiceModel(ServiceModel serviceModel) {
+		this.serviceModel = serviceModel;
 	}
 }
