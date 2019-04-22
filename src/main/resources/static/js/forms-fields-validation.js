@@ -4,6 +4,8 @@ function valudateInput(fieldId, regexText, helpMessage) {
   let helpTextPlaceholderElement = $('#' + fieldId + 'Help');
   var regex = new RegExp(regexText);
 
+  console.log(valueToCheck);
+  
   if (regex.test(valueToCheck)) {
     removeHelpText(field, helpTextPlaceholderElement);
   } else {

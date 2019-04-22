@@ -152,7 +152,7 @@ public class OfficeServiceTest {
 		assertFalse("Expecting regex " + regex + " to not match " + test, result);
 	}
 
-	@Test(expected = ConstraintViolationException.class)
+	@Test(expected = AssertionError.class)
 	public void test_editOffice_with_incorrect_phoneNumber_then_return_exeption() {
 		// given or arrange
 		String companyId = this.companyService.addCompany(createCompanyModel());
