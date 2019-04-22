@@ -8,24 +8,32 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.petia.dollhouse.constants.Constants;
 
 @Entity
 @Table(name = "company")
 public class Company extends EntityWithStatus {
 
 	@Column(name = "name", nullable = false, unique = true)
+	@DateTimeFormat(pattern = Constants.MIN_TEXT_FOUR_FIELD_REGEX)
 	private String name;
 
 	@Column(name = "address", nullable = false)
+	@Pattern(regexp = Constants.ADDRESS_REGEX)
 	private String address;
 
-	@Column(name = "identification_code", nullable = false,length = 9)
+	@Column(name = "identification_code", nullable = false, length = 9)
 	private String identificationCode;
 
 	@Column(name = "date_of_creation", nullable = false)
 	private LocalDate dateOfCreation;
 
 	@Column(name = "owner", nullable = false)
+	@DateTimeFormat(pattern = Constants.MIN_TEXT_FOUR_FIELD_REGEX)
 	private String owner;
 
 	@OneToMany(targetEntity = Office.class, mappedBy = "company")

@@ -4,22 +4,18 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.petia.dollhouse.constants.Constants;
 
-public class UserRegisterBindingModel {
+public class EmployeeEditBindingModel {
 	@NotNull()
 	@NotEmpty()
 	@Pattern(regexp = Constants.USERNAME_REGEX)
 	private String username;
 
-	@NotNull()
-	@NotEmpty()
-	@Pattern(regexp = Constants.PASSWORD_REGEX)
 	private String password;
 
-	@NotNull()
-	@NotEmpty()
-	@Pattern(regexp = Constants.PASSWORD_REGEX)
 	private String confirmPassword;
 
 	@NotNull()
@@ -42,7 +38,13 @@ public class UserRegisterBindingModel {
 	@Pattern(regexp = Constants.PHONE_NUMBER_REGEX)
 	private String phoneNumber;
 
-	public UserRegisterBindingModel() {
+	private MultipartFile image;
+
+	private String officeId;
+
+	private String serviceId;
+
+	public EmployeeEditBindingModel() {
 	}
 
 	public String getUsername() {
@@ -99,5 +101,29 @@ public class UserRegisterBindingModel {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	public MultipartFile getImage() {
+		return image;
+	}
+
+	public void setImage(MultipartFile image) {
+		this.image = image;
+	}
+
+	public String getOfficeId() {
+		return officeId;
+	}
+
+	public void setOfficeId(String officeId) {
+		this.officeId = officeId;
+	}
+
+	public String getServiceId() {
+		return serviceId;
+	}
+
+	public void setServiceId(String serviceId) {
+		this.serviceId = serviceId;
 	}
 }

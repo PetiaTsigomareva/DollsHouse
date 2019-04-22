@@ -175,7 +175,7 @@ public class DollHouseServiceImpl implements DollHouseService {
 	}
 
 	@Override
-	public List<NamesViewModel> getAllServicesByOfiice(String officeId) {
+	public List<NamesViewModel> getAllServicesByOffice(String officeId) {
 		List<NamesViewModel> result;
 
 		result = this.serviceRepository.findAllActiveServicesByOffice(officeId).stream().map(s -> this.modelMapper.map(s, NamesViewModel.class)).collect(Collectors.toList());

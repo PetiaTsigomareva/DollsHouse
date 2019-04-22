@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.petia.dollhouse.constants.Constants;
 import com.petia.dollhouse.domain.binding.EmployeeBindingModel;
+import com.petia.dollhouse.domain.binding.EmployeeEditBindingModel;
 import com.petia.dollhouse.domain.entities.DHService;
 import com.petia.dollhouse.domain.entities.Office;
 import com.petia.dollhouse.domain.entities.User;
@@ -261,6 +262,23 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserServiceModel mapBindingToServiceModel(EmployeeBindingModel model) {
+		UserServiceModel result = new UserServiceModel();
+		result.setEmail(model.getEmail());
+		result.setFirstName(model.getFirstName());
+//		result.setId(model.getid);
+//		result.setImageUrl(model.getimageUrl);
+		result.setUsername(model.getUsername());
+		result.setLastName(model.getLastName());
+		result.setPassword(model.getPassword());
+		result.setPhoneNumber(model.getPhoneNumber());
+		result.setOfficeId(model.getOfficeId());
+		result.setServiceId(model.getServiceId());
+
+		return result;
+	}
+
+	@Override
+	public UserServiceModel mapBindingToServiceModel(EmployeeEditBindingModel model) {
 		UserServiceModel result = new UserServiceModel();
 		result.setEmail(model.getEmail());
 		result.setFirstName(model.getFirstName());

@@ -2,12 +2,11 @@ package com.petia.dollhouse.domain.binding;
 
 import java.math.BigDecimal;
 
-import com.petia.dollhouse.constants.ValidatedConstants;
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class ServiceBindingModel {
 	private String serviceId;
@@ -18,8 +17,6 @@ public class ServiceBindingModel {
 
 	private String description;
 
-	@NotNull()
-	@NotEmpty()
 	@DecimalMin(value = "0.01")
 	private BigDecimal price;
 

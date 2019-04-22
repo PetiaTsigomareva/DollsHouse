@@ -1,3 +1,11 @@
+String.prototype.format = function() {
+  var args = arguments;
+
+  return this.replace(/\{(\d+)\}/g, function() {
+    return args[arguments[1]];
+  });
+};
+
 function formatDate(date){
   var yyyy = date.getFullYear();
   var mm = String(date.getMonth() + 1).padStart(2, '0'); // January is 0!
@@ -86,8 +94,8 @@ function fillSelectOptions(fetchURL, selectId){
   selectToFill.empty();
   
   var o = document.createElement("option");
-  o.name='Please select ' + selectId + ' ...';
-  o.value='Please select ' + selectId + ' ...';
+  o.name='Please select...';
+  o.value='Please select...';
   o.text='Please select ' + selectId + ' ...';
   selectToFill[0].options.add(o);
 

@@ -28,5 +28,5 @@ public interface DollHouseService {
 
 	ServiceModel mapBindingToServiceModel(ServiceBindingModel model);
 
-	List<NamesViewModel> getAllServicesByOfiice(String officeId);
+	List<NamesViewModel> getAllServicesByOffice(String officeId);
 }

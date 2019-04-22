@@ -1,23 +1,33 @@
 <th:block th:fragment="company-form-fragment(url, title, methodLabel, buttonText)">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-10 col-xl-9 mx-auto">
-                <div class="card card-signin flex-row my-5">
-                    <div class="card-body">
-                        <h5 class="card-title text-center" th:text="${title}"></h5>
-                        <form class="form-signin" th:action="${url}" th:method="${methodLabel}">
-                            <div th:replace="~{fragments/components/input :: input( text, inputName, name, ${bindingModel.name}, Name)}"></div>
-                            <div th:replace="~{fragments/components/input :: input( text, inputAddress, address, ${bindingModel.address}, Address)}"></div>
-                            <div th:replace="~{fragments/components/input :: input( text, inputIdentificationCode, identificationCode, ${bindingModel.identificationCode}, 'Identification Code')}"></div>
-                            <div th:replace="~{fragments/components/input :: input( date, inputDateOfCreation, dateOfCreation, ${bindingModel.dateOfCreation}, 'Date Of Creation')}"></div>
-                            <div th:replace="~{fragments/components/text-area :: text-area( inputDescription, 6, 40, '' )}"></div>
-                            <div th:replace="~{fragments/components/input :: input( text, inputOwner, owner, ${bindingModel.owner}, Owner )}"></div>
-                            <div th:replace="~{fragments/components/button :: button( companySubmit, ${buttonText}, '', false )}"></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 col-xl-9 mx-auto">
+        <div class="card card-signin flex-row my-5">
+          <div class="card-body">
+            <h5 class="card-title text-center" th:text="${title}"></h5>
+            <form class="form-signin" th:action="${url}" th:method="${methodLabel}">
+              <div
+                th:replace="~{fragments/components/input :: input( text, inputName, name, ${bindingModel.name}, Name, true, ${T(com.petia.dollhouse.constants.Constants).MIN_TEXT_FOUR_FIELD_REGEX}, 'Field must be at least 4 symbols' )}"
+              ></div>
+              <div
+                th:replace="~{fragments/components/input :: input( text, inputAddress, address, ${bindingModel.address}, Address, true, ${T(com.petia.dollhouse.constants.Constants).ADDRESS_REGEX}, 'Field must be at least 15 symbols' )}"
+              ></div>
+              <div
+                th:replace="~{fragments/components/input :: input( text, inputIdentificationCode, identificationCode, ${bindingModel.identificationCode}, 'Identification Code', true, ${T(com.petia.dollhouse.constants.Constants).ID_NUMBER_REGEX}, 'Field must be exactly 9 digits' )}"
+              ></div>
+              <div
+                th:replace="~{fragments/components/input :: input( date, inputDateOfCreation, dateOfCreation, ${bindingModel.dateOfCreation}, 'Date Of Creation', true, ${T(com.petia.dollhouse.constants.Constants).EMPTY_FIELD_REGEX}, 'Field can not be empty!' )}"
+              ></div>
+              <div th:replace="~{fragments/components/text-area :: text-area( inputDescription, 6, 40, '' )}"></div>
+              <div
+                th:replace="~{fragments/components/input :: input( text, inputOwner, owner, ${bindingModel.owner}, Owner, true, ${T(com.petia.dollhouse.constants.Constants).MIN_TEXT_FOUR_FIELD_REGEX}, 'Field must be at least 4 symbols' )}"
+              ></div>
+              <div th:replace="~{fragments/components/button :: button( companySubmit, ${buttonText}, '', false )}"></div>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 
 </th:block>

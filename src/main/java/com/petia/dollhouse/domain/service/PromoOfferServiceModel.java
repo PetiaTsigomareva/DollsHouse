@@ -1,79 +1,74 @@
 package com.petia.dollhouse.domain.service;
 
-import com.petia.dollhouse.constants.Constants;
-import com.petia.dollhouse.constants.ValidatedConstants;
-import com.petia.dollhouse.domain.entities.DHService;
-import org.springframework.format.annotation.DateTimeFormat;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.petia.dollhouse.constants.Constants;
 
 public class PromoOfferServiceModel extends BaseServiceModel {
-    @NotNull()
-    @NotEmpty()
-    private String name;
+	@NotNull()
+	@NotEmpty()
+	private String name;
 
-    private String description;
+	private String description;
 
-    @NotNull()
-    @DecimalMin(value = "0.01")
-    private BigDecimal price;
+	@NotNull()
+	@DecimalMin(value = "0.01")
+	private BigDecimal price;
 
+	@DateTimeFormat(pattern = Constants.DATE_FORMAT)
+	private LocalDate startDate;
 
-    @DateTimeFormat(pattern = Constants.DATE_FORMAT)
-    private LocalDate startDate;
+	@DateTimeFormat(pattern = Constants.DATE_FORMAT)
+	private LocalDate endDate;
 
+	public PromoOfferServiceModel() {
+	}
 
-    @DateTimeFormat(pattern = Constants.DATE_FORMAT)
-    private LocalDate endDate;
+	public String getName() {
+		return name;
+	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public PromoOfferServiceModel() {
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public BigDecimal getPrice() {
+		return price;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public LocalDate getStartDate() {
+		return startDate;
+	}
 
-    public BigDecimal getPrice() {
-        return price;
-    }
+	public void setStartDate(LocalDate startDate) {
+		this.startDate = startDate;
+	}
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
+	public LocalDate getEndDate() {
+		return endDate;
+	}
 
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
+	}
 
 }

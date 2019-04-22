@@ -1,26 +1,26 @@
 <th:block th:fragment="employee-form-fragment(url, title, methodLabel, buttonText)">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-10 col-xl-9 mx-auto">
-				<div class="card card-signin flex-row my-5">
-					<div class="card-body">
-						<h5 class="card-title text-center" th:text="${title}"></h5>
-						<form class="form-signin" th:action="${url}" th:method="${methodLabel}" enctype="multipart/form-data">
-							<div th:replace="~{fragments/components/input :: input( text, inputUsername, username, ${bindingModel.username}, 'Username' )}"></div>
-							<div th:replace="~{fragments/components/input :: input( text, inputEmail, email, ${bindingModel.email}, 'Email' )}"></div>
-							<div th:replace="~{fragments/components/input :: input( password, inputPassword, password, ${bindingModel.password}, 'Password' )}"></div>
-							<div th:replace="~{fragments/components/input :: input( password, inputConfirmPassword, confirmPassword, ${bindingModel.confirmPassword}, 'Confirm Password' )}"></div>
-							<div th:replace="~{fragments/components/input :: input( text, inputFirstName, firstName, ${bindingModel.firstName}, 'First Name' )}"></div>
-							<div th:replace="~{fragments/components/input :: input( text, inputLastName, lastName, ${bindingModel.lastName}, 'Last Name' )}"></div>
-							<div th:replace="~{fragments/components/input :: input( text, inputPhoneNumber, phoneNumber, ${bindingModel.phoneNumber}, 'Phone Number' )}"></div>
-							<div th:replace="~{fragments/components/select-office :: select(inputOffice,${officeNames})}"></div>
-							<div th:replace="~{fragments/components/select-service-placeholder :: select( inputService, ${serviceNames},'display: none;')}"></div>
-							<div th:replace="~{fragments/components/image :: image( file, inputImage, image, ${bindingModel.username},Image )}"></div>
-							<div th:replace="~{fragments/components/button :: button( employeeSubmit, ${buttonText}, '', false )}"></div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 col-xl-9 mx-auto">
+        <div class="card card-signin flex-row my-5">
+          <div class="card-body">
+            <h5 class="card-title text-center" th:text="${title}"></h5>
+            <form class="form-signin" th:action="${url}" th:method="${methodLabel}" enctype="multipart/form-data">
+              <div th:replace="~{fragments/components/input :: input( text, inputUsername, username, ${bindingModel.username}, 'Username', true, ${T(com.petia.dollhouse.constants.Constants).USERNAME_REGEX}, 'Field must be between 5 and 10 digits or letters' )}"></div>
+              <div th:replace="~{fragments/components/input :: input( text, inputEmail, email, ${bindingModel.email}, 'Email', true, ${T(com.petia.dollhouse.constants.Constants).EMAIL_REGEX}, 'Field must valid email address' )}"></div>
+              <div th:replace="~{fragments/components/input :: input( password, inputPassword, password, ${bindingModel.password}, 'Password', true, ${T(com.petia.dollhouse.constants.Constants).PASSWORD_REGEX}, 'Field must be min 6 symbols - at least one digit, upper letter, lower letter and special symbols!' )}"></div>
+              <div th:replace="~{fragments/components/input :: input( password, inputConfirmPassword, confirmPassword, ${bindingModel.confirmPassword}, 'Confirm Password', true, ${T(com.petia.dollhouse.constants.Constants).PASSWORD_REGEX}, 'Field must be min 6 symbols - at least one digit, upper letter, lower letter and special symbols!' )}"></div>
+              <div th:replace="~{fragments/components/input :: input( text, inputFirstName, firstName, ${bindingModel.firstName}, 'First Name', true, ${T(com.petia.dollhouse.constants.Constants).MIN_TEXT_FIELD_REGEX}, 'Field must be at least 3 symbols' )}"></div>
+              <div th:replace="~{fragments/components/input :: input( text, inputLastName, lastName, ${bindingModel.lastName}, 'Last Name', true, ${T(com.petia.dollhouse.constants.Constants).MIN_TEXT_FIELD_REGEX}, 'Field must be at least 3 symbols' )}"></div>
+              <div th:replace="~{fragments/components/input :: input( text, inputPhoneNumber, phoneNumber, ${bindingModel.phoneNumber}, 'Phone Number', true, ${T(com.petia.dollhouse.constants.Constants).PHONE_NUMBER_REGEX}, 'Field must be between 7 and 12 digits' )}"></div>
+              <div th:replace="~{fragments/components/select-office :: select(inputOffice,${officeNames})}"></div>
+              <div th:replace="~{fragments/components/select-service :: select( inputService, ${serviceNames},'display: none;')}"></div>
+              <div th:replace="~{fragments/components/image :: image( file, inputImage, image, ${bindingModel.username},Image )}"></div>
+              <div th:replace="~{fragments/components/button :: button( employeeSubmit, ${buttonText}, '', false )}"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </th:block>

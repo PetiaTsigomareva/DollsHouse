@@ -2,15 +2,14 @@ package com.petia.dollhouse.domain.binding;
 
 import java.time.LocalDateTime;
 
-import com.petia.dollhouse.constants.ValidatedConstants;
-import com.petia.dollhouse.domain.enums.ReservationStatus;
-import com.petia.dollhouse.validation.EnumValidation;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.petia.dollhouse.constants.Constants;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import com.petia.dollhouse.domain.enums.ReservationStatus;
+import com.petia.dollhouse.validation.EnumValidation;
 
 public class ReservationBindingModel {
 	@NotNull()
@@ -29,12 +28,10 @@ public class ReservationBindingModel {
 	@NotEmpty()
 	private String customerId;
 
-
 	@DateTimeFormat(pattern = Constants.DATE_TIME_FORMAT)
 	private LocalDateTime reservationDateTime;
 
 	private String description;
-
 
 	@EnumValidation(enumClass = ReservationStatus.class, ignoreCase = true)
 	private String reservationStatus;

@@ -6,10 +6,13 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,10 +59,13 @@ public class ServiceConroller extends BaseController {
 
 	@PostMapping(Constants.ADD_SERVICE_ACTION)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public ModelAndView addServiceConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ServiceBindingModel serviceBindingModel) throws IOException {
+	public ModelAndView addServiceConfirm(ModelAndView modelAndView, @Valid @ModelAttribute(name = "bindingModel") ServiceBindingModel serviceBindingModel,
+	    BindingResult bindingResult) throws IOException {
+		if (bindingResult.hasErrors() || "Please select...".equals(serviceBindingModel.getOfficeId())) {
+			return super.view(Constants.ADD_SERVICE_PAGE);
+		}
+
 		modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
-		// ServiceModel serviceModel = this.modelMapper.map(serviceBindingModel,
-		// ServiceModel.class);
 		ServiceModel serviceModel = this.dollHouseService.mapBindingToServiceModel(serviceBindingModel);
 
 		if (!serviceBindingModel.getImage().isEmpty()) {
@@ -98,10 +104,12 @@ public class ServiceConroller extends BaseController {
 
 	@PostMapping(Constants.EDIT_SERVICE_ACTION + "{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public ModelAndView editServiceConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ServiceBindingModel serviceBindingModel, @PathVariable String id)
-	    throws IOException {
+	public ModelAndView editServiceConfirm(ModelAndView modelAndView, @Valid @ModelAttribute(name = "bindingModel") ServiceBindingModel serviceBindingModel, @PathVariable String id,
+	    BindingResult bindingResult) throws IOException {
+		if (bindingResult.hasErrors() || "Please select...".equals(serviceBindingModel.getOfficeId())) {
+			return super.view(Constants.EDIT_SERVICE_PAGE);
+		}
 
-//		ServiceModel serviceModel = this.modelMapper.map(serviceBindingModel, ServiceModel.class);
 		ServiceModel serviceModel = this.dollHouseService.mapBindingToServiceModel(serviceBindingModel);
 		serviceModel.setId(id);
 
@@ -109,8 +117,8 @@ public class ServiceConroller extends BaseController {
 			serviceModel.setUrlPicture(this.cloudinaryService.uploadImage(serviceBindingModel.getImage()));
 		}
 		serviceModel = this.dollHouseService.edit(serviceModel);
-		if (serviceModel == null) {
 
+		if (serviceModel == null) {
 			return view(Constants.EDIT_SERVICE_PAGE, modelAndView);
 		}
 
@@ -133,8 +141,6 @@ public class ServiceConroller extends BaseController {
 	@PostMapping(Constants.DELETE_SERVICE_ACTION + "{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView deleteServiceConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ServiceBindingModel serviceBindingModel, @PathVariable String id) {
-
-//		ServiceModel serviceModel = this.modelMapper.map(serviceBindingModel, ServiceModel.class);
 
 		ServiceModel serviceModel = this.dollHouseService.mapBindingToServiceModel(serviceBindingModel);
 		serviceModel.setId(id);

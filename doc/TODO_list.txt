@@ -1,7 +1,3 @@
-Finish make reservation flow
-Fix adding moderator role in all-employees page
-In all-reservation page fix confirm reservation button - change from link to button with form and post method like it is done for adding moderator role in all-employees page
-In my-reservation page add edit and reject buttons
 Add unit tests
-Add JS validations
-Change add reservatioin page for moderator
+
+? Add server errors into pages after reload.

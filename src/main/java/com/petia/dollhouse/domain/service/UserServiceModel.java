@@ -4,33 +4,37 @@ import java.util.Set;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.Pattern;
+
+import com.petia.dollhouse.constants.Constants;
 
 public class UserServiceModel extends BaseServiceModel {
 	@NotNull()
 	@NotEmpty()
-	@Size(min = 5, max = 10)
+	@Pattern(regexp = Constants.USERNAME_REGEX)
 	private String username;
 
 	@NotNull()
 	@NotEmpty()
-	@Size(min = 6) // TODO
+	@Pattern(regexp = Constants.PASSWORD_REGEX)
 	private String password;
 
-	@Size(min = 6) // TODO
+	@Pattern(regexp = Constants.EMAIL_REGEX)
 	private String email;
 
 	@NotNull()
 	@NotEmpty()
+	@Pattern(regexp = Constants.MIN_TEXT_FIELD_REGEX)
 	private String firstName;
 
 	@NotNull()
 	@NotEmpty()
+	@Pattern(regexp = Constants.MIN_TEXT_FIELD_REGEX)
 	private String lastName;
 
 	@NotNull()
 	@NotEmpty()
-	@Size(min = 7, max = 12)
+	@Pattern(regexp = Constants.PHONE_NUMBER_REGEX)
 	private String phoneNumber;
 
 	private String imageUrl;

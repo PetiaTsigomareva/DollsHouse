@@ -3,10 +3,13 @@ package com.petia.dollhouse.web.controllers;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,7 +48,12 @@ public class OfficeController extends BaseController {
 
 	@PostMapping(Constants.ADD_OFFICE_ACTION)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public ModelAndView addOfficeConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") OfficeBindingModel officeBindingModel) {
+	public ModelAndView addOfficeConfirm(ModelAndView modelAndView, @Valid @ModelAttribute(name = "bindingModel") OfficeBindingModel officeBindingModel,
+	    BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return super.view(Constants.ADD_OFFICE_PAGE);
+		}
+
 		modelAndView.addObject("companyNames", this.companyService.mapCompanyNames());
 
 		String id = this.officeService.addOffice(this.modelMapper.map(officeBindingModel, OfficeServiceModel.class));
@@ -82,7 +90,11 @@ public class OfficeController extends BaseController {
 
 	@PostMapping(Constants.EDIT_OFFICE_ACTION + "{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public ModelAndView editOfficeConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") OfficeBindingModel officeBindingModel, @PathVariable String id) {
+	public ModelAndView editOfficeConfirm(ModelAndView modelAndView, @Valid @ModelAttribute(name = "bindingModel") OfficeBindingModel officeBindingModel, @PathVariable String id,
+	    BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return super.view(Constants.EDIT_OFFICE_PAGE);
+		}
 
 		OfficeServiceModel officeServiceModel = this.modelMapper.map(officeBindingModel, OfficeServiceModel.class);
 		officeServiceModel.setId(id);

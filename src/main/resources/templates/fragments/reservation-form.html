@@ -12,7 +12,7 @@
               <div th:replace="~{fragments/components/select-customer :: select( inputCustomer,${customerNames} )}"></div>
               <div th:replace="~{fragments/components/select-reservation-status :: select( inputReservationStatus, ${statusReservations} )}"></div>
               <div
-                th:replace="~{fragments/components/input :: input( datetime-local, inputReservationDateTime, reservationDateTime, ${bindingModel.reservationDateTime}, 'Reservation Date Time' )}"></div>
+                th:replace="~{fragments/components/input :: input( datetime-local, inputReservationDateTime, reservationDateTime, ${bindingModel.reservationDateTime}, 'Reservation Date Time', true, ${T(com.petia.dollhouse.constants.Constants).EMPTY_FIELD_REGEX}, 'Field can not be empty!' )}"></div>
               <div th:replace="~{fragments/components/text-area :: text-area( inputDescription, 6, 40, '' )}"></div>
               <div th:replace="~{fragments/components/button :: button( reservationSubmit, ${buttonText}, '', false )}"></div>
             </form>

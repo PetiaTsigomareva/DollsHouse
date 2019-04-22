@@ -5,10 +5,13 @@ import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -19,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.petia.dollhouse.constants.Constants;
 import com.petia.dollhouse.domain.binding.EmployeeBindingModel;
+import com.petia.dollhouse.domain.binding.EmployeeEditBindingModel;
 import com.petia.dollhouse.domain.binding.UserEditBindingModel;
 import com.petia.dollhouse.domain.binding.UserRegisterBindingModel;
 import com.petia.dollhouse.domain.service.UserServiceModel;
@@ -127,15 +131,19 @@ public class UserController extends BaseController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PageTitle(Constants.ADD_EMPLOYEE_TITLE)
 	public ModelAndView addEmployee(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") EmployeeBindingModel employeeBindingModel) {
-
 		modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
 		return view(Constants.ADD_EMPLOYEE_PAGE, modelAndView);
-
 	}
 
 	@PostMapping(Constants.ADD_EMPLOYEE_ACTION)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public ModelAndView addEmployeesConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") EmployeeBindingModel employeeBindingModel) throws IOException {
+	public ModelAndView addEmployeesConfirm(ModelAndView modelAndView, @Valid @ModelAttribute(name = "bindingModel") EmployeeBindingModel employeeBindingModel,
+	    BindingResult bindingResult) throws IOException {
+		if (bindingResult.hasErrors()) {
+			modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
+			return view(Constants.ADD_EMPLOYEE_PAGE, modelAndView);
+		}
+
 		modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
 		UserServiceModel userServiceModel = this.userService.mapBindingToServiceModel(employeeBindingModel);
 		if (!employeeBindingModel.getImage().isEmpty()) {
@@ -154,8 +162,9 @@ public class UserController extends BaseController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PageTitle(Constants.EDIT_EMPLOYEE_TITLE)
 	public ModelAndView editEmployee(ModelAndView modelAndView, @PathVariable String id) {
-		EmployeeBindingModel employeeBindingModel = this.modelMapper.map(this.userService.findUserById(id), EmployeeBindingModel.class);
+		EmployeeEditBindingModel employeeBindingModel = this.modelMapper.map(this.userService.findUserById(id), EmployeeEditBindingModel.class);
 		modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
+		modelAndView.addObject("serviceNames", this.dollHouseService.getAllServicesByOffice(employeeBindingModel.getOfficeId()));
 		modelAndView.addObject("bindingModel", employeeBindingModel);
 
 		return view(Constants.EDIT_EMPLOYEE_PAGE, modelAndView);
@@ -164,8 +173,16 @@ public class UserController extends BaseController {
 	// TODO
 	@PostMapping(Constants.EDIT_EMPLOYEE_ACTION + "{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public ModelAndView editEmployeeConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") EmployeeBindingModel employeeBindingModel, @PathVariable String id)
-	    throws IOException {
+	public ModelAndView editEmployeeConfirm(ModelAndView modelAndView, @Valid @ModelAttribute(name = "bindingModel") EmployeeEditBindingModel employeeBindingModel,
+	    @PathVariable String id, BindingResult bindingResult) throws IOException {
+		if (bindingResult.hasErrors() || "Please select...".equals(employeeBindingModel.getOfficeId()) || "Please select...".equals(employeeBindingModel.getServiceId())) {
+			modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
+			modelAndView.addObject("serviceNames", this.dollHouseService.getAllServicesByOffice(employeeBindingModel.getOfficeId()));
+			modelAndView.addObject("bindingModel", employeeBindingModel);
+
+			return view(Constants.EDIT_EMPLOYEE_PAGE, modelAndView);
+		}
+
 		UserServiceModel userServiceModel = this.userService.mapBindingToServiceModel(employeeBindingModel);
 		userServiceModel.setId(id);
 		if (!employeeBindingModel.getImage().isEmpty()) {
@@ -174,12 +191,10 @@ public class UserController extends BaseController {
 		userServiceModel = this.userService.editEmployee(userServiceModel);
 
 		if (userServiceModel == null) {
-
 			return view(Constants.EDIT_EMPLOYEE_PAGE, modelAndView);
 		}
 
 		return redirect(Constants.ALL_EMPLOYEES_PAGE);
-
 	}
 
 	@GetMapping(Constants.DELETE_EMPLOYEE_ACTION + "{id}")
@@ -197,7 +212,7 @@ public class UserController extends BaseController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView deleteEmployeeConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") EmployeeBindingModel employeeBindingModel, @PathVariable String id) {
 
-		UserServiceModel userServiceModel = this.modelMapper.map(employeeBindingModel, UserServiceModel.class);
+		UserServiceModel userServiceModel = this.userService.mapBindingToServiceModel(employeeBindingModel);
 		userServiceModel.setId(id);
 		userServiceModel = this.userService.deleteEmployee(userServiceModel);
 		if (userServiceModel == null) {
@@ -206,7 +221,6 @@ public class UserController extends BaseController {
 		}
 
 		return redirect(Constants.ALL_EMPLOYEES_PAGE);
-
 	}
 
 	@GetMapping(Constants.AlL_EMLOYEES_ACTION)

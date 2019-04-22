@@ -1,20 +1,22 @@
 package com.petia.dollhouse.domain.service;
 
-import com.petia.dollhouse.constants.ValidatedConstants;
+import java.math.BigDecimal;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
+import javax.validation.constraints.Pattern;
+
+import com.petia.dollhouse.constants.Constants;
 
 public class ServiceModel extends BaseServiceModel {
 	@NotNull()
 	@NotEmpty()
+	@Pattern(regexp = Constants.MIN_TEXT_FIELD_REGEX)
 	private String name;
 
 	private String description;
 
-	@NotNull()
 	@DecimalMin(value = "0.01")
 	private BigDecimal price;
 

@@ -3,6 +3,17 @@ package com.petia.dollhouse.constants;
 import java.time.format.DateTimeFormatter;
 
 public interface Constants {
+	public static final String USERNAME_REGEX = "^([0-9a-zA-Z_]{5,10})$";
+	public static final String PASSWORD_REGEX = "^[a-zA-Z-0-9!@#$%^&*()_+]{6,}$";
+	public static final String EMAIL_REGEX = "^([0-9a-zA-Z_.]+@[0-9a-zA-Z_.]+\\.[a-z]+)$";
+	public static final String PHONE_NUMBER_REGEX = "^([0-9]{7,12})$";
+	public static final String MIN_TEXT_FIELD_REGEX = "^(.{3,})$";
+	public static final String MIN_TEXT_FOUR_FIELD_REGEX = "^(.{4,})$";
+	public static final String MIN_PRICE_REGEX = "^(([0]\\.[0-9][1-9])|([1-9][0-9]*(\\.[0-9]{2})?))$";
+	public static final String ADDRESS_REGEX = "^(.{15,})$";
+	public static final String ID_NUMBER_REGEX = "^([0-9]{9})$";
+	public static final String EMPTY_FIELD_REGEX = "^(.{1,})$";
+
 	public static final String DATE_FORMAT = "yyyy-MM-dd";
 	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm";
 
@@ -122,6 +133,7 @@ public interface Constants {
 	public static final String ADD_MODERATOR_RESERVATION_PAGE = "/reservation/add-reservation-form";
 	public static final String EDIT_MODERATOR_RESERVATION_PAGE = "/reservation/edit-reservation-form";
 	public static final String REJECT_MODERATOR_RESERVATION_PAGE = "/reservation/reject-reservation-form";
+	public static final String CONFIRM_MODERATOR_RESERVATION_PAGE = "/reservation/confirm-reservation-form";
 	public static final String ALL_RESERVATIONS_PAGE = "/reservation/all-reservation-form";
 	public static final String MY_RESERVATIONS_PAGE = "/reservation/my-reservations-form";
 

@@ -3,9 +3,8 @@ package com.petia.dollhouse.web.controllers;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.petia.dollhouse.constants.ValidatedConstants;
-import com.petia.dollhouse.domain.view.AllCompanyViewModel;
-import com.petia.dollhouse.web.annotations.PageTitle;
+import javax.validation.Valid;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,9 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.petia.dollhouse.constants.Constants;
 import com.petia.dollhouse.domain.binding.CompanyBindingModel;
 import com.petia.dollhouse.domain.service.CompanyServiceModel;
+import com.petia.dollhouse.domain.view.AllCompanyViewModel;
 import com.petia.dollhouse.service.CompanyService;
-
-import javax.validation.Valid;
+import com.petia.dollhouse.web.annotations.PageTitle;
 
 @Controller
 public class CompanyController extends BaseController {
@@ -45,13 +44,18 @@ public class CompanyController extends BaseController {
 
 	@PostMapping(Constants.ADD_COMPANY_ACTION)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public ModelAndView addCompanyConfirm(ModelAndView modelAndView, @Valid @ModelAttribute(name = Constants.BINDING_MODEL) CompanyBindingModel companyBindingModel, BindingResult bindingResult) {
+	public ModelAndView addCompanyConfirm(ModelAndView modelAndView, @Valid @ModelAttribute(name = Constants.BINDING_MODEL) CompanyBindingModel companyBindingModel,
+	    BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return super.view(Constants.ADD_COMPANY_ACTION);
+		}
+
 		modelAndView.addObject(Constants.BINDING_MODEL, companyBindingModel);
 
 		if (bindingResult.hasErrors()) {
 			if (Constants.THROW_EXCEPTION_FOR_INVALID_DATA_IN_CONTROLLER) {
 				throw new IllegalArgumentException(Constants.INVALID_DATA_IN_CONTROLLER_MESSAGE);
-		}
+			}
 			return view(Constants.ADD_COMPANY_PAGE, modelAndView);
 		}
 
@@ -87,7 +91,8 @@ public class CompanyController extends BaseController {
 
 	@PostMapping(Constants.EDIT_COMPANY_ACTION + "{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public ModelAndView editCompanyConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") CompanyBindingModel companyBindingModel, @PathVariable String id) {
+	public ModelAndView editCompanyConfirm(ModelAndView modelAndView, @Valid @ModelAttribute(name = "bindingModel") CompanyBindingModel companyBindingModel,
+	    @PathVariable String id) {
 
 		CompanyServiceModel companyServiceModel = this.modelMapper.map(companyBindingModel, CompanyServiceModel.class);
 		companyServiceModel.setId(id);

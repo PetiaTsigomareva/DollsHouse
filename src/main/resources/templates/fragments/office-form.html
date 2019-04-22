@@ -1,21 +1,21 @@
 <th:block th:fragment="office-form-fragment(url, title, methodLabel, buttonText)">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-10 col-xl-9 mx-auto">
-				<div class="card card-signin flex-row my-5">
-					<div class="card-body">
-						<h5 class="card-title text-center" th:text="${title}"></h5>
-						<form class="form-signin" th:action="${url}" th:method="${methodLabel}">
-							<div th:replace="~{fragments/components/input :: input( text, inputName, name, ${bindingModel.name}, Name )}"></div>
-							<div th:replace="~{fragments/components/input :: input( text, inputAddress, address, ${bindingModel.address}, Address )}"></div>
-							<div th:replace="~{fragments/components/input :: input( text, inputPhoneNumber, phoneNumber, ${bindingModel.phoneNumber}, 'Phone Number' )}"></div>
-							<div th:replace="~{fragments/components/input :: input( text, inputEmail, email, ${bindingModel.email}, Email )}"></div>
-							<div th:replace="~{fragments/components/select-company :: select( inputCompany,${companyNames} )}"></div>
-							<div th:replace="~{fragments/components/button :: button( officeSubmit, ${buttonText}, '', false )}"></div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 col-xl-9 mx-auto">
+        <div class="card card-signin flex-row my-5">
+          <div class="card-body">
+            <h5 class="card-title text-center" th:text="${title}"></h5>
+            <form class="form-signin" th:action="${url}" th:method="${methodLabel}">
+              <div th:replace="~{fragments/components/input :: input( text, inputName, name, ${bindingModel.name}, Name, true, ${T(com.petia.dollhouse.constants.Constants).MIN_TEXT_FIELD_REGEX}, 'Field must be at least 3 symbols' )}"></div>
+              <div th:replace="~{fragments/components/input :: input( text, inputAddress, address, ${bindingModel.address}, Address, true, ${T(com.petia.dollhouse.constants.Constants).ADDRESS_REGEX}, 'Field must be at least 15 symbols' )}"></div>
+              <div th:replace="~{fragments/components/input :: input( text, inputPhoneNumber, phoneNumber, ${bindingModel.phoneNumber}, 'Phone Number', true, ${T(com.petia.dollhouse.constants.Constants).PHONE_NUMBER_REGEX}, 'Field must be between 7 and 12 digits' )}"></div>
+              <div th:replace="~{fragments/components/input :: input( text, inputEmail, email, ${bindingModel.email}, Email, true, ${T(com.petia.dollhouse.constants.Constants).EMAIL_REGEX}, 'Field must valid email address' )}"></div>
+              <div th:replace="~{fragments/components/select-company :: select( inputCompany,${companyNames} )}"></div>
+              <div th:replace="~{fragments/components/button :: button( officeSubmit, ${buttonText}, '', false )}"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </th:block>

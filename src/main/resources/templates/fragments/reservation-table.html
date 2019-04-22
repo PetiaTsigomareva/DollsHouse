@@ -1,48 +1,60 @@
 <th:block th:fragment="reservation-table-fragment(title)">
-    <hr class="hr-2 bg-dark"/>
-    <h5 class="text-center text-dark" th:text="${title}"></h5>
-    <hr class="hr-2 bg-dark w-78"/>
-    <table class="table table-active w-78 mx-auto">
-        <thead>
+  <hr class="hr-2 bg-dark" />
+  <h5 class="text-center text-dark" th:text="${title}"></h5>
+  <hr class="hr-2 bg-dark w-78" />
+  <table class="table table-active w-78 mx-auto">
+    <thead>
+      <tr class="row mx-auto text-dark">
+        <th class="col-md-0 text-center" th:utext="#{allitems.table.number}"></th>
+        <th class="col-md-1 text-center" th:text="#{reservation.table.office}"></th>
+        <th class="col-md-1 text-center" th:text="#{reservation.table.service}"></th>
+        <th class="col-md-1 text-center" th:text="#{reservation.table.employee}"></th>
+        <th id="customerHeader" class="col-md-2 text-center" th:text="#{reservation.table.customer}"></th>
+        <th class="col-md-2 text-center" th:text="#{reservation.table.date}"></th>
+        <th class="col-md-2 text-center" th:text="#{reservation.table.status}"></th>
+        <th class="col-md-2 text-center" th:text="#{allitems.table.action}"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <th:block th:each="reservation, iter : ${reservations}">
         <tr class="row mx-auto text-dark">
-            <th class="col-md-0 text-center" th:utext="#{allitems.table.number}"></th>
-            <th class="col-md-1 text-center" th:text="#{reservation.table.office}"></th>
-            <th class="col-md-1 text-center" th:text="#{reservation.table.service}"></th>
-            <th class="col-md-1 text-center" th:text="#{reservation.table.employee}"></th>
-            <th id="customerHeader" class="col-md-2 text-center" th:text="#{reservation.table.customer}"></th>
-            <th class="col-md-2 text-center" th:text="#{reservation.table.date}"></th>
-            <th class="col-md-2 text-center" th:text="#{reservation.table.status}"></th>
-            <th class="col-md-2 text-center" th:text="#{allitems.table.action}"></th>
+          <td class="col-md-0 text-center" th:text="${iter.index + 1}"></td>
+          <td class="col-md-1 text-center" th:text="${reservation.office}"></td>
+          <td class="col-md-1 text-center" th:text="${reservation.service}"></td>
+          <td class="col-md-1 text-center" th:text="${reservation.employee}"></td>
+          <td id="customerData" class="col-md-2 text-center" th:text="${reservation.customer}"></td>
+          <td class="col-md-2 text-center" th:text="${reservation.reservationDateTime}"></td>
+          <td class="col-md-2 text-center" th:text="${reservation.reservationStatus}"></td>
+          <td class="col-md-2 text-center">
+            <div class="row">
+              <div th:if="${title} eq #{reservation.all.title}">
+                <a class="btn btn-outline-dark" th:text="#{form.edit.button}"
+                  th:href="@{${T(com.petia.dollhouse.constants.Constants).EDIT_MODERATOR_RESERVATION_ACTION}+${reservation.id}}"
+                ></a>
+              </div>
+
+              <div
+                th:if="${reservation.reservationStatus} eq ${T(com.petia.dollhouse.domain.enums.ReservationStatus).PendingConfirmation.toString()} or ${reservation.reservationStatus} eq ${T(com.petia.dollhouse.domain.enums.ReservationStatus).Confirmed.toString()}"
+              >
+                <a id="rejectButton" class="btn btn-outline-dark" th:text="#{form.reject.button}"
+                  th:href="@{${T(com.petia.dollhouse.constants.Constants).REJECT_MODERATOR_RESERVATION_ACTION}+${reservation.id}}"
+                ></a>
+              </div>
+              <div
+                th:if="${reservation.reservationStatus} eq ${T(com.petia.dollhouse.domain.enums.ReservationStatus).PendingConfirmation.toString()} or ${reservation.reservationStatus} eq ${T(com.petia.dollhouse.domain.enums.ReservationStatus).Rejected.toString()}"
+              >
+                <a id="confirmButton" class="btn btn-outline-dark" th:text="#{form.confirm.button}"
+                  th:href="@{${T(com.petia.dollhouse.constants.Constants).CONFIRM_MODERATOR_RESERVATION_ACTION}+${reservation.id}}"
+                ></a>
+              </div>
+            </div>
+          </td>
         </tr>
-        </thead>
-        <tbody>
-        <th:block th:each="reservation, iter : ${reservations}">
-            <tr class="row mx-auto text-dark">
-                <td class="col-md-0 text-center" th:text="${iter.index + 1}"></td>
-                <td class="col-md-1 text-center" th:text="${reservation.office}"></td>
-                <td class="col-md-1 text-center" th:text="${reservation.service}"></td>
-                <td class="col-md-1 text-center" th:text="${reservation.employee}"></td>
-                <td id="customerData" class="col-md-2 text-center" th:text="${reservation.customer}"></td>
-                <td class="col-md-2 text-center" th:text="${reservation.reservationDateTime}"></td>
-                <td class="col-md-2 text-center" th:text="${reservation.reservationStatus}"></td>
-                <td class="col-md-2 text-center">
-                    <div class="row">
-                        <a class="btn btn-outline-dark" th:text="#{form.edit.button}"
-                           th:href="@{${T(com.petia.dollhouse.constants.Constants).EDIT_MODERATOR_RESERVATION_ACTION}+${reservation.id}}"></a>
-                        <a class="btn btn-outline-dark" th:text="#{form.reject.button}"
-                           th:href="@{${T(com.petia.dollhouse.constants.Constants).REJECT_MODERATOR_RESERVATION_ACTION}+${reservation.id}}"></a>
-                        <a id="confirmButton" class="btn btn-outline-dark" th:text="#{form.confirm.button}"
-                           th:href="@{${T(com.petia.dollhouse.constants.Constants).CONFIRM_MODERATOR_RESERVATION_ACTION}+${reservation.id}}"></a>
-                    </div>
-                </td>
-            </tr>
-        </th:block>
-        </tbody>
-    </table>
-    <hr class="hr-2 bg-dark"/>
-    <div 
-            th:replace="~{fragments/components/link :: link-item(link=@{${T(com.petia.dollhouse.constants.Constants).ADD_MODERATOR_RESERVATION_ACTION}},title=#{reservation.add.title})}">
-    </div>
-    <hr class="hr-2 bg-dark"/>
+      </th:block>
+    </tbody>
+  </table>
+  <hr class="hr-2 bg-dark" />
+  <div th:replace="~{fragments/components/link :: link-item(link=@{${T(com.petia.dollhouse.constants.Constants).ADD_MODERATOR_RESERVATION_ACTION}},title=#{reservation.add.title})}"></div>
+  <hr class="hr-2 bg-dark" />
 
 </th:block>
