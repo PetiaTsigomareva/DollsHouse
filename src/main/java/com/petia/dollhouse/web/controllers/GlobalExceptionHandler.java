@@ -19,7 +19,6 @@ public class GlobalExceptionHandler extends BaseController {
 
 	@ExceptionHandler({ NotFoundExceptions.class })
 	public ModelAndView handleProductNotFound(RuntimeException e) {
-		e.printStackTrace();
 
 		ModelAndView modelAndView = new ModelAndView(Constants.ERROR_GENERAL_PAGE);
 
@@ -28,10 +27,18 @@ public class GlobalExceptionHandler extends BaseController {
 		return modelAndView;
 	}
 
-	@ExceptionHandler({ IllegalArgumentException.class, NoSuchElementException.class, UsernameNotFoundException.class, NonUniqueResultException.class,
-	    ConstraintViolationException.class, BindException.class })
+	@ExceptionHandler({ NoSuchElementException.class, UsernameNotFoundException.class, NonUniqueResultException.class, ConstraintViolationException.class, BindException.class })
 	public ModelAndView handleSqlException(RuntimeException e) {
-		e.printStackTrace();
+
+		ModelAndView modelAndView = new ModelAndView(Constants.ERROR_GENERAL_PAGE);
+
+		modelAndView.addObject(Constants.ERROR_MESSAGE_TITLE, e.getMessage());
+
+		return modelAndView;
+	}
+
+	@ExceptionHandler({ IllegalArgumentException.class, RuntimeException.class })
+	public ModelAndView handleRuntimeException(RuntimeException e) {
 
 		ModelAndView modelAndView = new ModelAndView(Constants.ERROR_GENERAL_PAGE);
 

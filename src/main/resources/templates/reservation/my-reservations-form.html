@@ -11,15 +11,16 @@
 </heder>
 <main class="mt-2">
     <div th:insert="~{fragments/reservation-table::reservation-table-fragment(
-        title=#{reservation.my.title}
+        title=#{reservation.my.title},
+        rejectAction=@{${T(com.petia.dollhouse.constants.Constants).REJECT_MY_RESERVATION_ACTION}}
        )}">
     </div>
     <script>
         $(document).ready(function () {
-            $('#confirmButton').hide();
+            // $('#confirmButton').hide();
             $('#linkButton').hide();
-            $('#customerHeader').hide();
-            $('#customerData').hide();
+            // $('#customerHeader').hide();
+            // $('#customerData').hide();
         });
     </script>
 

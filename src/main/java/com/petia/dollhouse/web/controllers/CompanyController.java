@@ -50,20 +50,8 @@ public class CompanyController extends BaseController {
 			return super.view(Constants.ADD_COMPANY_ACTION);
 		}
 
-		modelAndView.addObject(Constants.BINDING_MODEL, companyBindingModel);
+		this.companyService.addCompany(this.modelMapper.map(companyBindingModel, CompanyServiceModel.class));
 
-		if (bindingResult.hasErrors()) {
-			if (Constants.THROW_EXCEPTION_FOR_INVALID_DATA_IN_CONTROLLER) {
-				throw new IllegalArgumentException(Constants.INVALID_DATA_IN_CONTROLLER_MESSAGE);
-			}
-			return view(Constants.ADD_COMPANY_PAGE, modelAndView);
-		}
-
-		String id = this.companyService.addCompany(this.modelMapper.map(companyBindingModel, CompanyServiceModel.class));
-
-		if (id == null) {
-			return view(Constants.ADD_COMPANY_PAGE, modelAndView);
-		}
 		return redirect(Constants.ALL_COMPANY_PAGE);
 	}
 
@@ -93,20 +81,14 @@ public class CompanyController extends BaseController {
 	public ModelAndView editCompanyConfirm(ModelAndView modelAndView, @Valid @ModelAttribute(name = "bindingModel") CompanyBindingModel companyBindingModel,
 	    BindingResult bindingResult, @PathVariable String id) {
 		if (bindingResult.hasErrors()) {
-			modelAndView.addObject("bindingModel", companyBindingModel);
-
 			return view(Constants.EDIT_COMPANY_PAGE, modelAndView);
 		}
 
 		CompanyServiceModel companyServiceModel = this.modelMapper.map(companyBindingModel, CompanyServiceModel.class);
 		companyServiceModel.setId(id);
 		companyServiceModel = this.companyService.editCompany(companyServiceModel);
-		if (companyServiceModel == null) {
-			return view(Constants.EDIT_COMPANY_PAGE, modelAndView);
-		}
 
 		return redirect(Constants.ALL_COMPANY_PAGE);
-
 	}
 
 	@GetMapping(Constants.DELETE_COMPANY_ACTION + "{id}")
@@ -123,17 +105,10 @@ public class CompanyController extends BaseController {
 	@PostMapping(Constants.DELETE_COMPANY_ACTION + "{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView deleteCompanyConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") CompanyBindingModel companyBindingModel, @PathVariable String id) {
-
 		CompanyServiceModel companyServiceModel = this.modelMapper.map(companyBindingModel, CompanyServiceModel.class);
 		companyServiceModel.setId(id);
 		companyServiceModel = this.companyService.deleteCompany(companyServiceModel);
-		if (companyServiceModel == null) {
-
-			return view(Constants.DELETE_COMPANY_PAGE, modelAndView);
-		}
 
 		return redirect(Constants.ALL_COMPANY_PAGE);
-
 	}
-
 }

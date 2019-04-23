@@ -15,7 +15,7 @@
             <h5 class="card-title text-center" th:text="#{profileform.edit.title}"></h5>
             <form class="form w-26 mx-auto" th:action="@{${T(com.petia.dollhouse.constants.Constants).EDIT_PROFILE_ACTION}}" th:method="patch" enctype="multipart/form-data">
               <div
-                th:replace="~{fragments/components/input :: input( text, inputUsername, username, ${model.username}, 'Username', true, ${T(com.petia.dollhouse.constants.Constants).USERNAME_REGEX}, 'Field must be between 5 and 10 digits or letters' )}"
+                th:replace="~{fragments/components/input :: input( text, inputUsername, username, *{model.username}, 'Username', true, ${T(com.petia.dollhouse.constants.Constants).USERNAME_REGEX}, 'Field must be between 5 and 10 digits or letters' )}"
               ></div>
               <div
                 th:replace="~{fragments/components/input :: input( password, oldPassword, oldPassword, '', 'Old Password...', true, ${T(com.petia.dollhouse.constants.Constants).PASSWORD_REGEX}, 'Field must be min 6 symbols - at least one digit, upper letter, lower letter and special symbols!' )}"
@@ -27,7 +27,7 @@
                 th:replace="~{fragments/components/input :: input( password, inputConfirmPassword, confirmPassword, '', 'Confirm Password', true, ${T(com.petia.dollhouse.constants.Constants).PASSWORD_REGEX}, 'Field must be min 6 symbols - at least one digit, upper letter, lower letter and special symbols!' )}"
               ></div>
               <div
-                th:replace="~{fragments/components/input :: input( text, inputEmail, email, ${model.email}, 'Email', true, ${T(com.petia.dollhouse.constants.Constants).EMAIL_REGEX}, 'Field must valid email address' )}"
+                th:replace="~{fragments/components/input :: input( text, inputEmail, email, *{model.email}, 'Email', true, ${T(com.petia.dollhouse.constants.Constants).EMAIL_REGEX}, 'Field must valid email address' )}"
               ></div>
               <div th:replace="~{fragments/components/image :: image( file, inputImage, image, ${model.username},Image )}"></div>
               <div th:replace="~{fragments/components/button :: button( profileSubmit, #{form.edit.button}, '', false )}"></div>
@@ -38,6 +38,12 @@
       </div>
     </div>
   </div>
+    <script>
+    $(document).ready(function () {
+      // $('#inputUsername').prop("disabled", true);
+      // $('#inputEmail').prop("disabled", true);
+    });
+  </script>
   </main>
   <footer>
     <th:block th:insert="~{fragments/footer}"></th:block>

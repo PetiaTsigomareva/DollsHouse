@@ -25,6 +25,7 @@ import com.petia.dollhouse.domain.view.NamesViewModel;
 import com.petia.dollhouse.repositories.ReservationRepository;
 import com.petia.dollhouse.repositories.ServiceRepository;
 import com.petia.dollhouse.utils.Utils;
+import com.petia.dollhouse.validation.ValidationUtil;
 
 @Service
 public class DollHouseServiceImpl implements DollHouseService {
@@ -32,18 +33,25 @@ public class DollHouseServiceImpl implements DollHouseService {
 	private final ReservationRepository reservationRepository;
 	private final OfficeService officeService;
 	private final ModelMapper modelMapper;
+	private final ValidationUtil validationUtil;
 
 	@Autowired
-	public DollHouseServiceImpl(ServiceRepository serviceRepository, ReservationRepository reservationRepository, OfficeService officeService, ModelMapper modelMapper) {
+	public DollHouseServiceImpl(ServiceRepository serviceRepository, ReservationRepository reservationRepository, OfficeService officeService, ModelMapper modelMapper,
+	    ValidationUtil validationUtil) {
 		super();
 		this.serviceRepository = serviceRepository;
 		this.reservationRepository = reservationRepository;
 		this.officeService = officeService;
 		this.modelMapper = modelMapper;
+		this.validationUtil = validationUtil;
 	}
 
 	@Override
 	public String add(ServiceModel model) {
+		if (!this.validationUtil.isValid(model)) {
+			throw new IllegalArgumentException(Constants.ADD_INVALID_DATA_IN_CONTROLLER_MESSAGE);
+		}
+
 		String result;
 
 		DHService service = this.modelMapper.map(model, DHService.class);
@@ -61,6 +69,9 @@ public class DollHouseServiceImpl implements DollHouseService {
 
 	@Override
 	public ServiceModel edit(ServiceModel model) {
+		if (!this.validationUtil.isValid(model)) {
+			throw new IllegalArgumentException(Constants.ADD_INVALID_DATA_IN_CONTROLLER_MESSAGE);
+		}
 
 		DHService service = this.serviceRepository.findById(model.getId()).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
 		if (model.getUrlPicture() == null && service.getUrlPicture() != null) {
@@ -193,5 +204,4 @@ public class DollHouseServiceImpl implements DollHouseService {
 		result.setOfficeId(model.getOfficeId());
 		return result;
 	}
-
 }

@@ -1,8 +1,7 @@
 <th:block th:fragment="input( type, componentId, name, value, placeholder, required, regex, helpMessage)">
-  <div class="form-label-group">
+  <div class="form-label-group" th:id="'div'+${componentId}">
     <input th:type="${type}" th:step="${type == 'number'}?0.01" th:id="${componentId}" class="form-control" th:placeholder="${name}" th:name="${name}" th:value="${value}"
       th:onkeyup="@{'valudateInput(\''+${componentId}+'\', \''+${regex}+'\', \''+${helpMessage}+'\')'}"
-      th:onDOMContentLoaded="@{'valudateInput(\''+${componentId}+'\', \''+${regex}+'\', \''+${helpMessage}+'\')'}"
     > <label th:for="${componentId}" th:text="${placeholder}"></label> <b th:if="${required} eq true">*</b> <small th:id="${componentId}+Help" style="display: none"
       class="form-text text-muted"
     ></small>

@@ -1,9 +1,9 @@
 package com.petia.dollhouse.utils;
 
-import com.petia.dollhouse.constants.Constants;
-
 import java.time.LocalDate;
 import java.util.List;
+
+import com.petia.dollhouse.constants.Constants;
 
 public class Utils {
 
@@ -13,7 +13,7 @@ public class Utils {
 		if (hour <= 9) {
 			result = Constants.TIME_ZERO_FORMAT + hour + Constants.TIME_HOUR_FORMAT;
 		} else {
-			result = hour + ":00";
+			result = hour + Constants.TIME_HOUR_FORMAT;
 		}
 
 		return result;

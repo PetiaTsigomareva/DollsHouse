@@ -1,52 +1,44 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
-    <th:block th:insert="~{fragments/head}"></th:block>
+<th:block th:insert="~{fragments/head}"></th:block>
 </head>
 
 <body>
-<th:block th:insert="~{fragments/navbar}"></th:block>
-<header>
+  <th:block th:insert="~{fragments/navbar}"></th:block>
+  <header>
     <th:block th:insert="~{fragments/header}"></th:block>
-</header>
-
-<!-- Page Content -->
-<main class="custom-color">
-    <div class="container mt-4">
-
-        <!-- Marketing Icons Section -->
-        <h2 class="text-sm-center">PromoOffers</h2>
-        <div class="row">
-            <th:block th:each="promoOffer, iter : ${promoOffers}">
-                <div class="col-lg-4 mb-4">
-                    <div class="card h-100">
-                        <h4 class="card-header" th:text="${promoOffer.name}"></h4>
-                        <div class="card-body">
-                            <p class="card-text" th:text="${promoOffer.description}"></p>
-                            <p class="card-text" th:text="${promoOffer.startDate}"></p>
-                            <p class="card-text" th:text="${promoOffer.endDate}"></p>
-                            <p class="card-text" th:text="${promoOffer.price}|Lv."></p>
-                        </div>
-                        <div class="card-footer">
-                            <div th:replace="~{fragments/components/link :: link-item(link=@{${T(com.petia.dollhouse.constants.Constants).ADD_MODERATOR_RESERVATION_ACTION}},title=#{reservation.add.title})}"></div>
-                        </div>
-                    </div>
-                </div>
-            </th:block>
-
+  </header>
+  <!-- Page Content -->
+  <main class="custom-color">
+  <div class="container mt-4">
+    <!-- Marketing Icons Section -->
+    <h2 class="text-sm-center">PromoOffers</h2>
+    <div class="row">
+      <th:block th:each="promoOffer, iter : ${promoOffers}">
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <h4 class="card-header" th:text="${promoOffer.name}"></h4>
+            <div class="card-body">
+              <p class="card-text" th:text="${promoOffer.description}"></p>
+              <p class="card-text" th:text="${promoOffer.startDate}"></p>
+              <p class="card-text" th:text="${promoOffer.endDate}"></p>
+              <p class="card-text" th:text="${promoOffer.price}|Lv."></p>
+            </div>
+            <div class="card-footer">
+              <div th:replace="~{fragments/components/link :: link-item(link=@{${T(com.petia.dollhouse.constants.Constants).ADD_RESERVATION_PAGE}},title=#{reservation.add.title})}"></div>
+            </div>
+          </div>
         </div>
+      </th:block>
+
     </div>
-
-    <!-- /.row -->
+  </div>
 </main>
-<hr/>
-<!-- Footer -->
-<footer>
+  <hr />
+  <footer>
     <th:block th:insert="~{fragments/footer}"></th:block>
-    <!-- /.container -->
-</footer>
+  </footer>
 </body>
-
 </html>

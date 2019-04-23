@@ -33,7 +33,7 @@ import com.petia.dollhouse.service.OfficeService;
 import com.petia.dollhouse.web.annotations.PageTitle;
 
 @Controller
-//@RequestMapping(Constants.SERVICE_CONTEXT)
+
 public class ServiceConroller extends BaseController {
 	private final DollHouseService dollHouseService;
 	private final OfficeService officeService;
@@ -62,19 +62,17 @@ public class ServiceConroller extends BaseController {
 	public ModelAndView addServiceConfirm(ModelAndView modelAndView, @Valid @ModelAttribute(name = "bindingModel") ServiceBindingModel serviceBindingModel,
 	    BindingResult bindingResult) throws IOException {
 		if (bindingResult.hasErrors() || "Please select...".equals(serviceBindingModel.getOfficeId())) {
-			return super.view(Constants.ADD_SERVICE_PAGE);
+			modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
+
+			return view(Constants.ADD_SERVICE_PAGE, modelAndView);
 		}
 
-		modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
 		ServiceModel serviceModel = this.dollHouseService.mapBindingToServiceModel(serviceBindingModel);
 
 		if (!serviceBindingModel.getImage().isEmpty()) {
 			serviceModel.setUrlPicture(this.cloudinaryService.uploadImage(serviceBindingModel.getImage()));
 		}
-		String id = this.dollHouseService.add(serviceModel);
-		if (id == null) {
-			return view(Constants.ADD_SERVICE_PAGE, modelAndView);
-		}
+		this.dollHouseService.add(serviceModel);
 
 		return redirect(Constants.ALL_SERVICE_PAGE);
 	}
@@ -94,7 +92,6 @@ public class ServiceConroller extends BaseController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PageTitle(Constants.EDIT_SERVICE_TITLE)
 	public ModelAndView editService(ModelAndView modelAndView, @PathVariable String id) {
-
 		ServiceBindingModel serviceBindingModel = this.modelMapper.map(this.dollHouseService.findByID(id), ServiceBindingModel.class);
 		modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
 		modelAndView.addObject("bindingModel", serviceBindingModel);
@@ -107,7 +104,10 @@ public class ServiceConroller extends BaseController {
 	public ModelAndView editServiceConfirm(ModelAndView modelAndView, @Valid @ModelAttribute(name = "bindingModel") ServiceBindingModel serviceBindingModel,
 	    BindingResult bindingResult, @PathVariable String id) throws IOException {
 		if (bindingResult.hasErrors() || "Please select...".equals(serviceBindingModel.getOfficeId())) {
-			return super.view(Constants.EDIT_SERVICE_PAGE);
+			modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
+			modelAndView.addObject("bindingModel", serviceBindingModel);
+
+			return view(Constants.EDIT_SERVICE_PAGE, modelAndView);
 		}
 
 		ServiceModel serviceModel = this.dollHouseService.mapBindingToServiceModel(serviceBindingModel);
@@ -118,19 +118,13 @@ public class ServiceConroller extends BaseController {
 		}
 		serviceModel = this.dollHouseService.edit(serviceModel);
 
-		if (serviceModel == null) {
-			return view(Constants.EDIT_SERVICE_PAGE, modelAndView);
-		}
-
 		return redirect(Constants.ALL_SERVICE_PAGE);
-
 	}
 
 	@GetMapping(Constants.DELETE_SERVICE_ACTION + "{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PageTitle(Constants.DELETE_SERVICE_TITLE)
 	public ModelAndView deleteService(ModelAndView modelAndView, @PathVariable String id) {
-
 		ServiceBindingModel serviceBindingModel = this.modelMapper.map(this.dollHouseService.findByID(id), ServiceBindingModel.class);
 		modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
 		modelAndView.addObject("bindingModel", serviceBindingModel);
@@ -141,14 +135,9 @@ public class ServiceConroller extends BaseController {
 	@PostMapping(Constants.DELETE_SERVICE_ACTION + "{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView deleteServiceConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") ServiceBindingModel serviceBindingModel, @PathVariable String id) {
-
 		ServiceModel serviceModel = this.dollHouseService.mapBindingToServiceModel(serviceBindingModel);
 		serviceModel.setId(id);
 		serviceModel = this.dollHouseService.delete(serviceModel);
-		if (serviceModel == null) {
-
-			return view(Constants.DELETE_SERVICE_PAGE, modelAndView);
-		}
 
 		return redirect(Constants.ALL_SERVICE_PAGE);
 	}
@@ -179,9 +168,7 @@ public class ServiceConroller extends BaseController {
 			    .collect(Collectors.toList());
 
 		} catch (DateTimeParseException e) {
-			System.out.println(e);
-			// TODO: handle exception
-			throw new RuntimeException(e);
+			throw new RuntimeException(Constants.INVALID_DATA_TIME_ERROR_MESSAGE);
 		}
 
 		return result;

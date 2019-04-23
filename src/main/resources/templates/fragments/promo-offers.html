@@ -1,24 +1,24 @@
 <th:block th:fragment>
-    <div class="container mt-4">
-        <!-- Marketing Icons Section -->
-        <h2 class="text-sm-center">PromoOffers</h2>
-        <div class="row">
-            <th:block th:each="promoOffer, iter : ${promoOffers}">
-                <div class="col-lg-4 mb-4">
-                    <div class="card h-100">
-                        <h4 class="card-header" th:text="${promoOffer.name}"></h4>
-                        <div class="card-body">
-                            <p class="card-text" th:text="${promoOffer.description}"></p>
-                            <p class="card-text" th:text="${promoOffer.startDate}"></p>
-                            <p class="card-text" th:text="${promoOffer.endDate}"></p>
-                            <p class="card-text" th:text="${promoOffer.price}"></p>
-                        </div>
-                        <div class="card-footer">
-                            <div th:replace="~{fragments/components/link :: link-item(link=@{${T(com.petia.dollhouse.constants.Constants).ADD_MODERATOR_RESERVATION_ACTION}},title=#{reservation.add.title})}"></div>
-                        </div>
-                    </div>
-                </div>
-            </th:block>
+  <div class="container mt-4">
+    <!-- Marketing Icons Section -->
+    <h2 class="text-sm-center">PromoOffers</h2>
+    <div class="row">
+      <th:block th:each="promoOffer, iter : ${promoOffers}">
+        <div class="col-lg-4 mb-4">
+          <div class="card h-100">
+            <h4 class="card-header" th:text="${promoOffer.name}"></h4>
+            <div class="card-body">
+              <p class="card-text" th:text="${promoOffer.description}"></p>
+              <p class="card-text" th:text="${promoOffer.startDate}"></p>
+              <p class="card-text" th:text="${promoOffer.endDate}"></p>
+              <p class="card-text" th:text="${promoOffer.price}"></p>
+            </div>
+            <div class="card-footer">
+              <div th:replace="~{fragments/components/link :: link-item(link=@{${T(com.petia.dollhouse.constants.Constants).ADD_RESERVATION_PAGE}},title=#{reservation.add.title})}"></div>
+            </div>
+          </div>
         </div>
+      </th:block>
     </div>
+  </div>
 </th:block>

@@ -58,8 +58,8 @@ public class User extends EntityWithStatus implements UserDetails {
 	private Office office;
 
 	@ManyToOne(targetEntity = DHService.class)
-	@JoinColumn(name = "employeeService_id", referencedColumnName = "id")
-	private DHService employeeService;
+	@JoinColumn(name = "service_id", referencedColumnName = "id")
+	private DHService service;
 
 	@Column(name = "image_url")
 	private String imageUrl;
@@ -178,12 +178,12 @@ public class User extends EntityWithStatus implements UserDetails {
 		this.office = office;
 	}
 
-	public DHService getEmployeeService() {
-		return employeeService;
+	public DHService getService() {
+		return service;
 	}
 
-	public void setEmployeeService(DHService employeeService) {
-		this.employeeService = employeeService;
+	public void setService(DHService service) {
+		this.service = service;
 	}
 
 	public String getImageUrl() {

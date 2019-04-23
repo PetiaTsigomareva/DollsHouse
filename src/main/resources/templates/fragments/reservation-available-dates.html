@@ -1,30 +1,32 @@
 <th:block th:fragment="reservation-available-table-fragment">
-	<div class="row" id="available-hours" style="display: none;">
-		<div class="col-lg-10 col-xl-9 mx-auto">
-			<hr class="hr-1 bg-dark" />
-			<h5 class="text-center text-dark" th:text="#{reservation.calendar.title}"></h5>
-			<hr class="hr-1 bg-dark" />
-			<div class="row">
-				<input id="previousDays" type="button" value="previuos" /> <input id="nextDays" type="button" value="next" />
-			</div>
-			<div class="card card-signin flex-row my-5">
-				<div class="single-booking-table d-flex">
-					<th:block th:each="i : ${#numbers.sequence( 1, 3)}">
-						<div class="single-date-hours active">
-							<div class="booking-day">
-								<h5 th:text="TODO" th:id="calendarDayOfWeek+${i}"></h5>
-								<h6 th:text="TODO" th:id="calendarDate+${i}"></h6>
-							</div>
-							<div class="booking-hours d-flex flex-wrap">
-								<th:block th:each="j : ${#numbers.sequence( 0, 9)}">
-									<span class="active" th:id="calendarHour+${i}+${j}" th:text="${ j } + ':00'"></span>
-								</th:block>
-							</div>
-						</div>
-					</th:block>
-				</div>
-			</div>
-			<hr class="hr-1 bg-dark" />
-		</div>
-	</div>
+  <div class="row" id="available-hours" style="display: none;">
+    <div class="col-lg-10 col-xl-9 mx-auto">
+      <div class="row">
+        <div class="button-holder d-flex justify-content-start">
+          <input id="previousDays" type="button" value="previuos" />
+        </div>
+        <div class="button-holder d-flex justify-content-end">
+          <input id="nextDays" type="button" value="next" />
+        </div>
+      </div>
+      <div class="card card-signin flex-row my-5">
+        <div class="single-booking-table d-flex">
+          <th:block th:each="i : ${#numbers.sequence( 1, 3)}">
+            <div class="single-date-hours active">
+              <div class="booking-day">
+                <h5 th:text="TODO" th:id="calendarDayOfWeek+${i}"></h5>
+                <h6 th:text="TODO" th:id="calendarDate+${i}"></h6>
+              </div>
+              <div class="booking-hours d-flex flex-wrap">
+                <th:block th:each="j : ${#numbers.sequence( 0, 9)}">
+                  <span class="active" th:id="calendarHour+${i}+${j}" th:text="${ j } + ':00'"></span>
+                </th:block>
+              </div>
+            </div>
+          </th:block>
+        </div>
+      </div>
+      <hr class="hr-1 bg-dark" />
+    </div>
+  </div>
 </th:block>

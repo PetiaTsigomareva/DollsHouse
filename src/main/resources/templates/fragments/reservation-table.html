@@ -1,4 +1,4 @@
-<th:block th:fragment="reservation-table-fragment(title)">
+<th:block th:fragment="reservation-table-fragment(title, rejectAction)">
   <hr class="hr-2 bg-dark" />
   <h5 class="text-center text-dark" th:text="${title}"></h5>
   <hr class="hr-2 bg-dark w-78" />
@@ -27,26 +27,28 @@
           <td class="col-md-2 text-center" th:text="${reservation.reservationStatus}"></td>
           <td class="col-md-2 text-center">
             <div class="row">
-              <div th:if="${title} eq #{reservation.all.title}">
-                <a class="btn btn-outline-dark" th:text="#{form.edit.button}"
-                  th:href="@{${T(com.petia.dollhouse.constants.Constants).EDIT_MODERATOR_RESERVATION_ACTION}+${reservation.id}}"
-                ></a>
-              </div>
-
-              <div
-                th:if="${reservation.reservationStatus} eq ${T(com.petia.dollhouse.domain.enums.ReservationStatus).PendingConfirmation.toString()} or ${reservation.reservationStatus} eq ${T(com.petia.dollhouse.domain.enums.ReservationStatus).Confirmed.toString()}"
+              <th:block sec:authorize="hasRole('ROLE_MODERATOR')">
+                <div th:if="${title} eq #{reservation.all.title}">
+                  <a class="btn btn-outline-dark" th:text="#{form.edit.button}"
+                    th:href="@{${T(com.petia.dollhouse.constants.Constants).EDIT_MODERATOR_RESERVATION_ACTION}+${reservation.id}}"
+                  ></a>
+                </div>
+              </th:block>
+              <div th:if="${reservation.reservationStatus} eq ${T(com.petia.dollhouse.domain.enums.ReservationStatus).PendingConfirmation.toString()} or ${reservation.reservationStatus} eq ${T(com.petia.dollhouse.domain.enums.ReservationStatus).Confirmed.toString()}"
               >
                 <a id="rejectButton" class="btn btn-outline-dark" th:text="#{form.reject.button}"
-                  th:href="@{${T(com.petia.dollhouse.constants.Constants).REJECT_MODERATOR_RESERVATION_ACTION}+${reservation.id}}"
+                  th:href="${rejectAction}+${reservation.id}"
                 ></a>
               </div>
-              <div
-                th:if="${reservation.reservationStatus} eq ${T(com.petia.dollhouse.domain.enums.ReservationStatus).PendingConfirmation.toString()} or ${reservation.reservationStatus} eq ${T(com.petia.dollhouse.domain.enums.ReservationStatus).Rejected.toString()}"
-              >
-                <a id="confirmButton" class="btn btn-outline-dark" th:text="#{form.confirm.button}"
-                  th:href="@{${T(com.petia.dollhouse.constants.Constants).CONFIRM_MODERATOR_RESERVATION_ACTION}+${reservation.id}}"
-                ></a>
-              </div>
+              <th:block sec:authorize="hasRole('ROLE_MODERATOR')">
+                <div
+                  th:if="${reservation.reservationStatus} eq ${T(com.petia.dollhouse.domain.enums.ReservationStatus).PendingConfirmation.toString()} or ${reservation.reservationStatus} eq ${T(com.petia.dollhouse.domain.enums.ReservationStatus).Rejected.toString()}"
+                >
+                  <a id="confirmButton" class="btn btn-outline-dark" th:text="#{form.confirm.button}"
+                    th:href="@{${T(com.petia.dollhouse.constants.Constants).CONFIRM_MODERATOR_RESERVATION_ACTION}+${reservation.id}}"
+                  ></a>
+                </div>
+              </th:block>
             </div>
           </td>
         </tr>
@@ -56,5 +58,4 @@
   <hr class="hr-2 bg-dark" />
   <div th:replace="~{fragments/components/link :: link-item(link=@{${T(com.petia.dollhouse.constants.Constants).ADD_MODERATOR_RESERVATION_ACTION}},title=#{reservation.add.title})}"></div>
   <hr class="hr-2 bg-dark" />
-
 </th:block>

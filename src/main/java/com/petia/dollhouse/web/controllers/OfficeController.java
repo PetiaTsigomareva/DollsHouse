@@ -57,10 +57,7 @@ public class OfficeController extends BaseController {
 
 		modelAndView.addObject("companyNames", this.companyService.mapCompanyNames());
 
-		String id = this.officeService.addOffice(this.modelMapper.map(officeBindingModel, OfficeServiceModel.class));
-		if (id == null) {
-			return view(Constants.ADD_OFFICE_PAGE, modelAndView);
-		}
+		this.officeService.addOffice(this.modelMapper.map(officeBindingModel, OfficeServiceModel.class));
 
 		return redirect(Constants.ALL_OFFICE_PAGE);
 	}
@@ -103,19 +100,14 @@ public class OfficeController extends BaseController {
 		OfficeServiceModel officeServiceModel = this.modelMapper.map(officeBindingModel, OfficeServiceModel.class);
 		officeServiceModel.setId(id);
 		officeServiceModel = this.officeService.editOffice(officeServiceModel);
-		if (officeServiceModel == null) {
-			return view(Constants.EDIT_OFFICE_PAGE, modelAndView);
-		}
 
 		return redirect(Constants.ALL_OFFICE_PAGE);
-
 	}
 
 	@GetMapping(Constants.DELETE_OFFICE_ACTION + "{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PageTitle(Constants.DELETE_OFFICE_TITLE)
 	public ModelAndView deleteOffice(ModelAndView modelAndView, @PathVariable String id) {
-
 		OfficeBindingModel officeBindingModel = this.modelMapper.map(this.officeService.findOfficeByID(id), OfficeBindingModel.class);
 		modelAndView.addObject("bindingModel", officeBindingModel);
 		modelAndView.addObject("companyNames", this.companyService.mapCompanyNames());
@@ -125,13 +117,9 @@ public class OfficeController extends BaseController {
 	@PostMapping(Constants.DELETE_OFFICE_ACTION + "{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView deleteOfficeConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") OfficeBindingModel officeBindingModel, @PathVariable String id) {
-
 		OfficeServiceModel officeServiceModel = this.modelMapper.map(officeBindingModel, OfficeServiceModel.class);
 		officeServiceModel.setId(id);
 		officeServiceModel = this.officeService.deleteOffice(officeServiceModel);
-		if (officeServiceModel == null) {
-			return view(Constants.DELETE_OFFICE_PAGE, modelAndView);
-		}
 
 		return redirect(Constants.ALL_OFFICE_PAGE);
 	}

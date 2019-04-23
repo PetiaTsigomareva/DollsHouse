@@ -1,4 +1,4 @@
-package com.petia.dollhouse.utils;
+package com.petia.dollhouse.validation;
 
 import javax.validation.Validation;
 import javax.validation.Validator;

@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.petia.dollhouse.domain.binding.EmployeeBindingModel;
 import com.petia.dollhouse.domain.binding.EmployeeEditBindingModel;
+import com.petia.dollhouse.domain.binding.UserRegisterBindingModel;
 import com.petia.dollhouse.domain.service.UserServiceModel;
 import com.petia.dollhouse.domain.view.NamesViewModel;
 
@@ -40,4 +41,6 @@ public interface UserService extends UserDetailsService {
 	NamesViewModel mapUserServiceModelToNameViewModel(UserServiceModel model);
 
 	UserServiceModel mapBindingToServiceModel(EmployeeEditBindingModel model);
+
+	UserServiceModel mapBindingToServiceModel(UserRegisterBindingModel model);
 }

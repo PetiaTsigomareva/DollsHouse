@@ -61,7 +61,12 @@ public class UserController extends BaseController {
 
 	@PostMapping(Constants.REGISTER_FORM_ACTION)
 	@PreAuthorize("isAnonymous()")
-	public ModelAndView registerConfirm(@Valid @ModelAttribute UserRegisterBindingModel model) {
+	public ModelAndView registerConfirm(@Valid @ModelAttribute UserRegisterBindingModel model, BindingResult bindingResult) {
+
+		if (bindingResult.hasErrors()) {
+			return super.view(Constants.REGISTER_PAGE);
+		}
+
 		if (!model.getPassword().equals(model.getConfirmPassword())) {
 			return view(Constants.REGISTER_PAGE);
 		}
@@ -98,14 +103,18 @@ public class UserController extends BaseController {
 
 	@PatchMapping(Constants.EDIT_PROFILE_ACTION)
 	@PreAuthorize("isAuthenticated()")
-	public ModelAndView editProfileConfirm(@ModelAttribute UserEditBindingModel model) throws IOException {
+	public ModelAndView editProfileConfirm(@Valid @ModelAttribute UserEditBindingModel model, BindingResult bindingResult) throws IOException {
+
 		if (!model.getPassword().equals(model.getConfirmPassword())) {
-			return super.view(Constants.EDIT_PROFILE_ACTION);
+			return view(Constants.EDIT_PROFILE_ACTION);
 		}
+
 		UserServiceModel userServiceModel = this.modelMapper.map(model, UserServiceModel.class);
+
 		if (!model.getImage().isEmpty()) {
 			userServiceModel.setImageUrl(this.cloudinaryService.uploadImage(model.getImage()));
 		}
+
 		this.userService.editUserProfile(userServiceModel, model.getOldPassword());
 
 		return redirect(Constants.PROFILE_ACTION);
@@ -130,7 +139,7 @@ public class UserController extends BaseController {
 	@GetMapping(Constants.ADD_EMPLOYEE_ACTION)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PageTitle(Constants.ADD_EMPLOYEE_TITLE)
-	public ModelAndView addEmployee(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") EmployeeBindingModel employeeBindingModel) {
+	public ModelAndView addEmployee(ModelAndView modelAndView, @Valid @ModelAttribute(name = "bindingModel") EmployeeBindingModel employeeBindingModel, BindingResult bindingResult) {
 		modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
 		return view(Constants.ADD_EMPLOYEE_PAGE, modelAndView);
 	}
@@ -144,16 +153,12 @@ public class UserController extends BaseController {
 			return view(Constants.ADD_EMPLOYEE_PAGE, modelAndView);
 		}
 
-		modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
 		UserServiceModel userServiceModel = this.userService.mapBindingToServiceModel(employeeBindingModel);
 		if (!employeeBindingModel.getImage().isEmpty()) {
 			userServiceModel.setImageUrl(this.cloudinaryService.uploadImage(employeeBindingModel.getImage()));
 		}
 
-		String id = this.userService.addEmployee(userServiceModel);
-		if (id == null) {
-			return view(Constants.ADD_EMPLOYEE_PAGE, modelAndView);
-		}
+		this.userService.addEmployee(userServiceModel);
 
 		return redirect(Constants.ALL_EMPLOYEES_PAGE);
 	}
@@ -190,10 +195,6 @@ public class UserController extends BaseController {
 		}
 		userServiceModel = this.userService.editEmployee(userServiceModel);
 
-		if (userServiceModel == null) {
-			return view(Constants.EDIT_EMPLOYEE_PAGE, modelAndView);
-		}
-
 		return redirect(Constants.ALL_EMPLOYEES_PAGE);
 	}
 
@@ -201,7 +202,6 @@ public class UserController extends BaseController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PageTitle(Constants.DELETE_EMPLOYEE_TITLE)
 	public ModelAndView deleteEmployee(ModelAndView modelAndView, @PathVariable String id) {
-
 		EmployeeBindingModel employeeBindingModel = this.modelMapper.map(this.userService.findUserById(id), EmployeeBindingModel.class);
 		modelAndView.addObject("bindingModel", employeeBindingModel);
 		modelAndView.addObject("officeNames", this.officeService.mapOfficeNames());
@@ -211,14 +211,9 @@ public class UserController extends BaseController {
 	@PostMapping(Constants.DELETE_EMPLOYEE_ACTION + "{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public ModelAndView deleteEmployeeConfirm(ModelAndView modelAndView, @ModelAttribute(name = "bindingModel") EmployeeBindingModel employeeBindingModel, @PathVariable String id) {
-
 		UserServiceModel userServiceModel = this.userService.mapBindingToServiceModel(employeeBindingModel);
 		userServiceModel.setId(id);
 		userServiceModel = this.userService.deleteEmployee(userServiceModel);
-		if (userServiceModel == null) {
-
-			return view(Constants.DELETE_EMPLOYEE_PAGE, modelAndView);
-		}
 
 		return redirect(Constants.ALL_EMPLOYEES_PAGE);
 	}

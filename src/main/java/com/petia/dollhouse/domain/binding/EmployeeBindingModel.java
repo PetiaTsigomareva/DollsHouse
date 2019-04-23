@@ -14,14 +14,8 @@ public class EmployeeBindingModel {
 	@Pattern(regexp = Constants.USERNAME_REGEX)
 	private String username;
 
-	@NotNull()
-	@NotEmpty()
-	@Pattern(regexp = Constants.PASSWORD_REGEX)
 	private String password;
 
-	@NotNull()
-	@NotEmpty()
-	@Pattern(regexp = Constants.PASSWORD_REGEX)
 	private String confirmPassword;
 
 	@NotNull()

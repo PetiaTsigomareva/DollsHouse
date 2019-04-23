@@ -1,3 +1,9 @@
+? Add server errors into pages after reload.
+
+?Fix regex for email
+
+? Fix MIN_TEXT_FOUR_FIELD_REGEX = "^(.{4,})$";
+
 Add unit tests
 
-? Add server errors into pages after reload.
+$._data( $(document)[0], "events" );

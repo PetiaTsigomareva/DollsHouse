@@ -15,32 +15,40 @@ import com.petia.dollhouse.domain.enums.StatusValues;
 import com.petia.dollhouse.domain.service.OfficeServiceModel;
 import com.petia.dollhouse.domain.view.NamesViewModel;
 import com.petia.dollhouse.repositories.OfficeRepository;
+import com.petia.dollhouse.validation.ValidationUtil;
 
 @Service
 public class OfficeServiceImpl implements OfficeService {
 	private final CompanyService companyService;
 	private final OfficeRepository officeRepository;
 	private final ModelMapper modelMapper;
+	private final ValidationUtil validationUtil;
 
 	@Autowired
-	public OfficeServiceImpl(CompanyService companyService, OfficeRepository officeRepository, ModelMapper modelMapper) {
+	public OfficeServiceImpl(CompanyService companyService, OfficeRepository officeRepository, ModelMapper modelMapper, ValidationUtil validationUtil) {
 		this.companyService = companyService;
 		this.officeRepository = officeRepository;
 		this.modelMapper = modelMapper;
+		this.validationUtil = validationUtil;
 	}
 
 	@Override
 	public String addOffice(OfficeServiceModel model) {
+		if (!this.validationUtil.isValid(model)) {
+			throw new IllegalArgumentException(Constants.ADD_INVALID_DATA_IN_CONTROLLER_MESSAGE);
+		}
+
 		String result;
 
 		Company company = findCompany(model.getCompanyId());
 		Office office = this.modelMapper.map(model, Office.class);
 		office.setCompany(company);
 		office.setStatus(StatusValues.ACTIVE);
-		if (this.officeRepository.findByName(office.getName()).orElse(null) != null) {
 
+		if (this.officeRepository.findByName(office.getName()).orElse(null) != null) {
 			throw new IllegalArgumentException(Constants.EXIST_ITEM_ERROR_MESSAGE);
 		}
+
 		office = this.officeRepository.saveAndFlush(office);
 		result = office.getId();
 
@@ -49,6 +57,10 @@ public class OfficeServiceImpl implements OfficeService {
 
 	@Override
 	public OfficeServiceModel editOffice(OfficeServiceModel model) {
+		if (!this.validationUtil.isValid(model)) {
+			throw new IllegalArgumentException(Constants.ADD_INVALID_DATA_IN_CONTROLLER_MESSAGE);
+		}
+
 		Office office = this.officeRepository.findById(model.getId()).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
 
 		model.setStatus(office.getStatus().name());
@@ -97,7 +109,6 @@ public class OfficeServiceImpl implements OfficeService {
 		company = this.modelMapper.map(this.companyService.findCompanyByID(id), Company.class);
 
 		return company;
-
 	}
 
 	public List<NamesViewModel> mapOfficeNames() {

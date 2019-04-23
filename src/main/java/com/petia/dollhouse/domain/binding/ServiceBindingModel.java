@@ -5,14 +5,18 @@ import java.math.BigDecimal;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.springframework.web.multipart.MultipartFile;
+
+import com.petia.dollhouse.constants.Constants;
 
 public class ServiceBindingModel {
 	private String serviceId;
 
 	@NotNull()
 	@NotEmpty()
+	@Pattern(regexp = Constants.MIN_TEXT_FIELD_REGEX)
 	private String name;
 
 	private String description;

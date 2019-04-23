@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -14,6 +15,7 @@ public class CompanyBindingModel {
 	@NotNull()
 	@NotEmpty()
 	@DateTimeFormat(pattern = Constants.MIN_TEXT_FOUR_FIELD_REGEX)
+	@Size(min = 4)
 	private String name;
 
 	@NotNull()
@@ -33,6 +35,7 @@ public class CompanyBindingModel {
 	@NotNull()
 	@NotEmpty()
 	@DateTimeFormat(pattern = Constants.MIN_TEXT_FOUR_FIELD_REGEX)
+	@Size(min = 4)
 	private String owner;
 
 	private String description;

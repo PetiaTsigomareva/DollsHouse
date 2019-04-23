@@ -22,6 +22,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.petia.dollhouse.constants.Constants;
 import com.petia.dollhouse.domain.service.CompanyServiceModel;
 import com.petia.dollhouse.repositories.CompanyRepository;
+import com.petia.dollhouse.validation.ValidationUtil;
+import com.petia.dollhouse.validation.ValidationUtilImpl;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -41,10 +43,13 @@ public class CompanyServiceTest {
 
 	private ModelMapper modelMapper;
 
+	private ValidationUtil validationUtil;
+
 	@Before
 	public void init() {
 		this.modelMapper = new ModelMapper();
-		this.companyService = new CompanyServiceImpl(this.companyRepository, this.modelMapper);
+		this.validationUtil = new ValidationUtilImpl();
+		this.companyService = new CompanyServiceImpl(this.companyRepository, this.modelMapper, this.validationUtil);
 
 	}
 

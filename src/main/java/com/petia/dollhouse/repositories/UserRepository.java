@@ -23,6 +23,6 @@ public interface UserRepository extends JpaRepository<User, String> {
 	@Query("SELECT u FROM User u WHERE u.office.id=:id")
 	List<User> findAllEmployeesByOffice(String id);
 
-	@Query("SELECT u FROM User u inner join u.employeeService s WHERE s.id=:serviceId")
+	@Query("SELECT u FROM User u inner join u.service s WHERE s.id=:serviceId")
 	List<User> findAllEmployeesByService(String serviceId);
 }

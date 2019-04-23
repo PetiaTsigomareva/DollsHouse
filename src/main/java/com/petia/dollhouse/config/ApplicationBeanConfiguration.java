@@ -1,11 +1,12 @@
 package com.petia.dollhouse.config;
 
-import com.petia.dollhouse.utils.ValidationUtil;
-import com.petia.dollhouse.utils.ValidationUtilImpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.petia.dollhouse.validation.ValidationUtil;
+import com.petia.dollhouse.validation.ValidationUtilImpl;
 
 import javax.validation.Validation;
 import javax.validation.Validator;

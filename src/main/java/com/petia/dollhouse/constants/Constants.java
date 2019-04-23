@@ -7,13 +7,13 @@ public interface Constants {
 	public static final String PASSWORD_REGEX = "^[a-zA-Z-0-9!@#$%^&*()_+]{6,}$";
 	public static final String EMAIL_REGEX = "^([0-9a-zA-Z_.]+@[0-9a-zA-Z_.]+\\.[a-z]+)$";
 	public static final String PHONE_NUMBER_REGEX = "^([0-9]{7,12})$";
+
 	public static final String MIN_TEXT_FIELD_REGEX = "^(.{3,})$";
 	public static final String MIN_TEXT_FOUR_FIELD_REGEX = "^(.{4,})$";
 	public static final String MIN_PRICE_REGEX = "^(([0]\\.[0-9][1-9])|([1-9][0-9]*(\\.[0-9]{2})?))$";
 	public static final String ADDRESS_REGEX = "^(.{15,})$";
 	public static final String ID_NUMBER_REGEX = "^([0-9]{9})$";
 	public static final String EMPTY_FIELD_REGEX = "^(.{1,})$";
-
 	public static final String DATE_FORMAT = "yyyy-MM-dd";
 	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm";
 
@@ -22,6 +22,7 @@ public interface Constants {
 
 	public static final String TIME_HOUR_FORMAT = ":00";
 	public static final String TIME_ZERO_FORMAT = "0";
+
 	public static final Integer YEAR = 2019;
 	public static final Integer MONTH = 12;
 	public static final Integer DAYS = 28;
@@ -96,8 +97,9 @@ public interface Constants {
 	public static final String ALL_RESERVATIONS_ACTION = "/reservation/all-reservation-form";
 	public static final String CONFIRM_MODERATOR_RESERVATION_ACTION = "/reservation/confirm-reservation/";
 
+	public static final String REJECT_MY_RESERVATION_ACTION = "/reservation/reject-my-reservation-form/";
+	public static final String REJECT_MY_RESERVATION_PAGE = "/reservation/reject-my-reservation-form";
 	public static final String PROMO_OFFER_ACTION = "/promo-offers";
-
 	public static final String LOGOUT_FORM_ACTION = "/logout?login";
 
 	// pages name
@@ -142,7 +144,8 @@ public interface Constants {
 	// Error Massages
 	// false = redirect, true = throw exception
 	public static final boolean THROW_EXCEPTION_FOR_INVALID_DATA_IN_CONTROLLER = true;
-	public static final String INVALID_DATA_IN_CONTROLLER_MESSAGE = "Invalid data - item can not added!";
+	public static final String ADD_INVALID_DATA_IN_CONTROLLER_MESSAGE = "Invalid data - item can not added!";
+	public static final String DELETE_INVALID_DATA_IN_CONTROLLER_MESSAGE = "Item not exist - can not deleted!";
 	public static final String INVALID_STATUS_MESSAGE = "Field must be PendingConfirmation, Confirmed or Rejected;";
 	public static final String USERNAME_ERROR_MESSAGE = "Username not found!";
 	public static final String EXIST_USERNAME_ERROR_MESSAGE = "Already exists user with this username!";
@@ -154,6 +157,7 @@ public interface Constants {
 	public static final String RESERVATION_STATUS_ERROR_MESSAGE = "Invalid Reservation Status";
 	public static final String ERROR_MESSAGE_TITLE = "message";
 	public static final String INVALID_ROLE = "Invalid role name";
+	public static final String INVALID_DATA_TIME_ERROR_MESSAGE = "Invalid date time parse exeption!";
 
 	// Pages Titles
 	public static final String ADD = "Add";

@@ -38,7 +38,7 @@ public class DHService extends EntityWithStatus {
 	@JoinColumn(name = "office_id", referencedColumnName = "id")
 	private Office office;
 
-	@OneToMany(targetEntity = User.class, mappedBy = "employeeService")
+	@OneToMany(targetEntity = User.class, mappedBy = "service")
 	private List<User> employees;
 
 	public DHService() {

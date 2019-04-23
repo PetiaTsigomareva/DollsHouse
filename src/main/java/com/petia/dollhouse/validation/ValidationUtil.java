@@ -1,4 +1,4 @@
-package com.petia.dollhouse.utils;
+package com.petia.dollhouse.validation;
 
 public interface ValidationUtil {
 

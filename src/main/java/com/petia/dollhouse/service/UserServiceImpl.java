@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import com.petia.dollhouse.constants.Constants;
 import com.petia.dollhouse.domain.binding.EmployeeBindingModel;
 import com.petia.dollhouse.domain.binding.EmployeeEditBindingModel;
+import com.petia.dollhouse.domain.binding.UserRegisterBindingModel;
+import com.petia.dollhouse.domain.entities.Role;
 import com.petia.dollhouse.domain.entities.User;
 import com.petia.dollhouse.domain.enums.RoleNames;
 import com.petia.dollhouse.domain.enums.StatusValues;
@@ -24,29 +26,32 @@ import com.petia.dollhouse.domain.service.ServiceModel;
 import com.petia.dollhouse.domain.service.UserServiceModel;
 import com.petia.dollhouse.domain.view.NamesViewModel;
 import com.petia.dollhouse.repositories.UserRepository;
+import com.petia.dollhouse.validation.ValidationUtil;
 
 @Service
 public class UserServiceImpl implements UserService {
 	private final UserRepository userRepository;
 	private final RoleService roleService;
-	private final OfficeService officeService;
-	private final DollHouseService serviceService;
 	private final ModelMapper modelMapper;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+	private final ValidationUtil validationUtil;
 
 	@Autowired
-	public UserServiceImpl(UserRepository userRepository, RoleService roleService, OfficeService officeService, DollHouseService serviceService, ModelMapper modelMapper,
-	    BCryptPasswordEncoder bCryptPasswordEncoder) {
+	public UserServiceImpl(UserRepository userRepository, RoleService roleService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder,
+	    ValidationUtil validationUtil) {
 		this.userRepository = userRepository;
 		this.roleService = roleService;
-		this.officeService = officeService;
-		this.serviceService = serviceService;
 		this.modelMapper = modelMapper;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+		this.validationUtil = validationUtil;
 	}
 
 	@Override
 	public UserServiceModel registerUser(UserServiceModel userServiceModel) {
+		if (!this.validationUtil.isValid(userServiceModel)) {
+			throw new IllegalArgumentException(Constants.ADD_INVALID_DATA_IN_CONTROLLER_MESSAGE);
+		}
+
 		UserServiceModel savedUser;
 		this.roleService.seedRoles();
 		if (this.userRepository.count() == 0) {
@@ -57,14 +62,14 @@ public class UserServiceImpl implements UserService {
 			userServiceModel.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()));
 		}
 
-		User user = this.modelMapper.map(userServiceModel, User.class);
+		User user = mapServiceToEntityModel(userServiceModel);
 		user.setPassword(this.bCryptPasswordEncoder.encode(userServiceModel.getPassword()));
 		user.setStatus(StatusValues.ACTIVE);
 
 		if (this.userRepository.findByUsername(user.getUsername()).orElse(null) != null) {
-
 			throw new IllegalArgumentException(Constants.EXIST_USERNAME_ERROR_MESSAGE);
 		}
+
 		savedUser = this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
 
 		return savedUser;
@@ -99,6 +104,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserServiceModel editUserProfile(UserServiceModel userServiceModel, String oldPassword) {
+//		if (!this.validationUtil.isValid(userServiceModel)) {
+//			throw new IllegalArgumentException(Constants.ADD_INVALID_DATA_IN_CONTROLLER_MESSAGE);
+//		}
+
 		User user = this.userRepository.findByUsername(userServiceModel.getUsername()).orElseThrow(() -> new UsernameNotFoundException(Constants.USERNAME_ERROR_MESSAGE));
 
 		if (!this.bCryptPasswordEncoder.matches(oldPassword, user.getPassword())) {
@@ -158,11 +167,20 @@ public class UserServiceImpl implements UserService {
 
 		}
 
-		this.userRepository.saveAndFlush(this.modelMapper.map(userServiceModel, User.class));
+		User userWithNewRole = this.modelMapper.map(userServiceModel, User.class);
+		userWithNewRole.setOffice(user.getOffice());
+		userWithNewRole.setService(user.getService());
+
+		this.userRepository.saveAndFlush(userWithNewRole);
+
 	}
 
 	@Override
 	public String addEmployee(UserServiceModel model) {
+		if (!this.validationUtil.isValid(model)) {
+			throw new IllegalArgumentException(Constants.ADD_INVALID_DATA_IN_CONTROLLER_MESSAGE);
+		}
+
 		String result;
 		model.setAuthorities(new HashSet<>());
 		model.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()));
@@ -185,6 +203,9 @@ public class UserServiceImpl implements UserService {
 	// TODO
 	@Override
 	public UserServiceModel editEmployee(UserServiceModel model) {
+		if (!this.validationUtil.isValid(model)) {
+			throw new IllegalArgumentException(Constants.ADD_INVALID_DATA_IN_CONTROLLER_MESSAGE);
+		}
 
 		User employee = this.userRepository.findById(model.getId()).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
 		model.setStatus(employee.getStatus().name());
@@ -223,7 +244,6 @@ public class UserServiceImpl implements UserService {
 			namesViewModel.setId(u.getId());
 			namesViewModel.setName(u.getFirstName() + " " + u.getLastName() + "(" + u.getUsername() + ")");
 			result.add(namesViewModel);
-
 		}
 
 		return result;
@@ -243,8 +263,6 @@ public class UserServiceImpl implements UserService {
 		UserServiceModel result = new UserServiceModel();
 		result.setEmail(model.getEmail());
 		result.setFirstName(model.getFirstName());
-//		result.setId(model.getid);
-//		result.setImageUrl(model.getimageUrl);
 		result.setUsername(model.getUsername());
 		result.setLastName(model.getLastName());
 		result.setPassword(model.getPassword());
@@ -266,8 +284,6 @@ public class UserServiceImpl implements UserService {
 		UserServiceModel result = new UserServiceModel();
 		result.setEmail(model.getEmail());
 		result.setFirstName(model.getFirstName());
-//		result.setId(model.getid);
-//		result.setImageUrl(model.getimageUrl);
 		result.setUsername(model.getUsername());
 		result.setLastName(model.getLastName());
 		result.setPassword(model.getPassword());
@@ -280,6 +296,34 @@ public class UserServiceImpl implements UserService {
 		ServiceModel serviceModel = new ServiceModel();
 		serviceModel.setId(model.getServiceId());
 		result.setServiceModel(serviceModel);
+
+		return result;
+	}
+
+	@Override
+	public UserServiceModel mapBindingToServiceModel(UserRegisterBindingModel model) {
+		UserServiceModel result = new UserServiceModel();
+
+		result.setEmail(model.getEmail());
+		result.setFirstName(model.getFirstName());
+		result.setUsername(model.getUsername());
+		result.setLastName(model.getLastName());
+		result.setPassword(model.getPassword());
+		result.setPhoneNumber(model.getPhoneNumber());
+
+		return result;
+	}
+
+	public User mapServiceToEntityModel(UserServiceModel model) {
+		User result = new User();
+
+		result.setEmail(model.getEmail());
+		result.setFirstName(model.getFirstName());
+		result.setUsername(model.getUsername());
+		result.setLastName(model.getLastName());
+		result.setPassword(model.getPassword());
+		result.setPhoneNumber(model.getPhoneNumber());
+		result.setAuthorities(model.getAuthorities().stream().map(c -> this.modelMapper.map(c, Role.class)).collect(Collectors.toSet()));
 
 		return result;
 	}

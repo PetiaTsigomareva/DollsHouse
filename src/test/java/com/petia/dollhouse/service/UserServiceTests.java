@@ -35,6 +35,8 @@ import com.petia.dollhouse.repositories.ReservationRepository;
 import com.petia.dollhouse.repositories.RoleRepository;
 import com.petia.dollhouse.repositories.ServiceRepository;
 import com.petia.dollhouse.repositories.UserRepository;
+import com.petia.dollhouse.validation.ValidationUtil;
+import com.petia.dollhouse.validation.ValidationUtilImpl;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -70,15 +72,18 @@ public class UserServiceTests {
 	@Autowired
 	private ReservationRepository reservationRepository;
 
+	private ValidationUtil validationUtil;
+
 	@Before
 	public void init() {
 		this.modelMapper = new ModelMapper();
+		this.validationUtil = new ValidationUtilImpl();
 		this.bCryptPasswordEncoder = new BCryptPasswordEncoder();
 		this.roleService = new RoleServiceImpl(this.roleRepository, this.modelMapper);
-		this.userService = new UserServiceImpl(this.userRepository, this.roleService, this.officeService, this.serviceService, this.modelMapper, this.bCryptPasswordEncoder);
-		this.companyService = new CompanyServiceImpl(this.companyRepository, this.modelMapper);
-		this.officeService = new OfficeServiceImpl(companyService, officeRepository, this.modelMapper);
-		this.serviceService = new DollHouseServiceImpl(serviceRepository, reservationRepository, officeService, this.modelMapper);
+		this.userService = new UserServiceImpl(this.userRepository, this.roleService, this.modelMapper, this.bCryptPasswordEncoder, this.validationUtil);
+		this.companyService = new CompanyServiceImpl(this.companyRepository, this.modelMapper, this.validationUtil);
+		this.officeService = new OfficeServiceImpl(companyService, officeRepository, this.modelMapper, this.validationUtil);
+		this.serviceService = new DollHouseServiceImpl(serviceRepository, reservationRepository, officeService, this.modelMapper, this.validationUtil);
 	}
 
 	@Test

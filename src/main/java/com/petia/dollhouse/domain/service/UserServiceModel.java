@@ -14,9 +14,7 @@ public class UserServiceModel extends BaseServiceModel {
 	@Pattern(regexp = Constants.USERNAME_REGEX)
 	private String username;
 
-	@NotNull()
-	@NotEmpty()
-	@Pattern(regexp = Constants.PASSWORD_REGEX)
+//	@Pattern(regexp = Constants.PASSWORD_REGEX)
 	private String password;
 
 	@Pattern(regexp = Constants.EMAIL_REGEX)
