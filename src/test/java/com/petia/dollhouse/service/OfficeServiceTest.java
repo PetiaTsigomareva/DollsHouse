@@ -9,8 +9,6 @@ import java.time.LocalDate;
 import java.util.NoSuchElementException;
 import java.util.regex.Pattern;
 
-import javax.validation.ConstraintViolationException;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.petia.dollhouse.constants.Constants;
@@ -92,7 +89,7 @@ public class OfficeServiceTest {
 
 	}
 
-	@Test(expected = DataIntegrityViolationException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void test_addOffice_with_same_name_then_return_exeption() {
 		String companyId = this.companyService.addCompany(createCompanyModel());
 
@@ -126,7 +123,7 @@ public class OfficeServiceTest {
 		assertEquals(expected.getStatus(), actual.getStatus());
 	}
 
-	@Test(expected = ConstraintViolationException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void test_editOffice_with_incorrect_data_then_return_exeption() {
 		// given or arrange
 		String companyId = this.companyService.addCompany(createCompanyModel());
@@ -157,7 +154,7 @@ public class OfficeServiceTest {
 		assertFalse("Expecting regex " + regex + " to not match " + test, result);
 	}
 
-	@Test(expected = AssertionError.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void test_editOffice_with_incorrect_phoneNumber_then_return_exeption() {
 		// given or arrange
 		String companyId = this.companyService.addCompany(createCompanyModel());

@@ -7,8 +7,6 @@ import static org.junit.Assert.assertTrue;
 import java.time.LocalDate;
 import java.util.NoSuchElementException;
 
-import javax.validation.ConstraintViolationException;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -73,7 +71,7 @@ public class CompanyServiceTest {
 
 	}
 
-	@Test(expected = ConstraintViolationException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void test_addCompany_with_emptyField_data_then_return_exeption() {
 		String companyId = this.companyService.addCompany(createCompanyModelWhithEmptyField());
 
@@ -83,7 +81,7 @@ public class CompanyServiceTest {
 
 	}
 
-	@Test(expected = ConstraintViolationException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void test_addCompany_with_incorect_indetification_number_data_then_return_exeption() {
 		String companyId = this.companyService.addCompany(createCompanyModelWhithIncorectIndetificationNumber());
 
@@ -127,7 +125,7 @@ public class CompanyServiceTest {
 		assertEquals(expected.getStatus(), actual.getStatus());
 	}
 
-	@Test(expected = AssertionError.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void test_editCompany_with_empty_data_then_return_exeption() {
 		// given or arrange
 		String companyId = this.companyService.addCompany(createCompanyModel());
@@ -144,7 +142,7 @@ public class CompanyServiceTest {
 
 	}
 
-	@Test(expected = AssertionError.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void test_editCompany_with_incorrect_indetification_number_then_return_exeption() {
 		// given or arrange
 		String companyId = this.companyService.addCompany(createCompanyModel());
