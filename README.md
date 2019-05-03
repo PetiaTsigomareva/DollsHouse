@@ -1,1 +1,1 @@
-# DollsHouse
+# DollsHouse - Spring Boot project
