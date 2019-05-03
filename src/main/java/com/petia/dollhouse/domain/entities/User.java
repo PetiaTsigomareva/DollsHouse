@@ -17,12 +17,14 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.petia.dollhouse.constants.Constants;
 
 @Entity
 @Table(name = "users")
+@DynamicUpdate
 public class User extends EntityWithStatus implements UserDetails {
 	@Column(name = "first_name", nullable = false)
 	private String firstName;

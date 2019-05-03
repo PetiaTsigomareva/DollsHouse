@@ -22,7 +22,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,@Nullable ModelAndView modelAndView) throws Exception {
 
-//TODO
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             String currentUserName = authentication.getName();

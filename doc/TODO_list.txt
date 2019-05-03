@@ -1,1 +1,21 @@
-Add more unit tests
+Architecture:
+ - Unify the persistance tier using generics - all repeated methods to be placed on one place
+ - Find a proper way of using JPA for storing of partial changes in objects in the database
+ - Unify the business logic tier - all repeated methods to be placed on one place
+ - Externalize the cloud access credential from the source code
+
+Quality:
+ - Add more unit tests - try to achieve at least 80% test coverage of the business logic and persistance layers
+
+New functionalities:
+ - Hide least important links from the nav bar
+ - In all reservations page add filter by Employee, status
+ - Replace satuses, confirm/reject action buttons and service with small icons
+ - Add availability calendar on the Admin Make Reservation page - think of unification of the both make reservation pages
+ - (?) Add service category
+ - Add the possibility to assign more than one category/service to a Employee
+ - Add a possibility to show the availability for all Employees in this category
+ - (?) (HTML) In Admin page put all admin pages in iframe in it
+ - (HTML/CSS) On page make reservation, replace buttons previous and next with arrow icons
+ - (JS) On page make reservation, put between previous and next buttons date picker
+ - (JS) In all reservations page present the reservations in a calendar view

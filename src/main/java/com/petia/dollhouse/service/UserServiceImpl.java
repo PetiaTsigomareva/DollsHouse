@@ -215,11 +215,11 @@ public class UserServiceImpl implements UserService {
 			model.setImageUrl(employee.getImageUrl());
 		}
 
-		User employee2 = this.modelMapper.map(model, User.class);
-		employee2.setAuthorities(employee.getAuthorities());
-		User storedUser = this.userRepository.saveAndFlush(employee2);
+		employee = this.modelMapper.map(model, User.class);
+		employee.setAuthorities(employee.getAuthorities());
+		employee = this.userRepository.save(employee);
 
-		model = this.modelMapper.map(storedUser, UserServiceModel.class);
+		model = this.modelMapper.map(employee, UserServiceModel.class);
 
 		return model;
 	}

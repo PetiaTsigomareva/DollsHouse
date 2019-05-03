@@ -229,6 +229,31 @@ public class UserServiceTests {
 		assertEquals(expected.getId(), actualId);
 	}
 
+
+	@Test
+	public void test_editEmployee_with_correct_data_then_returnEditedEmployee() {
+		String companyId = this.companyService.addCompany(createCompany());
+		String officeId = this.officeService.addOffice(createOffice(companyId));
+		String serviceId = this.serviceService.add(createService(officeId));
+		this.roleService.seedRoles();
+		UserServiceModel actual=getEmployeeServiceModel(officeId, serviceId);
+
+		if (!this.validationUtil.isValid(actual)) {
+			throw new IllegalArgumentException(Constants.ADD_INVALID_DATA_IN_CONTROLLER_MESSAGE);
+		}
+		String actualId = this.userService.addEmployee(actual);
+        actual.setId(actualId);
+        actual.setFirstName("Petia");
+
+		actual = this.userService.editEmployee(actual);
+
+		UserServiceModel expected = modelMapper.map(userRepository.findById(actual.getId()).orElse(null), UserServiceModel.class);
+
+		assertEquals(expected.getId(), actual.getId());
+	}
+
+
+
 	private UserServiceModel getUserServiceModel() {
 		UserServiceModel testUser = new UserServiceModel();
 		testUser.setUsername("Petura");
