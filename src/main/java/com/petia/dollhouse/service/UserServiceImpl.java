@@ -17,6 +17,8 @@ import com.petia.dollhouse.constants.Constants;
 import com.petia.dollhouse.domain.binding.EmployeeBindingModel;
 import com.petia.dollhouse.domain.binding.EmployeeEditBindingModel;
 import com.petia.dollhouse.domain.binding.UserRegisterBindingModel;
+import com.petia.dollhouse.domain.entities.DHService;
+import com.petia.dollhouse.domain.entities.Office;
 import com.petia.dollhouse.domain.entities.Role;
 import com.petia.dollhouse.domain.entities.User;
 import com.petia.dollhouse.domain.enums.RoleNames;
@@ -54,13 +56,13 @@ public class UserServiceImpl implements UserService {
 
 		UserServiceModel savedUser;
 		this.roleService.seedRoles();
-		if (this.userRepository.count() == 0) {
-			userServiceModel.setAuthorities(this.roleService.findAllRoles());
-
-		} else {
-			userServiceModel.setAuthorities(new HashSet<>());
-			userServiceModel.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()));
-		}
+//		if (this.userRepository.count() == 0) {
+//			userServiceModel.setAuthorities(this.roleService.findAllRoles());
+//
+//		} else {
+//			userServiceModel.setAuthorities(new HashSet<>());
+//			userServiceModel.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()));
+//		}
 
 		User user = mapServiceToEntityModel(userServiceModel);
 		user.setPassword(this.bCryptPasswordEncoder.encode(userServiceModel.getPassword()));
@@ -182,12 +184,13 @@ public class UserServiceImpl implements UserService {
 		}
 
 		String result;
-		model.setAuthorities(new HashSet<>());
-		model.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()));
+//		model.setAuthorities(new HashSet<>());
+//		model.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()));
 
-		User employee = this.modelMapper.map(model, User.class);
-		employee.setPassword(this.bCryptPasswordEncoder.encode(model.getPassword()));
-		employee.setStatus(StatusValues.ACTIVE);
+		// User employee = this.modelMapper.map(model, User.class);
+		User employee = this.mapServiceToEntityModel(new User(), model);
+//		employee.setPassword(this.bCryptPasswordEncoder.encode(model.getPassword()));
+//		employee.setStatus(StatusValues.ACTIVE);
 
 		if (this.userRepository.findByUsername(employee.getUsername()).orElse(null) != null) {
 
@@ -208,15 +211,17 @@ public class UserServiceImpl implements UserService {
 		}
 
 		User employee = this.userRepository.findById(model.getId()).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
-		model.setStatus(employee.getStatus().name());
-		model.setPassword(employee.getPassword());
+//		model.setStatus(employee.getStatus().name());
+//		model.setPassword(employee.getPassword());
 
-		if (model.getImageUrl() == null && employee.getImageUrl() != null) {
-			model.setImageUrl(employee.getImageUrl());
-		}
+//		if (model.getImageUrl() == null && employee.getImageUrl() != null) {
+//			model.setImageUrl(employee.getImageUrl());
+//		}
 
-		employee = this.modelMapper.map(model, User.class);
-		employee.setAuthorities(employee.getAuthorities());
+		// employee = this.modelMapper.map(model, User.class);
+		employee = this.mapServiceToEntityModel(employee, model);
+		// employee.setAuthorities(employee.getAuthorities());
+
 		employee = this.userRepository.save(employee);
 
 		model = this.modelMapper.map(employee, UserServiceModel.class);
@@ -314,6 +319,7 @@ public class UserServiceImpl implements UserService {
 		return result;
 	}
 
+	@Override
 	public User mapServiceToEntityModel(UserServiceModel model) {
 		User result = new User();
 
@@ -323,9 +329,80 @@ public class UserServiceImpl implements UserService {
 		result.setLastName(model.getLastName());
 		result.setPassword(model.getPassword());
 		result.setPhoneNumber(model.getPhoneNumber());
+
 		result.setAuthorities(model.getAuthorities().stream().map(c -> this.modelMapper.map(c, Role.class)).collect(Collectors.toSet()));
 
 		return result;
+	}
+
+	@Override
+	public User mapServiceToEntityModel(User entity, UserServiceModel model) {
+		if (model.getStatus() != null) {
+			entity.setStatus(StatusValues.valueOf(model.getStatus()));
+		} else {
+			entity.setStatus(StatusValues.ACTIVE);
+
+		}
+		if (model.getPassword() != null) {
+			entity.setPassword(this.bCryptPasswordEncoder.encode(model.getPassword()));
+		}
+
+		if (model.getEmail() != null) {
+			entity.setEmail(model.getEmail());
+		}
+		if (model.getFirstName() != null) {
+			entity.setFirstName(model.getFirstName());
+		}
+
+		if (model.getLastName() != null) {
+			entity.setLastName(model.getLastName());
+		}
+
+		if (model.getUsername() != null) {
+			entity.setUsername(model.getUsername());
+		}
+
+		if (model.getPhoneNumber() != null) {
+			entity.setPhoneNumber(model.getPhoneNumber());
+		}
+
+		if (model.getImageUrl() != null) {
+			entity.setImageUrl(model.getImageUrl());
+		}
+		if (model.getAuthorities() != null) {
+			entity.setAuthorities(model.getAuthorities().stream().map(c -> this.modelMapper.map(c, Role.class)).collect(Collectors.toSet()));
+		} else {
+			entity.setAuthorities(new HashSet<>());
+			Role role = this.modelMapper.map(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()), Role.class);
+			entity.getAuthorities().add(role);
+
+		}
+
+//		if (this.userRepository.count() == 0) {
+//			userServiceModel.setAuthorities(this.roleService.findAllRoles());
+//
+//		} else {
+//			userServiceModel.setAuthorities(new HashSet<>());
+//			userServiceModel.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()));
+//		}
+
+		if (model.getOfficeServiceModel() != null) {
+			Office office = new Office();
+			office.setId(model.getOfficeServiceModel().getId());
+
+			entity.setOffice(office);
+		}
+		if (model.getServiceModel() != null) {
+
+			DHService service = new DHService();
+			service.setId(model.getServiceModel().getId());
+
+			entity.setService(service);
+
+		}
+
+		return entity;
+
 	}
 
 	@Override
