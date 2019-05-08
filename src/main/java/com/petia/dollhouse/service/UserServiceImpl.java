@@ -1,9 +1,9 @@
 package com.petia.dollhouse.service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -54,7 +54,6 @@ public class UserServiceImpl implements UserService {
 			throw new IllegalArgumentException(Constants.ADD_INVALID_DATA_IN_CONTROLLER_MESSAGE);
 		}
 
-		UserServiceModel savedUser;
 		this.roleService.seedRoles();
 //		if (this.userRepository.count() == 0) {
 //			userServiceModel.setAuthorities(this.roleService.findAllRoles());
@@ -64,15 +63,17 @@ public class UserServiceImpl implements UserService {
 //			userServiceModel.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()));
 //		}
 
-		User user = mapServiceToEntityModel(userServiceModel);
-		user.setPassword(this.bCryptPasswordEncoder.encode(userServiceModel.getPassword()));
-		user.setStatus(StatusValues.ACTIVE);
+		// User user = mapServiceToEntityModel(userServiceModel);
+		User user = mapServiceToEntityModel(new User(), userServiceModel);
+//		user.setPassword(this.bCryptPasswordEncoder.encode(userServiceModel.getPassword()));
+//		user.setStatus(StatusValues.ACTIVE);
 
 		if (this.userRepository.findByUsername(user.getUsername()).orElse(null) != null) {
 			throw new IllegalArgumentException(Constants.EXIST_USERNAME_ERROR_MESSAGE);
 		}
+		user = this.userRepository.saveAndFlush(user);
 
-		savedUser = this.modelMapper.map(this.userRepository.saveAndFlush(user), UserServiceModel.class);
+		UserServiceModel savedUser = this.modelMapper.map(user, UserServiceModel.class);
 
 		return savedUser;
 	}
@@ -369,22 +370,24 @@ public class UserServiceImpl implements UserService {
 		if (model.getImageUrl() != null) {
 			entity.setImageUrl(model.getImageUrl());
 		}
-		if (model.getAuthorities() != null) {
-			entity.setAuthorities(model.getAuthorities().stream().map(c -> this.modelMapper.map(c, Role.class)).collect(Collectors.toSet()));
-		} else {
-			entity.setAuthorities(new HashSet<>());
-			Role role = this.modelMapper.map(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()), Role.class);
-			entity.getAuthorities().add(role);
-
-		}
-
-//		if (this.userRepository.count() == 0) {
-//			userServiceModel.setAuthorities(this.roleService.findAllRoles());
-//
+//		if (model.getAuthorities() != null) {
+//			entity.setAuthorities(model.getAuthorities().stream().map(c -> this.modelMapper.map(c, Role.class)).collect(Collectors.toSet()));
 //		} else {
-//			userServiceModel.setAuthorities(new HashSet<>());
-//			userServiceModel.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()));
+//			entity.setAuthorities(new HashSet<>());
+//			Role role = this.modelMapper.map(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()), Role.class);
+//			entity.getAuthorities().add(role);
+//
 //		}
+
+		if (this.userRepository.count() == 0) {
+			Set<Role> roles = this.roleService.findAllRoles().stream().map(rm -> this.modelMapper.map(rm, Role.class)).collect(Collectors.toSet());
+			entity.setAuthorities(roles);
+
+		} else {
+			Set<Role> currentRoles = entity.getAuthorities();
+			Role role = this.modelMapper.map(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()), Role.class);
+			currentRoles.add(role);
+		}
 
 		if (model.getOfficeServiceModel() != null) {
 			Office office = new Office();
