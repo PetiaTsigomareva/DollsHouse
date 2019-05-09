@@ -2,12 +2,12 @@ package com.petia.dollhouse.service;
 
 import java.util.List;
 
-import com.petia.dollhouse.domain.entities.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.petia.dollhouse.domain.binding.EmployeeBindingModel;
 import com.petia.dollhouse.domain.binding.EmployeeEditBindingModel;
 import com.petia.dollhouse.domain.binding.UserRegisterBindingModel;
+import com.petia.dollhouse.domain.entities.User;
 import com.petia.dollhouse.domain.service.UserServiceModel;
 import com.petia.dollhouse.domain.view.NamesViewModel;
 
@@ -48,4 +48,6 @@ public interface UserService extends UserDetailsService {
 	User mapServiceToEntityModel(UserServiceModel model);
 
 	User mapServiceToEntityModel(User entity, UserServiceModel model);
+
+	UserServiceModel mapEntityToServiceModel(User entity, UserServiceModel model);
 }

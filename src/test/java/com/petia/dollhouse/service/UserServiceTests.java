@@ -80,19 +80,22 @@ public class UserServiceTests {
 		this.validationUtil = new ValidationUtilImpl();
 		this.bCryptPasswordEncoder = new BCryptPasswordEncoder();
 		this.roleService = new RoleServiceImpl(this.roleRepository, this.modelMapper);
-		this.userService = new UserServiceImpl(this.userRepository, this.roleService, this.modelMapper, this.bCryptPasswordEncoder, this.validationUtil);
 		this.companyService = new CompanyServiceImpl(this.companyRepository, this.modelMapper, this.validationUtil);
 		this.officeService = new OfficeServiceImpl(companyService, officeRepository, this.modelMapper, this.validationUtil);
 		this.serviceService = new DollHouseServiceImpl(serviceRepository, reservationRepository, officeService, this.modelMapper, this.validationUtil);
+		this.userService = new UserServiceImpl(this.userRepository, this.roleService, this.modelMapper, this.bCryptPasswordEncoder, this.validationUtil, this.officeService,
+		    this.serviceService);
 	}
 
 	@Test
 	public void test_registerUser_with_correct_data_then_returnRegisteredUser() {
-		UserServiceModel toBeSaveUser = getUserServiceModel();
+		UserServiceModel toBeSaveUser = getAdmin();
 
 		UserServiceModel actual = this.userService.registerUser(toBeSaveUser);
-		UserServiceModel expected = modelMapper.map(userRepository.findById(actual.getId()).orElse(null), UserServiceModel.class);
-
+		// UserServiceModel expected =
+		// modelMapper.map(userRepository.findById(actual.getId()).orElse(null),
+		// UserServiceModel.class);
+		UserServiceModel expected = userService.mapEntityToServiceModel(userRepository.findById(actual.getId()).orElse(null), new UserServiceModel());
 		assertEquals(expected.getId(), actual.getId());
 
 	}
@@ -221,10 +224,14 @@ public class UserServiceTests {
 		String officeId = this.officeService.addOffice(createOffice(companyId));
 		String serviceId = this.serviceService.add(createService(officeId));
 		this.roleService.seedRoles();
+		UserServiceModel admin = this.userService.registerUser(getAdmin());
 
 		String actualId = this.userService.addEmployee(getEmployeeServiceModel(officeId, serviceId));
 
-		UserServiceModel expected = modelMapper.map(userRepository.findById(actualId).orElse(null), UserServiceModel.class);
+		// UserServiceModel expected =
+		// modelMapper.map(userRepository.findById(actualId).orElse(null),
+		// UserServiceModel.class);
+		UserServiceModel expected = userService.mapEntityToServiceModel(userRepository.findById(actualId).orElse(null), new UserServiceModel());
 
 		assertEquals(expected.getId(), actualId);
 	}
@@ -235,29 +242,46 @@ public class UserServiceTests {
 		String officeId = this.officeService.addOffice(createOffice(companyId));
 		String serviceId = this.serviceService.add(createService(officeId));
 		this.roleService.seedRoles();
-		UserServiceModel actual = getEmployeeServiceModel(officeId, serviceId);
 
-		if (!this.validationUtil.isValid(actual)) {
+		if (!this.validationUtil.isValid(getEmployeeServiceModel(officeId, serviceId))) {
 			throw new IllegalArgumentException(Constants.ADD_INVALID_DATA_IN_CONTROLLER_MESSAGE);
 		}
-		String actualId = this.userService.addEmployee(actual);
-		actual = this.userService.findUserById(actualId);
+
+		UserServiceModel admin = this.userService.registerUser(getAdmin());
+		String actualId = this.userService.addEmployee(getEmployeeServiceModel(officeId, serviceId));
+		UserServiceModel actual = this.userService.findUserById(actualId);
 
 		actual.setFirstName("Petia");
 
 		actual = this.userService.editEmployee(actual);
 
-		UserServiceModel expected = modelMapper.map(userRepository.findById(actual.getId()).orElse(null), UserServiceModel.class);
-
+		// UserServiceModel expected =
+		// modelMapper.map(userRepository.findById(actual.getId()).orElse(null),
+		// UserServiceModel.class);
+		UserServiceModel expected = userService.mapEntityToServiceModel(userRepository.findById(actual.getId()).orElse(null), new UserServiceModel());
 		assertEquals(expected.getId(), actual.getId());
 		assertEquals(expected.getFirstName(), actual.getFirstName());
+		ass
+
 	}
 
 	private UserServiceModel getUserServiceModel() {
 		UserServiceModel testUser = new UserServiceModel();
-		testUser.setUsername("Petura");
+		testUser.setUsername("User");
 		testUser.setPassword("123456");
-		testUser.setEmail("valid@mail.com");
+		testUser.setEmail("user@mail.com");
+		testUser.setFirstName("Ani");
+		testUser.setLastName("Petrova");
+		testUser.setPhoneNumber("12345678");
+
+		return testUser;
+	}
+
+	private UserServiceModel getAdmin() {
+		UserServiceModel testUser = new UserServiceModel();
+		testUser.setUsername("Admin");
+		testUser.setPassword("123456");
+		testUser.setEmail("admin@mail.com");
 		testUser.setFirstName("Ani");
 		testUser.setLastName("Petrova");
 		testUser.setPhoneNumber("12345678");

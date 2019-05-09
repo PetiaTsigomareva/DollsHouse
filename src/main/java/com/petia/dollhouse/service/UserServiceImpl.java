@@ -1,6 +1,7 @@
 package com.petia.dollhouse.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -24,6 +25,7 @@ import com.petia.dollhouse.domain.entities.User;
 import com.petia.dollhouse.domain.enums.RoleNames;
 import com.petia.dollhouse.domain.enums.StatusValues;
 import com.petia.dollhouse.domain.service.OfficeServiceModel;
+import com.petia.dollhouse.domain.service.RoleServiceModel;
 import com.petia.dollhouse.domain.service.ServiceModel;
 import com.petia.dollhouse.domain.service.UserServiceModel;
 import com.petia.dollhouse.domain.view.NamesViewModel;
@@ -35,17 +37,21 @@ public class UserServiceImpl implements UserService {
 	private final UserRepository userRepository;
 	private final RoleService roleService;
 	private final ModelMapper modelMapper;
+	private final OfficeService officeService;
+	private final DollHouseService dollHouseService;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	private final ValidationUtil validationUtil;
 
 	@Autowired
 	public UserServiceImpl(UserRepository userRepository, RoleService roleService, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder,
-	    ValidationUtil validationUtil) {
+	    ValidationUtil validationUtil, OfficeService officeService, DollHouseService dollHouseService) {
 		this.userRepository = userRepository;
 		this.roleService = roleService;
 		this.modelMapper = modelMapper;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 		this.validationUtil = validationUtil;
+		this.officeService = officeService;
+		this.dollHouseService = dollHouseService;
 	}
 
 	@Override
@@ -73,9 +79,10 @@ public class UserServiceImpl implements UserService {
 		}
 		user = this.userRepository.saveAndFlush(user);
 
-		UserServiceModel savedUser = this.modelMapper.map(user, UserServiceModel.class);
+//		UserServiceModel savedUser = this.modelMapper.map(user, UserServiceModel.class);
+		userServiceModel = this.mapEntityToServiceModel(user, userServiceModel);
 
-		return savedUser;
+		return userServiceModel;
 	}
 
 	@Override
@@ -92,7 +99,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserServiceModel findUserById(String id) {
 		User user = this.userRepository.findById(id).orElseThrow(() -> new NoSuchElementException(Constants.ERROR_MESSAGE));
-		UserServiceModel model = this.modelMapper.map(user, UserServiceModel.class);
+		// UserServiceModel model = this.modelMapper.map(user, UserServiceModel.class);
+		UserServiceModel model = this.mapEntityToServiceModel(user, new UserServiceModel());
 
 		return model;
 	}
@@ -184,7 +192,6 @@ public class UserServiceImpl implements UserService {
 			throw new IllegalArgumentException(Constants.ADD_INVALID_DATA_IN_CONTROLLER_MESSAGE);
 		}
 
-		String result;
 //		model.setAuthorities(new HashSet<>());
 //		model.getAuthorities().add(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()));
 
@@ -199,7 +206,7 @@ public class UserServiceImpl implements UserService {
 		}
 		employee = this.userRepository.saveAndFlush(employee);
 
-		result = employee.getId();
+		String result = employee.getId();
 
 		return result;
 	}
@@ -225,7 +232,8 @@ public class UserServiceImpl implements UserService {
 
 		employee = this.userRepository.save(employee);
 
-		model = this.modelMapper.map(employee, UserServiceModel.class);
+		// model = this.modelMapper.map(employee, UserServiceModel.class);
+		model = this.mapEntityToServiceModel(employee, model);
 
 		return model;
 	}
@@ -237,7 +245,8 @@ public class UserServiceImpl implements UserService {
 
 		employee = this.userRepository.saveAndFlush(employee);
 
-		model = this.modelMapper.map(employee, UserServiceModel.class);
+		// model = this.modelMapper.map(employee, UserServiceModel.class);
+		model = this.mapEntityToServiceModel(employee, model);
 
 		return model;
 	}
@@ -370,33 +379,26 @@ public class UserServiceImpl implements UserService {
 		if (model.getImageUrl() != null) {
 			entity.setImageUrl(model.getImageUrl());
 		}
-//		if (model.getAuthorities() != null) {
-//			entity.setAuthorities(model.getAuthorities().stream().map(c -> this.modelMapper.map(c, Role.class)).collect(Collectors.toSet()));
-//		} else {
-//			entity.setAuthorities(new HashSet<>());
-//			Role role = this.modelMapper.map(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()), Role.class);
-//			entity.getAuthorities().add(role);
-//
-//		}
 
 		if (this.userRepository.count() == 0) {
 			Set<Role> roles = this.roleService.findAllRoles().stream().map(rm -> this.modelMapper.map(rm, Role.class)).collect(Collectors.toSet());
 			entity.setAuthorities(roles);
 
 		} else {
-			Set<Role> currentRoles = entity.getAuthorities();
+			entity.setAuthorities(new HashSet<Role>());
 			Role role = this.modelMapper.map(this.roleService.findByAuthority(RoleNames.ROLE_USER.toString()), Role.class);
-			currentRoles.add(role);
+			entity.getAuthorities().add(role);
 		}
 
-		if (model.getOfficeServiceModel() != null) {
+		if (model.getOfficeServiceModel() != null)
+
+		{
 			Office office = new Office();
 			office.setId(model.getOfficeServiceModel().getId());
 
 			entity.setOffice(office);
 		}
 		if (model.getServiceModel() != null) {
-
 			DHService service = new DHService();
 			service.setId(model.getServiceModel().getId());
 
@@ -409,10 +411,46 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public UserServiceModel mapEntityToServiceModel(User entity, UserServiceModel model) {
+		model.setId(entity.getId());
+
+		model.setStatus(entity.getStatus().name());
+
+		model.setPassword(entity.getPassword());
+
+		model.setEmail(entity.getEmail());
+
+		model.setFirstName(entity.getFirstName());
+
+		model.setLastName(entity.getLastName());
+
+		model.setUsername(entity.getUsername());
+
+		model.setPhoneNumber(entity.getPhoneNumber());
+
+		model.setImageUrl(entity.getImageUrl());
+
+		Set<RoleServiceModel> roles = entity.getAuthorities().stream().map(r -> this.modelMapper.map(r, RoleServiceModel.class)).collect(Collectors.toSet());
+		model.setAuthorities(roles);
+
+		if (entity.getOffice() != null) {
+			OfficeServiceModel officeModel = this.officeService.findOfficeByID(entity.getOffice().getId());
+			model.setOfficeServiceModel(officeModel);
+		}
+
+		if (entity.getService() != null) {
+			ServiceModel serviceModel = this.dollHouseService.findByID(entity.getService().getId());
+			model.setServiceModel(serviceModel);
+		}
+		return model;
+	}
+
+	@Override
 	public NamesViewModel mapUserServiceModelToNameViewModel(UserServiceModel model) {
 		NamesViewModel result = new NamesViewModel();
 		result.setId(model.getId());
 		result.setName(model.getFirstName() + " " + model.getLastName());
 		return result;
 	}
+
 }
